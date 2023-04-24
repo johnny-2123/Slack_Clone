@@ -617,13 +617,20 @@ Removes a user from a workspace.
 
 ### Get All Channels
 
-Retrieves a list of all channels.
+Returns a list of all channels where the current user is an owner or member
 
 * Require Authentication: true
 * Request
   * Method: GET
   * URL: /api/workspaces/:workspaceId/channels
+  * Body:
 
+  ```json
+  {
+    "user_id": "1234"
+  }
+
+  ```
 * Successful Response
   * Status Code: 200
   * Headers:
@@ -947,6 +954,166 @@ Adds a user to a channel.
       "statusCode": 404,
       "errors": [
         "User with that ID does not exist"
+      ]
+    }
+    ```
+
+### Remove a User from a Channel
+
+Removes a user from a channel.
+
+* Require Authentication: true
+* Request
+  * Method: DELETE
+  * URL: `/api/channels/:channel_id/users/:user_id`
+  * Headers:
+    * Authorization: Bearer {token}
+    * Content-Type: application/json
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "User successfully removed from channel"
+    }
+    ```
+
+* Error response: Channel not found
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Channel not found",
+      "statusCode": 404,
+      "errors": [
+        "Channel with that ID does not exist"
+      ]
+    }
+    ```
+
+* Error response: User not found in channel
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "User not found in channel",
+      "statusCode": 404,
+      "errors": [
+        "User with that ID is not a member of the channel"
+      ]
+    }
+    ```
+
+* Error response: Must be channel owner or current user
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Forbidden",
+      "statusCode": 404,
+      "errors": [
+        "Forbidden"
+      ]
+    }
+    ```
+
+
+## Direct Messages
+
+### Get All Current User's Direct Messages
+
+Returns a list of all direct messages for the current user.
+
+* Require Authentication: true
+* Request
+  * Method: GET
+  * URL: /api/workspaces/:workspaceId/direct_messages
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+  ```json
+  {
+    "user_id": 1234
+  }
+  ```
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    [
+      {
+        "id": 1,
+        "topic": "First Direct Message",
+        "is_starred": true,
+        "workspace_id": 1,
+        "last_sent_message_timestamp": "2023-04-23"
+      },
+      {
+        "id": 2,
+        "topic": "Second Direct Message",
+        "is_starred": false,
+        "workspace_id": 1,
+        "last_sent_message_timestamp": "2023-04-24"
+      }
+    ]
+    ```
+
+### Get Direct Message by ID
+
+Returns details for a single direct message by ID.
+
+* Require Authentication: true
+* Request
+  * Method: GET
+  * URL: /api/direct_messages/:id
+  * Headers:
+    * Content-Type: application/json
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "id": 1,
+      "topic": "Direct Message Topic",
+      "is_starred": true,
+      "workspace_id": 1,
+      "last_sent_message_timestamp": "2023-04-23"
+    }
+    ```
+
+* Error response: Direct message not found
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Direct message not found",
+      "statusCode": 404,
+      "errors": [
+        "Direct message with that ID does not exist"
       ]
     }
     ```
