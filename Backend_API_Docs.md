@@ -795,7 +795,7 @@ Updates the details of an existing channel.
 * Require Authentication: true
 * Request
   * Method: PATCH
-  * URL: `/api/channels/{id}`
+  * URL: /api/channels/:id
   * Headers:
     * Authorization: Bearer {token}
     * Content-Type: application/json
@@ -830,7 +830,7 @@ Updates the details of an existing channel.
       "date_created": "2023-04-23",
       "workspace_id": 1,
       "private": false,
-      "last_sent_message_timestamp": null
+      "last_sent_message_timestamp": "2023-04-23T12:00:00Z"
     }
     ```
 
@@ -965,9 +965,8 @@ Removes a user from a channel.
 * Require Authentication: true
 * Request
   * Method: DELETE
-  * URL: `/api/channels/:channel_id/users/:user_id`
+  * URL: /api/channels/:channel_id/users/:user_id
   * Headers:
-    * Authorization: Bearer {token}
     * Content-Type: application/json
 
 * Successful Response
@@ -1061,16 +1060,16 @@ Returns a list of all direct messages for the current user.
       {
         "id": 1,
         "topic": "First Direct Message",
-        "is_starred": true,
         "workspace_id": 1,
-        "last_sent_message_timestamp": "2023-04-23"
+        "users": [615, 545],
+        "last_sent_message_timestamp": "2023-04-23T12:00:00Z"
       },
       {
         "id": 2,
         "topic": "Second Direct Message",
-        "is_starred": false,
         "workspace_id": 1,
-        "last_sent_message_timestamp": "2023-04-24"
+        "users": [123, 456],
+        "last_sent_message_timestamp": "2023-04-23T12:00:00Z"
       }
     ]
     ```
@@ -1096,13 +1095,133 @@ Returns details for a single direct message by ID.
     {
       "id": 1,
       "topic": "Direct Message Topic",
-      "is_starred": true,
       "workspace_id": 1,
-      "last_sent_message_timestamp": "2023-04-23"
+      "last_sent_message_timestamp": "2023-04-23T12:00:00Z"
     }
     ```
 
 * Error response: Direct message not found
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Direct message not found",
+      "statusCode": 404,
+      "errors": [
+        "Direct message with that ID does not exist"
+      ]
+    }
+    ```
+
+### Create Direct Message
+
+Creates a new direct message.
+
+* Require Authentication: true
+* Request
+    * Method: POST
+    * URL: /api/workspaces/:workspaceId/direct_messages
+    * Headers:
+        * `Content-Type: application/json`
+    * Body:
+        ```json
+        {
+            "workspace_id": 1,
+            "users": [123, 456],
+            "topic": "New Direct Message"
+        }
+        ```
+
+* Successful Response
+    * Status Code: 201
+    * Headers:
+        * `Content-Type: application/json`
+    * Body:
+        ```json
+        {
+            "id": 3,
+            "topic": "New Direct Message",
+            "workspace_id": 1,
+            "last_sent_message_timestamp": "2023-04-23T12:00:00Z"
+        }
+        ```
+
+## Update Direct Message
+
+Updates an existing direct message.
+
+* Require Authentication: true
+* Request
+  * Method: PUT
+  * URL: /api/workspaces/:workspaceId/direct_messages/:id
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+    ```json
+    {
+      "topic": "Updated Direct Message Topic",
+      "is_starred": true
+    }
+    ```
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "id": 1,
+      "topic": "Updated Direct Message Topic",
+      "is_starred": true,
+      "workspace_id": 1,
+      "last_sent_message_timestamp": "2023-04-23T12:00:00Z"
+    }
+    ```
+
+* Error response: Direct message not found
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Direct message not found",
+      "statusCode": 404,
+      "errors": [
+        "Direct message with that ID does not exist"
+      ]
+    }
+    ```
+
+## Delete Direct Message
+
+Deletes a direct message by ID.
+
+* Require Authentication: true
+* Request
+  * Method: DELETE
+  * URL: /api/workspaces/:workspaceId/direct_messages/:id
+  * Headers:
+    * Content-Type: application/json
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+      ```json
+      {
+        "message": "Direct message succesfully deleted",
+      }
+
+* Error Response: Direct message not found
   * Status Code: 404
   * Headers:
     * Content-Type: application/json
