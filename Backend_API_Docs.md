@@ -293,27 +293,15 @@ Returns all workspaces joined or organized by the Current User
         "id": 1,
         "name": "Workspace 1",
         "description": "This is the first workspace",
-        "owner_id": {
-            "id": 1,
-            "firstName": "John",
-            "lastName": "Smith",
-            "email": "john.smith@gmail.com",
-            "username": "JohnSmith",
-            "image_url": "https://example.com/johnsmith.jpg"
-        }
+        "owner_id": 1,
+        "image_url": "https://example.com/workspace-image1.jpg"
       },
       {
         "id": 2,
         "name": "Workspace 2",
         "description": "This is the second workspace",
-        "createdBy": {
-            "id": 1,
-            "firstName": "John",
-            "lastName": "Smith",
-            "email": "john.smith@gmail.com",
-            "username": "JohnSmith",
-            "pictureUrl": "https://example.com/johnsmith.jpg"
-        }
+        "owner_id": 1,
+        "image_url": "https://example.com/workspace-image2.jpg"
       }
     ]
     ```
@@ -425,8 +413,8 @@ Creates an returns a new workspace.
       "description": "A description of my workspace",
       "owner": {
           "id": 1,
-          "firstName": "John",
-          "lastName": "Smith",
+          "first_name": "John",
+          "last_name": "Smith",
           "email": "john.smith@gmail.com",
           "image_url": "https://example.com/johnsmith.jpg"
       },
@@ -466,7 +454,8 @@ Updates and returns an existing workspace.
     ```json
     {
       "name": "New Workspace Name",
-      "description": "New Workspace Description"
+      "description": "New Workspace Description",
+      "image_url": "New Image url"
     }
     ```
 
@@ -488,7 +477,47 @@ Updates and returns an existing workspace.
           "email": "john.smith@gmail.com",
           "username": "JohnSmith",
           "pictureUrl": "https://example.com/johnsmith.jpg"
-      }
+      },
+      "image_url": "New Image url"
+    }
+    ```
+
+* Error response: Workspace not found
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Workspace not found",
+      "statusCode": 404,
+      "errors": [
+        "Workspace with that ID does not exist"
+      ]
+    }
+    ```
+
+### Delete a Workspace
+
+Deletes a workspace.
+
+* Require Authentication: true
+* Request
+  * Method: DELETE
+  * URL: /api/workspaces/:workspaceId
+  * Headers:
+    * Content-Type: application/json
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Workspace deleted"
     }
     ```
 
@@ -623,14 +652,8 @@ Returns a list of all channels where the current user is an owner or member
 * Request
   * Method: GET
   * URL: /api/workspaces/:workspaceId/channels
-  * Body:
+  * Body: None
 
-  ```json
-  {
-    "user_id": "1234"
-  }
-
-  ```
 * Successful Response
   * Status Code: 200
   * Headers:
@@ -644,7 +667,6 @@ Returns a list of all channels where the current user is an owner or member
         "name": "Channel Name",
         "description": "Channel Description",
         "topic": "Channel Topic",
-        "is_starred": true,
         "owner_id": 1,
         "date_created": "2023-04-23",
         "workspace_id": 1,
@@ -656,7 +678,6 @@ Returns a list of all channels where the current user is an owner or member
         "name": "Channel Name 2",
         "description": "Channel Description 2",
         "topic": "Channel Topic 2",
-        "is_starred": false,
         "owner_id": 2,
         "date_created": "2023-04-23",
         "workspace_id": 1,
@@ -689,7 +710,7 @@ Returns the details of a single channel by its ID.
 * Require Authentication: true
 * Request
   * Method: GET
-  * URL: /api/workspaces/:workspaceId/channels/:id
+  * URL: /api/channels/:id
 
 * Successful Response
   * Status Code: 200
@@ -703,7 +724,6 @@ Returns the details of a single channel by its ID.
       "name": "Channel Name",
       "description": "Channel Description",
       "topic": "Channel Topic",
-      "is_starred": true,
       "owner_id": 1,
       "date_created": "2023-04-23",
       "workspace_id": 1,
@@ -763,7 +783,6 @@ Creates a new channel.
       "name": "New Channel Name",
       "description": "New Channel Description",
       "topic": "New Channel Topic",
-      "is_starred": false,
       "owner_id": 1,
       "date_created": "2023-04-23",
       "workspace_id": 1,
@@ -794,7 +813,7 @@ Updates the details of an existing channel.
 
 * Require Authentication: true
 * Request
-  * Method: PATCH
+  * Method: PUT
   * URL: /api/channels/:id
   * Headers:
     * Authorization: Bearer {token}
@@ -806,9 +825,6 @@ Updates the details of an existing channel.
       "name": "New Channel Name",
       "description": "New Channel Description",
       "topic": "New Channel Topic",
-      "is_starred": false,
-      "owner_id": 1,
-      "workspace_id": 1,
       "private": false
     }
     ```
@@ -825,7 +841,6 @@ Updates the details of an existing channel.
       "name": "New Channel Name",
       "description": "New Channel Description",
       "topic": "New Channel Topic",
-      "is_starred": false,
       "owner_id": 1,
       "date_created": "2023-04-23",
       "workspace_id": 1,
@@ -904,7 +919,7 @@ Adds a user to a channel.
 * Require Authentication: true
 * Request
   * Method: POST
-  * URL: /api/workspace/:workspaceId/channels/:channelId/users
+  * URL: /api/channels/:channelId/users
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -965,9 +980,16 @@ Removes a user from a channel.
 * Require Authentication: true
 * Request
   * Method: DELETE
-  * URL: /api/channels/:channel_id/users/:user_id
+  * URL: /api/channels/:channelId/users
   * Headers:
     * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "userId": "1"
+    }
+    ```
 
 * Successful Response
   * Status Code: 200
@@ -1125,7 +1147,7 @@ Creates a new direct message.
     * Method: POST
     * URL: /api/workspaces/:workspaceId/direct_messages
     * Headers:
-        * `Content-Type: application/json`
+        * Content-Type: application/json
     * Body:
         ```json
         {
@@ -1138,7 +1160,7 @@ Creates a new direct message.
 * Successful Response
     * Status Code: 201
     * Headers:
-        * `Content-Type: application/json`
+        * Content-Type: application/json
     * Body:
         ```json
         {
@@ -1163,7 +1185,6 @@ Updates an existing direct message.
     ```json
     {
       "topic": "Updated Direct Message Topic",
-      "is_starred": true
     }
     ```
 
@@ -1177,7 +1198,6 @@ Updates an existing direct message.
     {
       "id": 1,
       "topic": "Updated Direct Message Topic",
-      "is_starred": true,
       "workspace_id": 1,
       "last_sent_message_timestamp": "2023-04-23T12:00:00Z"
     }
@@ -1206,7 +1226,7 @@ Deletes a direct message by ID.
 * Require Authentication: true
 * Request
   * Method: DELETE
-  * URL: /api/workspaces/:workspaceId/direct_messages/:id
+  * URL: /api/direct_messages/:id
   * Headers:
     * Content-Type: application/json
 
