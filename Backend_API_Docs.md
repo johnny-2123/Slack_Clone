@@ -1386,7 +1386,7 @@ Sends a threaded reply to a message in a channel.
     }
     ```
 
-### Update Message
+### Update Message In a Channel
 
 Updates a message by ID in a channel.
 
@@ -1436,7 +1436,7 @@ Updates a message by ID in a channel.
     }
     ```
 
-## Delete Message
+## Delete Message In a Channel
 
 Deletes a message by ID in a channel.
 
