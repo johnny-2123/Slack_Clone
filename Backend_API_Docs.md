@@ -1255,7 +1255,7 @@ Deletes a direct message by ID.
     }
     ```
 
-## Messages
+## Messages In Channels
 
 ### Send Message in Channel
 
@@ -1477,7 +1477,249 @@ Deletes a message by ID in a channel.
 
     ```json
     {
-      "message": "Message not succesfully deleted",
+      "message": "Message succesfully deleted",
+    }
+    ```
+
+* Error Response: Message not found
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Message not found",
+      "statusCode": 404,
+      "errors": [
+        "Message with that ID does not exist"
+      ]
+    }
+    ```
+
+
+## Messages In Direct Messages
+
+### Send Message in Direct Message
+
+Sends a message in a Direct Message.
+
+* Require Authentication: true
+* Request
+    * Method: POST
+    * URL: /api/direct_messages/:direct_messageId/messages
+    * Headers:
+        * Content-Type: application/json
+    * Body:
+        ```json
+        {
+            "content": "Hello direct message",
+            "direct_message_id": 789
+        }
+        ```
+
+* Successful Response
+    * Status Code: 201
+    * Headers:
+        * Content-Type: application/json
+    * Body:
+        ```json
+        {
+            "id": 123,
+            "content": "Hello direct message",
+            "user_id": 456,
+            "channel_id": null,
+            "direct_message_id": 789,
+            "parent_id": null,
+            "attachment_id": null,
+            "timestamp": "2023-04-25T10:15:30Z"
+        }
+        ```
+* Error Response: Invalid request body
+    * Status Code: 400
+    * Headers:
+        * Content-Type: application/json
+    * Body:
+        ```json
+        {
+            "message": "Invalid request body",
+            "statusCode": 400,
+            "errors": [
+                "Message content is required"
+            ]
+        }
+        ```
+* Error Response: Direct Message not found
+    * Status Code: 404
+    * Headers:
+        * Content-Type: application/json
+    * Body:
+        ```json
+        {
+            "message": "Direct Message not found",
+            "statusCode": 404,
+            "errors": [
+                "Direct Message with that ID does not exist"
+            ]
+        }
+        ```
+* Error Response: User not authorized to send message in Direct Message
+    * Status Code: 401
+    * Headers:
+        * Content-Type: application/json
+    * Body:
+        ```json
+        {
+            "message": "User not authorized to send message in Direct Message",
+            "statusCode": 401,
+            "errors": [
+                "User does not have permission to send message in this Direct Message"
+            ]
+        }
+        ```
+
+### Send a Threaded Reply to a Message in a Direct Message
+
+Sends a threaded reply to a message in a Direct Message.
+
+* Require Authentication: true
+* Request
+  * Method: POST
+  * URL: /api/direct_messages/:direct_messageId/messages/
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "content": "This is a threaded reply message",
+      "user_id": 123,
+      "direct_message_id": 2,
+      "parent_id": 456,
+    }
+    ```
+
+* Successful Response
+  * Status Code: 201
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "id": 789,
+      "content": "This is a threaded reply message",
+      "user_id": 123,
+      "channel_id": null,
+      "direct_message_id": 2,
+      "parent_id": 456,
+      "attachment_id": null,
+      "timestamp": "2023-04-25T18:45:00Z"
+    }
+    ```
+
+* Error Response: Direct Message not found
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Direct Message not found",
+      "statusCode": 404,
+      "errors": [
+        "Direct Message with that ID does not exist"
+      ]
+    }
+    ```
+
+* Error Response: Parent Message not found
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Parent Message not found",
+      "statusCode": 404,
+      "errors": [
+        "Parent Message with that ID does not exist"
+      ]
+    }
+    ```
+
+### Update Message In a Direct Message
+
+Updates a message by ID in a Direct Message.
+
+* Require Authentication: true
+* Request
+  * Method: PUT
+  * URL: /api/direct_messages/:direct_messageId/messages/:message_id
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+    ```json
+    {
+      "content": "Updated message text"
+    }
+    ```
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+    ```json
+    {
+      "id": "message_id",
+      "content": "Updated message text",
+      "user_id": 123,
+      "channel_id": null,
+      "direct_message_id": 2,
+      "parent_id": null,
+      "attachment_id": null,
+      "timestamp": "2023-04-25T18:45:00Z",
+    }
+    ```
+
+* Error Response: Message not found
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+    ```json
+    {
+      "message": "Message not found",
+      "statusCode": 404,
+      "errors": [
+        "Message with that ID does not exist in this direct message"
+      ]
+    }
+    ```
+
+## Delete Message In a Direct Message
+
+Deletes a message by ID in a Direct Message.
+
+* Require Authentication: true
+* Request
+  * Method: DELETE
+  * URL: /api/direct_messages/:direct_messageId/messages/:messageId
+  * Headers:
+    * Content-Type: application/json
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+      * Body:
+
+    ```json
+    {
+      "message": "Message succesfully deleted",
     }
     ```
 
