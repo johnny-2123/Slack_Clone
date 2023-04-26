@@ -278,7 +278,6 @@ Returns all workspaces joined or organized by the Current User
   * Method: GET
   * URL: /api/workspaces/session
   * Headers:
-    * Authorization: Bearer {token}
     * Content-Type: application/json
 
 * Successful Response
@@ -517,7 +516,6 @@ Adds a member to a workspace.
   * Method: POST
   * URL: /api/workspaces/:id/members
   * Headers:
-    * Authorization: Bearer {token}
     * Content-Type: application/json
   * Body:
 
@@ -622,7 +620,7 @@ Returns a list of all channels where the current user is an owner or member
 * Require Authentication: true
 * Request
   * Method: GET
-  * URL: /api/workspaces/:workspaceId/channels
+  * URL: /api/channels
   * Body:
 
   ```json
@@ -689,7 +687,7 @@ Returns the details of a single channel by its ID.
 * Require Authentication: true
 * Request
   * Method: GET
-  * URL: /api/workspaces/:workspaceId/channels/:id
+  * URL: /api/channels/:id
 
 * Successful Response
   * Status Code: 200
@@ -904,7 +902,7 @@ Adds a user to a channel.
 * Require Authentication: true
 * Request
   * Method: POST
-  * URL: /api/workspace/:workspaceId/channels/:channelId/users
+  * URL: /api/channels/:channelId/users
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -1039,7 +1037,7 @@ Returns a list of all direct messages for the current user.
 * Require Authentication: true
 * Request
   * Method: GET
-  * URL: /api/workspaces/:workspaceId/direct_messages
+  * URL: /api/direct_messages
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -1156,14 +1154,13 @@ Updates an existing direct message.
 * Require Authentication: true
 * Request
   * Method: PUT
-  * URL: /api/workspaces/:workspaceId/direct_messages/:id
+  * URL: /api/direct_messages/:id
   * Headers:
     * Content-Type: application/json
   * Body:
     ```json
     {
       "topic": "Updated Direct Message Topic",
-      "is_starred": true
     }
     ```
 
@@ -1177,7 +1174,6 @@ Updates an existing direct message.
     {
       "id": 1,
       "topic": "Updated Direct Message Topic",
-      "is_starred": true,
       "workspace_id": 1,
       "last_sent_message_timestamp": "2023-04-23T12:00:00Z"
     }
@@ -1206,7 +1202,7 @@ Deletes a direct message by ID.
 * Require Authentication: true
 * Request
   * Method: DELETE
-  * URL: /api/workspaces/:workspaceId/direct_messages/:id
+  * URL: /api/direct_messages/:id
   * Headers:
     * Content-Type: application/json
 
@@ -1233,6 +1229,248 @@ Deletes a direct message by ID.
       "statusCode": 404,
       "errors": [
         "Direct message with that ID does not exist"
+      ]
+    }
+    ```
+
+## Messages
+
+### Send Message in Channel
+
+Sends a message in a channel.
+
+* Require Authentication: true
+* Request
+    * Method: POST
+    * URL: /api/channels/:channelId/messages
+    * Headers:
+        * Content-Type: application/json
+        * Authorization: Bearer <access_token>
+    * Body:
+        ```json
+        {
+            "content": "Hello channel",
+            "channel_id": 789
+        }
+        ```
+
+* Successful Response
+    * Status Code: 201
+    * Headers:
+        * Content-Type: application/json
+    * Body:
+        ```json
+        {
+            "id": 123,
+            "content": "Hello channel",
+            "user_id": 456,
+            "channel_id": 789,
+            "direct_message_id": null,
+            "parent_id": null,
+            "attachment_id": null,
+            "timestamp": "2023-04-25T10:15:30Z"
+        }
+        ```
+* Error Response: Invalid request body
+    * Status Code: 400
+    * Headers:
+        * Content-Type: application/json
+    * Body:
+        ```json
+        {
+            "message": "Invalid request body",
+            "statusCode": 400,
+            "errors": [
+                "Message content is required"
+            ]
+        }
+        ```
+* Error Response: Channel not found
+    * Status Code: 404
+    * Headers:
+        * Content-Type: application/json
+    * Body:
+        ```json
+        {
+            "message": "Channel not found",
+            "statusCode": 404,
+            "errors": [
+                "Channel with that ID does not exist"
+            ]
+        }
+        ```
+* Error Response: User not authorized to send message in channel
+    * Status Code: 401
+    * Headers:
+        * Content-Type: application/json
+    * Body:
+        ```json
+        {
+            "message": "User not authorized to send message in channel",
+            "statusCode": 401,
+            "errors": [
+                "User does not have permission to send message in this channel"
+            ]
+        }
+        ```
+
+### Send a Threaded Reply to a Message in a Channel
+
+Sends a threaded reply to a message in a channel.
+
+* Require Authentication: true
+* Request
+  * Method: POST
+  * URL: /api/channels/:channel_id/messages/
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "content": "This is a threaded reply message",
+      "user_id": 123,
+      "channel_id": 2,
+      "parent_id": 456,
+    }
+    ```
+
+* Successful Response
+  * Status Code: 201
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "id": 789,
+      "content": "This is a threaded reply message",
+      "user_id": 123,
+      "channel_id": 2,
+      "direct_message_id": null,
+      "parent_id": 456,
+      "attachment_id": null,
+      "timestamp": "2023-04-25T18:45:00Z"
+    }
+    ```
+
+* Error Response: Channel not found
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Channel not found",
+      "statusCode": 404,
+      "errors": [
+        "Channel with that ID does not exist"
+      ]
+    }
+    ```
+
+* Error Response: Parent Message not found
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Parent Message not found",
+      "statusCode": 404,
+      "errors": [
+        "Parent Message with that ID does not exist"
+      ]
+    }
+    ```
+
+### Update Message
+
+Updates a message by ID in a channel.
+
+* Require Authentication: true
+* Request
+  * Method: PUT
+  * URL: /api/channels/:channel_id/messages/:message_id
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+    ```json
+    {
+      "content": "Updated message text"
+    }
+    ```
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+    ```json
+    {
+      "id": "message_id",
+      "content": "Updated message text",
+      "user_id": 123,
+      "channel_id": 2,
+      "direct_message_id": null,
+      "parent_id": null,
+      "attachment_id": null,
+      "timestamp": "2023-04-25T18:45:00Z",
+    }
+    ```
+
+* Error Response: Message not found
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+    ```json
+    {
+      "message": "Message not found",
+      "statusCode": 404,
+      "errors": [
+        "Message with that ID does not exist in this channel"
+      ]
+    }
+    ```
+
+## Delete Message
+
+Deletes a message by ID in a channel.
+
+* Require Authentication: true
+* Request
+  * Method: DELETE
+  * URL: /api/channels/:channelId/messages/:messageId
+  * Headers:
+    * Content-Type: application/json
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+      * Body:
+
+    ```json
+    {
+      "message": "Message not succesfully deleted",
+    }
+    ```
+
+* Error Response: Message not found
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Message not found",
+      "statusCode": 404,
+      "errors": [
+        "Message with that ID does not exist"
       ]
     }
     ```
