@@ -1255,11 +1255,7 @@ Deletes a direct message by ID.
     }
     ```
 
-<<<<<<< HEAD
-## Messages In Channels
-=======
-## Messages
->>>>>>> master
+## Messages in Channels
 
 ### Send Message in Channel
 
@@ -1412,11 +1408,7 @@ Sends a threaded reply to a message in a channel.
     }
     ```
 
-<<<<<<< HEAD
 ### Update Message In a Channel
-=======
-### Update Message
->>>>>>> master
 
 Updates a message by ID in a channel.
 
@@ -1466,11 +1458,7 @@ Updates a message by ID in a channel.
     }
     ```
 
-<<<<<<< HEAD
 ## Delete Message In a Channel
-=======
-## Delete Message
->>>>>>> master
 
 Deletes a message by ID in a channel.
 
@@ -1489,7 +1477,6 @@ Deletes a message by ID in a channel.
 
     ```json
     {
-<<<<<<< HEAD
       "message": "Message succesfully deleted",
     }
     ```
@@ -1733,9 +1720,6 @@ Deletes a message by ID in a Direct Message.
     ```json
     {
       "message": "Message succesfully deleted",
-=======
-      "message": "Message not succesfully deleted",
->>>>>>> master
     }
     ```
 
