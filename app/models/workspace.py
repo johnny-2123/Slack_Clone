@@ -19,5 +19,6 @@ class Workspace(db.Model):
         return {
             'id': self.id,
             'name': self.name,
-            'description': self.description
+            'description': self.description,
+            'owner': self.owner.to_dict()
         }
