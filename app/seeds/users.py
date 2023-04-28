@@ -10,10 +10,41 @@ def seed_users():
         username='marnie', email='marnie@aa.io', password='password')
     bobbie = User(
         username='bobbie', email='bobbie@aa.io', password='password')
+    luke = User(
+        username='luke', email='luke@aa.io', password='password')
+    leia = User(
+        username='leia', email='leia@aa.io', password='password')
+    han = User(
+        username='han', email='han@aa.io', password='password')
 
     db.session.add(demo)
     db.session.add(marnie)
     db.session.add(bobbie)
+    db.session.add(luke)
+    db.session.add(leia)
+    db.session.add(han)
+
+    # first_names = [
+    #     'Melissa, Edgar, Valentina, Daniella, Sofia, Joel, Giovanny, John, Carlos, Steve, Cindy, Guadalupe, Joni, Frida, Concepcion, Edilma, Apolonio']
+
+    # last_names = [
+    #     ['Segovia', 'Garcia', 'Fernandez', 'Gonzalez', 'Rodriguez', 'Lopez', 'Torres', 'Perez', 'Sanchez',
+    #         'Romero', 'Ramirez', 'Martinez', 'Santos', 'Vega', 'Castillo', 'Diaz', 'Rivera', 'Flores']
+    # ]
+
+    # for i in range(len(first_names)):
+    #     username = f'{last_names[i]}{first_names[i]}'
+    #     email = f'{last_names[i]}{first_names[i]}@aa.io'
+    #     password = 'password'
+
+    #     new_user = User(
+    #         username=username,
+    #         email=email,
+    #         password=password
+    #     )
+
+    #     db.session.add(new_user)
+
     db.session.commit()
 
 
@@ -25,8 +56,9 @@ def seed_users():
 # it will reset the primary keys for you as well.
 def undo_users():
     if environment == "production":
-        db.session.execute(f"TRUNCATE table {SCHEMA}.users RESTART IDENTITY CASCADE;")
+        db.session.execute(
+            f"TRUNCATE table {SCHEMA}.users RESTART IDENTITY CASCADE;")
     else:
         db.session.execute(text("DELETE FROM users"))
-        
+
     db.session.commit()
