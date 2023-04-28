@@ -1,10 +1,11 @@
 from app.models import db, User, Workspace, WorkspaceMember, environment, SCHEMA
-from sqlalchemy.sql import text
+from flask import current_app
 
-demo = User.query.filter_by(username="demo").first()
+from sqlalchemy.sql import text
 
 
 def seed_workspace_members():
+    # with current_app.app_context():
 
     acme_workspace = Workspace.query.filter_by(name='Acme Corporation').first()
     stark_workspace = Workspace.query.filter_by(
@@ -20,42 +21,45 @@ def seed_workspace_members():
     han = User.query.filter_by(username='han').first()
 
     member1 = WorkspaceMember(
-        workspace_id=acme_workspace.id, member_id=marnie.id, role='admin')
+        workspace_id=1, user_id=1, status='admin')
     member2 = WorkspaceMember(
-        workspace_id=acme_workspace.id, member_id=bobbie.id, role='member')
+        workspace_id=1, user_id=2, status='member')
     member3 = WorkspaceMember(
-        workspace_id=acme_workspace.id, member_id=luke.id, role='member')
-    member4 = WorkspaceMember(
-        workspace_id=acme_workspace.id, member_id=leia.id, role='member')
-    member5 = WorkspaceMember(
-        workspace_id=acme_workspace.id, member_id=han.id, role='member')
-    member6 = WorkspaceMember(
-        workspace_id=stark_workspace.id, member_id=han.id, role='admin')
-    member7 = WorkspaceMember(
-        workspace_id=stark_workspace.id, member_id=leia.id, role='member')
+        workspace_id=1, user_id=3, status='member')
+    # member4 = WorkspaceMember(
+    #     workspace_id=acme_workspace.id, user_id=leia.id, status='member')
+    # member5 = WorkspaceMember(
+    #     workspace_id=acme_workspace.id, user_id=han.id, status='member')
+    # member6 = WorkspaceMember(
+    #     workspace_id=stark_workspace.id, user_id=han.id, status='admin')
+    # member7 = WorkspaceMember(
+    #     workspace_id=stark_workspace.id, user_id=leia.id, status='member')
 
-    member8 = WorkspaceMember(
-        workspace_id=wayne_workspace.id, member_id=han.id, role='member')
-    member9 = WorkspaceMember(
-        workspace_id=wayne_workspace.id, member_id=leia.id, role='admin')
-    member10 = WorkspaceMember(
-        workspace_id=wayne_workspace.id, member_id=demo.id, role='member')
-    member11 = WorkspaceMember(
-        workspace_id=wayne_workspace.id, member_id=han.id, role='member')
-    member12 = WorkspaceMember(
-        workspace_id=wayne_workspace.id, member_id=leia.id, role='admin')
-    member13 = WorkspaceMember(
-        workspace_id=wayne_workspace.id, member_id=demo.id, role='member')
+    # member8 = WorkspaceMember(
+    #     workspace_id=wayne_workspace.id, user_id=han.id, status='member')
+    # member9 = WorkspaceMember(
+    #     workspace_id=wayne_workspace.id, user_id=leia.id, status='admin')
+    # member10 = WorkspaceMember(
+    #     workspace_id=wayne_workspace.id, user_id=demo.id, status='member')
+    # member11 = WorkspaceMember(
+    #     workspace_id=wayne_workspace.id, user_id=han.id, status='member')
+    # member12 = WorkspaceMember(
+    #     workspace_id=wayne_workspace.id, user_id=leia.id, status='admin')
+    # member13 = WorkspaceMember(
+    #     workspace_id=wayne_workspace.id, user_id=demo.id, status='member')
 
     db.session.add(member1)
     db.session.add(member2)
     db.session.add(member3)
-    db.session.add(member4)
-    db.session.add(member5)
-    db.session.add(member6)
-    db.session.add(member7)
-    db.session.add(member8)
-    db.session.add(member9)
+
+
+
+    # db.session.add(member4)
+    # db.session.add(member5)
+    # db.session.add(member6)
+    # db.session.add(member7)
+    # db.session.add(member8)
+    # db.session.add(member9)
     db.session.commit()
 
 

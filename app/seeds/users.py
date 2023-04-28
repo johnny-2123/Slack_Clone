@@ -24,26 +24,26 @@ def seed_users():
     db.session.add(leia)
     db.session.add(han)
 
-    # first_names = [
-    #     'Melissa, Edgar, Valentina, Daniella, Sofia, Joel, Giovanny, John, Carlos, Steve, Cindy, Guadalupe, Joni, Frida, Concepcion, Edilma, Apolonio']
+    first_names = [
+        'Melissa, Edgar, Valentina, Daniella, Sofia, Joel, Giovanny, John, Carlos, Steve, Cindy, Guadalupe, Joni, Frida, Concepcion, Edilma, Apolonio']
 
-    # last_names = [
-    #     ['Segovia', 'Garcia', 'Fernandez', 'Gonzalez', 'Rodriguez', 'Lopez', 'Torres', 'Perez', 'Sanchez',
-    #         'Romero', 'Ramirez', 'Martinez', 'Santos', 'Vega', 'Castillo', 'Diaz', 'Rivera', 'Flores']
-    # ]
+    last_names = [
+        ['Segovia', 'Garcia', 'Fernandez', 'Gonzalez', 'Rodriguez', 'Lopez', 'Torres', 'Perez', 'Sanchez',
+            'Romero', 'Ramirez', 'Martinez', 'Santos', 'Vega', 'Castillo', 'Diaz', 'Rivera', 'Flores']
+    ]
 
-    # for i in range(len(first_names)):
-    #     username = f'{last_names[i]}{first_names[i]}'
-    #     email = f'{last_names[i]}{first_names[i]}@aa.io'
-    #     password = 'password'
+    for i in range(len(first_names)):
+        username = f'{last_names[i]}{first_names[i]}'
+        email = f'{last_names[i]}{first_names[i]}@aa.io'
+        password = 'password'
 
-    #     new_user = User(
-    #         username=username,
-    #         email=email,
-    #         password=password
-    #     )
+        new_user = User(
+            username=username,
+            email=email,
+            password=password
+        )
 
-    #     db.session.add(new_user)
+        db.session.add(new_user)
 
     db.session.commit()
 
