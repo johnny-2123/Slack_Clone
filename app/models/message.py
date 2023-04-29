@@ -6,7 +6,7 @@ class Message(db.Model):
 
     if environment == "production":
         if environment == "production":
-            __table_args__ = {"schema": SCHEMA}
+            __table_args__ = {"schema": SCHEMA, 'idx_timestamp': db.timestamp}
 
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(4000), nullable=False)

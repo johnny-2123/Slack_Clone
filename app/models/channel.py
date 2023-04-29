@@ -17,6 +17,8 @@ class Channel(db.Model):
     private = db.Column(db.Boolean)
     last_sent_message_timestamp = db.Column(db.Date)
 
+    channel_reads = db.relationship("UserChannelRead", back_populates="channel")
+
     def to_dict(self):
         return {
             "id": self.id,
