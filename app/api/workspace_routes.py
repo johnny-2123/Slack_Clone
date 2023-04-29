@@ -1,17 +1,88 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
-from app.models import Workspace, WorkspaceMember, db
+from app.models import Workspace, WorkspaceMember, User, db
 from app.forms.workspace_form import WorkspaceForm
 from .auth_routes import validation_errors_to_error_messages
 
 workspace_routes = Blueprint('workspaces', __name__)
 
 
+@workspace_routes.route('/<int:id>/members', methods=['DELETE'])
+@login_required
+def delete_workspace_member(id):
+    request_body = request.json
+    member_id = request_body.get('member_id')
+
+    workspace = Workspace.query.get(id)
+    if not workspace:
+        return {'error': 'Workspace not found'}, 404
+
+    if workspace.owner_id != current_user.id:
+        return {'error': 'Forbidden'}, 403
+
+    member = WorkspaceMember.query.join(User).filter(WorkspaceMember.workspace_id==workspace.id, WorkspaceMember.user_id==member_id).first()
+
+    if not member:
+        return {'error': 'Membership not found'}, 404
+
+    db.session.delete(member)
+    db.session.commit()
+
+
+    # does delete workspace member but doesnt return deleted workspace member
+    return {
+        'message': 'Membership succesfully deleted',
+        'deleted_membership': member.to_deleted_dict()
+    }
+
+
+
+@workspace_routes.route('/<int:id>/members', methods=['POST'])
+@login_required
+def create_workspace_member(id):
+    request_body = request.json
+    workspace = Workspace.query.get(id)
+    new_member_id = request_body.get('user_id')
+
+
+    if not workspace:
+        return {'error': 'Workspace not found.'}, 404
+
+    if workspace.owner_id != current_user.id:
+        return {'error': 'Must be workspace owner to add a member to a workspace'}
+
+
+    if not new_member_id:
+        return {'error': 'User is required'}, 400
+
+    user = User.query.get(new_member_id)
+
+    if not user:
+        return {'error': 'User with that id not found'}, 404
+
+    member = WorkspaceMember.query.filter_by(workspace_id=workspace.id, user_id=user.id).first()
+
+    print("************")
+    print(member)
+
+    if member:
+        return {'error': 'membership already exists'}, 400
+
+    new_member = WorkspaceMember(workspace_id=workspace.id, user_id=user.id)
+
+    db.session.add(new_member)
+    db.session.commit()
+
+    return new_member.to_dict()
+
 @workspace_routes.route('/<int:id>', methods=['GET'])
 @login_required
 def get_workspace(id):
-
     workspace = Workspace.query.get(id)
+
+    if not workspace:
+        return {'error': 'Workspace not found.'}, 404
+
     return workspace.to_dict()
 
 
@@ -112,15 +183,3 @@ def get_workspaces():
         workspace_dicts.append(workspace_dict)
 
     return {'workspaces': workspace_dicts}
-
-    # # workspaces = Workspace.query.filter_by(owner_id=current_user.id).all()
-    # # workspace_dicts = []
-
-    # workspaces = db.session.query(Workspace, WorkspaceMember.status).join(WorkspaceMember, WorkspaceMember.workspace_id == Workspace.id).filter(Workspace.owner_id == current_user.id).all()
-
-    # for workspace in workspaces:
-    #     workspace_dict = workspace.to_dict()
-    #     workspace_dict['members'] = [member.user.to_dict() for member in workspace.members]
-    #     workspace_dicts.append(workspace_dict)
-
-    # return {'workspaces': workspace_dicts}

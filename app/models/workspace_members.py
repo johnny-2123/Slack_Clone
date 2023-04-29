@@ -18,6 +18,13 @@ class WorkspaceMember(db.Model):
             "status": self.status
         }
 
+    def to_deleted_dict(self):
+        return {
+            "workspace_id": self.workspace_id,
+            "user_id": self.user_id,
+            "status": self.status
+        }
+
    # workspace = db.relationship('Workspace', backref=db.backref(
    #     'members', lazy='dynamic'))
    # user = db.relationship('User', backref=db.backref(
