@@ -18,7 +18,7 @@ class Message(db.Model):
     # attachment_id = db.Column(db.Integer, db.ForeignKey('attachments.id'))
 
     user = db.relationship("User", back_populates="messages")
-    # channel = db.relationship('Channel', back_populates='messages')
+    channel = db.relationship('Channel', back_populates='messages')
     # direct_message = db.relationship('DirectMessage', back_populates='messages')
     parent = db.relationship('Message', remote_side=[id], back_populates='replies')
     replies = db.relationship('Message', remote_side=[parent_id], back_populates='parent')

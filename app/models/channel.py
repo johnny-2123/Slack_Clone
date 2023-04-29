@@ -18,6 +18,7 @@ class Channel(db.Model):
     last_sent_message_timestamp = db.Column(db.Date)
 
     channel_reads = db.relationship("UserChannelRead", back_populates="channel")
+    messages = db.relationship('Message', back_populates='channel')
 
     def to_dict(self):
         return {
