@@ -19,6 +19,7 @@ class User(db.Model, UserMixin):
     hashed_password = db.Column(db.String(255), nullable=False)
 
     workspaces = db.relationship("Workspace", back_populates="owner")
+    workspace_memberships = db.relationship("WorkspaceMember", back_populates="user", lazy=True, cascade="all, delete-orphan")
     messages = db.relationship("Message", back_populates="user")
     # channel_reads = db.relationship("UserChannelRead", back_populates="user")
     message_reactions = db.relationship("MessageReaction", back_populates="user")

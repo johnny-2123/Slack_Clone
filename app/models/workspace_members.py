@@ -10,7 +10,7 @@ class WorkspaceMember(db.Model):
     status = db.Column(db.String(20))
 
     workspace = db.relationship("Workspace", back_populates="members")
-    user = db.relationship("User")
+    user = db.relationship("User",  back_populates="workspace_memberships", lazy="joined")
 
     def to_dict(self):
         return {"user": self.user.to_dict(), "status": self.status}
