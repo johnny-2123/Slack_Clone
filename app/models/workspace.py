@@ -22,5 +22,6 @@ class Workspace(db.Model):
             'id': self.id,
             'name': self.name,
             'description': self.description,
-            'owner': self.owner.to_dict()
+            'owner': self.owner.to_dict(),
+            'members': [member.to_dict() for member in self.members]
         }

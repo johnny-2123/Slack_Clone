@@ -12,11 +12,11 @@ class WorkspaceMember(db.Model):
     workspace = db.relationship("Workspace", back_populates="members")
     user = db.relationship("User")
 
-    # def to_dict(self):
-    #     return {
-    #         "member": self.user.to_dict(),
-    #         'workspace': self.workspace.to_dict()
-    #     }
+    def to_dict(self):
+        return {
+            "user": self.user.to_dict(),
+            "status": self.status
+        }
 
    # workspace = db.relationship('Workspace', backref=db.backref(
    #     'members', lazy='dynamic'))

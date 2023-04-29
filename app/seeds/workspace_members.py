@@ -9,7 +9,7 @@ def seed_workspace_members():
 
     acme_workspace = Workspace.query.filter_by(name='Acme Corporation').first()
     stark_workspace = Workspace.query.filter_by(
-        name='Stark Enterprises').first()
+        name='Stark Industries').first()
     wayne_workspace = Workspace.query.filter_by(
         name='Wayne Enterprises').first()
 

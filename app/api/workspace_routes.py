@@ -97,12 +97,30 @@ def create_workspace():
 @login_required
 def get_workspaces():
 
-    workspaces = Workspace.query.filter_by(owner_id=current_user.id).all()
-    workspace_dicts = []
+    owner_workspaces = Workspace.query.filter_by(owner_id=current_user.id)
 
+    member_workspaces = Workspace.query.join(WorkspaceMember)\
+        .filter(WorkspaceMember.user_id == current_user.id)\
+        .filter(Workspace.owner_id != current_user.id)
+
+    workspaces = owner_workspaces.union(member_workspaces)
+
+    workspace_dicts = []
     for workspace in workspaces:
         workspace_dict = workspace.to_dict()
-        workspace_dict['members'] = [member.user.to_dict() for member in workspace.members]
+        workspace_dict['members'] = [member.to_dict() for member in workspace.members]
         workspace_dicts.append(workspace_dict)
 
     return {'workspaces': workspace_dicts}
+
+    # # workspaces = Workspace.query.filter_by(owner_id=current_user.id).all()
+    # # workspace_dicts = []
+
+    # workspaces = db.session.query(Workspace, WorkspaceMember.status).join(WorkspaceMember, WorkspaceMember.workspace_id == Workspace.id).filter(Workspace.owner_id == current_user.id).all()
+
+    # for workspace in workspaces:
+    #     workspace_dict = workspace.to_dict()
+    #     workspace_dict['members'] = [member.user.to_dict() for member in workspace.members]
+    #     workspace_dicts.append(workspace_dict)
+
+    # return {'workspaces': workspace_dicts}
