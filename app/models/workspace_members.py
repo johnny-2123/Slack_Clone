@@ -5,8 +5,8 @@ class WorkspaceMember(db.Model):
     __tablename__ = "workspace_members"
     id = db.Column(db.Integer, primary_key=True)
 
-    workspace_id = db.Column(db.Integer, db.ForeignKey("workspaces.id"))
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    workspace_id = db.Column(db.Integer, db.ForeignKey("workspaces.id"), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     status = db.Column(db.String(20))
 
     workspace = db.relationship("Workspace", back_populates="members")

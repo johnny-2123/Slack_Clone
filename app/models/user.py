@@ -20,6 +20,7 @@ class User(db.Model, UserMixin):
     workspaces = db.relationship("Workspace", back_populates="owner")
     messages = db.relationship("Message", back_populates="user")
     # channel_reads = db.relationship("UserChannelRead", back_populates="user")
+    message_reactions = db.relationship('MessageReaction', back_populates='user')
 
     @property
     def password(self):
