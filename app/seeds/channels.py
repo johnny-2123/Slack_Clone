@@ -9,6 +9,7 @@ def seed_channels():
 
     demo = User.query.filter_by(username="Demo").first()
     luke = User.query.filter_by(username="luke").first()
+    bruce = User.query.filter_by(username="WayneBruce").first()
 
     # ACME channels
     acme_general = Channel(
@@ -75,13 +76,27 @@ def seed_channels():
         workspace=wayne_workspace,
     )
     db.session.add(wayne_general)
-    
+
+    wayne_batcave = Channel(
+        name="the-batcave",
+        description="The secret batcave, very private",
+        topic="Batman stuff",
+        owner=demo,
+        workspace=wayne_workspace,
+        private=True,
+    )
+    db.session.add(wayne_batcave)
+
+    wayne_batcave.private_members.append(bruce)
+
     db.session.commit()
-    
+
+
 def undo_channels():
     if environment == "production":
         db.session.execute(
-            f"TRUNCATE table {SCHEMA}.channels RESTART IDENTITY CASCADE;")
+            f"TRUNCATE table {SCHEMA}.channels RESTART IDENTITY CASCADE;"
+        )
     else:
         db.session.execute(text("DELETE FROM channels"))
 
