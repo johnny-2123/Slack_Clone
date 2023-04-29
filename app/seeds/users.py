@@ -5,17 +5,47 @@ from sqlalchemy.sql import text
 # Adds a demo user, you can add other users here if you want
 def seed_users():
     demo = User(
-        username='Demo', email='demo@aa.io', password='password', first_name='Demo', last_name='User')
+        username="Demo",
+        email="demo@aa.io",
+        password="password",
+        first_name="Demo",
+        last_name="User",
+    )
     marnie = User(
-        username='marnie', email='marnie@aa.io', password='password', first_name='Marnie', last_name='Smith')
+        username="marnie",
+        email="marnie@aa.io",
+        password="password",
+        first_name="Marnie",
+        last_name="Smith",
+    )
     bobbie = User(
-        username='bobbie', email='bobbie@aa.io', password='password', first_name='Bobbie', last_name='Jones')
+        username="bobbie",
+        email="bobbie@aa.io",
+        password="password",
+        first_name="Bobbie",
+        last_name="Jones",
+    )
     luke = User(
-        username='luke', email='luke@aa.io', password='password', first_name='Luke', last_name='Skywalker')
+        username="luke",
+        email="luke@aa.io",
+        password="password",
+        first_name="Luke",
+        last_name="Skywalker",
+    )
     leia = User(
-        username='leia', email='leia@aa.io', password='password', first_name='Leia', last_name='Organa')
+        username="leia",
+        email="leia@aa.io",
+        password="password",
+        first_name="Leia",
+        last_name="Organa",
+    )
     han = User(
-        username='han', email='han@aa.io', password='password', first_name='Han', last_name='Solo')
+        username="han",
+        email="han@aa.io",
+        password="password",
+        first_name="Han",
+        last_name="Solo",
+    )
 
     db.session.add(demo)
     db.session.add(marnie)
@@ -24,76 +54,82 @@ def seed_users():
     db.session.add(leia)
     db.session.add(han)
 
-
     melissa = User(
-        username='SegoviaMelissa',
-        email='SegoviaMelissa@aa.io',
-        password='password',
-        first_name='Melissa',
-        last_name='Segovia'
+        username="SegoviaMelissa",
+        email="SegoviaMelissa@aa.io",
+        password="password",
+        first_name="Melissa",
+        last_name="Segovia",
     )
     edgar = User(
-        username='GarciaEdgar',
-        email='GarciaEdgar@aa.io',
-        password='password',
-        first_name='Edgar',
-        last_name='Garcia'
+        username="GarciaEdgar",
+        email="GarciaEdgar@aa.io",
+        password="password",
+        first_name="Edgar",
+        last_name="Garcia",
     )
     valentina = User(
-        username='FernandezValentina',
-        email='FernandezValentina@aa.io',
-        password='password',
-        first_name='Valentina',
-        last_name='Fernandez'
+        username="FernandezValentina",
+        email="FernandezValentina@aa.io",
+        password="password",
+        first_name="Valentina",
+        last_name="Fernandez",
     )
     daniella = User(
-        username='GonzalezDaniella',
-        email='GonzalezDaniella@aa.io',
-        password='password',
-        first_name='Daniella',
-        last_name='Gonzalez'
+        username="GonzalezDaniella",
+        email="GonzalezDaniella@aa.io",
+        password="password",
+        first_name="Daniella",
+        last_name="Gonzalez",
     )
     sofia = User(
-        username='RodriguezSofia',
-        email='RodriguezSofia@aa.io',
-        password='password',
-        first_name='Sofia',
-        last_name='Rodriguez'
+        username="RodriguezSofia",
+        email="RodriguezSofia@aa.io",
+        password="password",
+        first_name="Sofia",
+        last_name="Rodriguez",
     )
     joel = User(
-        username='LopezJoel',
-        email='LopezJoel@aa.io',
-        password='password',
-        first_name='Joel',
-        last_name='Lopez'
+        username="LopezJoel",
+        email="LopezJoel@aa.io",
+        password="password",
+        first_name="Joel",
+        last_name="Lopez",
     )
     giovanny = User(
-        username='TorresGiovanny',
-        email='TorresGiovanny@aa.io',
-        password='password',
-        first_name='Giovanny',
-        last_name='Torres'
+        username="TorresGiovanny",
+        email="TorresGiovanny@aa.io",
+        password="password",
+        first_name="Giovanny",
+        last_name="Torres",
     )
     john = User(
-        username='PerezJohn',
-        email='PerezJohn@aa.io',
-        password='password',
-        first_name='John',
-        last_name='Perez'
+        username="PerezJohn",
+        email="PerezJohn@aa.io",
+        password="password",
+        first_name="John",
+        last_name="Perez",
     )
     carlos = User(
-        username='SanchezCarlos',
-        email='SanchezCarlos@aa.io',
-        password='password',
-        first_name='Carlos',
-        last_name='Sanchez'
+        username="SanchezCarlos",
+        email="SanchezCarlos@aa.io",
+        password="password",
+        first_name="Carlos",
+        last_name="Sanchez",
     )
     steve = User(
-        username='RomeroSteve',
-        email='RomeroSteve@aa.io',
-        password='password',
-        first_name='Steve',
-        last_name='Romero'
+        username="RomeroSteve",
+        email="RomeroSteve@aa.io",
+        password="password",
+        first_name="Steve",
+        last_name="Romero",
+    )
+    bruce = User(
+        username="WayneBruce",
+        email="WayneBruce@aa.io",
+        password="password",
+        first_name="Bruce",
+        last_name="Wayne",
     )
 
     db.session.add(melissa)
@@ -106,9 +142,9 @@ def seed_users():
     db.session.add(john)
     db.session.add(carlos)
     db.session.add(steve)
+    db.session.add(bruce)
 
     db.session.commit()
-
 
 
 # Uses a raw SQL query to TRUNCATE or DELETE the users table. SQLAlchemy doesn't
@@ -119,8 +155,7 @@ def seed_users():
 # it will reset the primary keys for you as well.
 def undo_users():
     if environment == "production":
-        db.session.execute(
-            f"TRUNCATE table {SCHEMA}.users RESTART IDENTITY CASCADE;")
+        db.session.execute(f"TRUNCATE table {SCHEMA}.users RESTART IDENTITY CASCADE;")
     else:
         db.session.execute(text("DELETE FROM users"))
 
