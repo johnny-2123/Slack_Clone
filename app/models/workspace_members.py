@@ -13,22 +13,20 @@ class WorkspaceMember(db.Model):
     user = db.relationship("User")
 
     def to_dict(self):
-        return {
-            "user": self.user.to_dict(),
-            "status": self.status
-        }
+        return {"user": self.user.to_dict(), "status": self.status}
 
     def to_deleted_dict(self):
         return {
             "workspace_id": self.workspace_id,
             "user_id": self.user_id,
-            "status": self.status
+            "status": self.status,
         }
 
-   # workspace = db.relationship('Workspace', backref=db.backref(
-   #     'members', lazy='dynamic'))
-   # user = db.relationship('User', backref=db.backref(
-   #     'workspace_membership', lazy='dynamic'))
+
+# workspace = db.relationship('Workspace', backref=db.backref(
+#     'members', lazy='dynamic'))
+# user = db.relationship('User', backref=db.backref(
+#     'workspace_membership', lazy='dynamic'))
 
 
 # workspace_members = db.Table(
