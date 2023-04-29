@@ -15,6 +15,7 @@ class Workspace(db.Model):
 
     owner = db.relationship("User",back_populates="workspaces")
     members = db.relationship("WorkspaceMember", back_populates="workspace")
+    channels = db.relationship("Channel", back_populates='workspace')
 
     def to_dict(self):
         return {
