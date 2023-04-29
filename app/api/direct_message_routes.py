@@ -4,10 +4,10 @@ from app.models import Message, DirectMessage, DirectMessageMember, User, db
 from .auth_routes import validation_errors_to_error_messages
 from datetime import datetime
 
-direct_messages = Blueprint("direct_messages", __name__, url_prefix="/api/direct_messages")
+direct_message_routes = Blueprint("direct_messages", __name__, url_prefix="/api/direct_messages")
 
 #GET DIRECT MESSAGES
-@direct_messages.route('/', methods=['GET'])
+@direct_message_routes.route('/', methods=['GET'])
 @login_required
 def get_direct_messages():
     # Get the user ID from the current user object
@@ -35,7 +35,7 @@ def get_direct_messages():
 
 
 #GET DIRECT MESSAGE BY ID
-@direct_messages.route("/<int:dm_id>", methods=["GET"])
+@direct_message_routes.route("/<int:dm_id>", methods=["GET"])
 @login_required
 def get_direct_message(dm_id):
     direct_message = DirectMessage.query.get(dm_id)
@@ -56,7 +56,7 @@ def get_direct_message(dm_id):
 
 
 #CREATE DIRECT MESSAGE
-@direct_messages.route("/", methods=["POST"])
+@direct_message_routes.route("/", methods=["POST"])
 @login_required
 def create_direct_message():
     data = request.json
@@ -97,7 +97,7 @@ def create_direct_message():
 
 
 ##UPDATE DIRECT MESSAGE
-@direct_messages.route("/<int:id>", methods=["PUT"])
+@direct_message_routes.route("/<int:id>", methods=["PUT"])
 @login_required
 def update_direct_message(id):
     # Query the database for the direct message with the given ID
@@ -124,7 +124,7 @@ def update_direct_message(id):
 
 
 #DELETE MESSAGE
-@direct_messages.route('/<int:id>', methods=['DELETE'])
+@direct_message_routes.route('/<int:id>', methods=['DELETE'])
 @login_required
 def delete_direct_message(id):
     # Attempt to get the direct message with the specified ID

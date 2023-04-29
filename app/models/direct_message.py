@@ -1,5 +1,5 @@
 from .db import db, environment, SCHEMA
-
+from .direct_message_member import direct_message_member
 
 class DirectMessage(db.Model):
     __tablename__ = "direct_messages"
@@ -12,6 +12,11 @@ class DirectMessage(db.Model):
     workspace_id = db.Column(db.Integer, nullable=False)
     last_sent_message_timestamp = db.Column(db.Date)
 
+    #relationship, incluide secondary variable
+    members = db.relationship(
+        "User", secondary=direct_message_member, back_populates="dm_memberships"
+    )
+
     def to_dict(self):
         return {
             "id": self.id,
@@ -19,3 +24,4 @@ class DirectMessage(db.Model):
             "workspace_id": self.workspace_id,
             "last_sent_message_timestamp": self.last_sent_message_timestamp,
         }
+

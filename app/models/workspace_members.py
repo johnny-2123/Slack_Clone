@@ -9,7 +9,7 @@ class WorkspaceMember(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     status = db.Column(db.String(20))
 
-    workspace = db.relationship("Workspace", back_populates="members")
+    workspace = db.relationship("Workspace", back_populates="workspace_members")
     user = db.relationship("User")
 
     def to_dict(self):

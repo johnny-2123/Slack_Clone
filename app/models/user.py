@@ -1,6 +1,8 @@
+from app.models import direct_message_member
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
+
 
 
 class User(db.Model, UserMixin):
@@ -19,6 +21,8 @@ class User(db.Model, UserMixin):
 
     workspaces = db.relationship("Workspace", back_populates="owner")
     messages = db.relationship("Message", back_populates="user")
+
+    dm_memberships = db.relationship("DirectMessage", secondary=direct_message_member, back_populates="members")
 
     @property
     def password(self):
