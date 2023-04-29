@@ -1,10 +1,14 @@
 from app.models import db, User, Workspace, environment, SCHEMA
 from sqlalchemy.sql import text
 
+
 def seed_workspaces():
-    workspace1 = Workspace(name='Workspace 1', description='This is the first workspace', owner_id=1, image_url ="https://res.cloudinary.com/dkul3ouvi/image/upload/v1677815579/photo-1493711662062-fa541adb3fc8_fqkzqb.jpg" )
-    workspace2 = Workspace(name='Workspace 2', description='This is the second workspace', owner_id=1, image_url ="https://res.cloudinary.com/dkul3ouvi/image/upload/v1677815579/photo-1493711662062-fa541adb3fc8_fqkzqb.jpg" )
-    workspace3 = Workspace(name='Workspace 3', description='This is the third workspace', owner_id=2, image_url ="https://res.cloudinary.com/dkul3ouvi/image/upload/v1677815579/photo-1493711662062-fa541adb3fc8_fqkzqb.jpg" )
+    workspace1 = Workspace(name='Acme Corporation', description='A company that sells anvils and other contraptions', owner_id=1,
+                           image_url="https://res.cloudinary.com/dkul3ouvi/image/upload/v1677815579/photo-1493711662062-fa541adb3fc8_fqkzqb.jpg")
+    workspace2 = Workspace(name='Stark Industries', description='A leading manufacturer of advanced technology, including the Iron Man suit',
+                           owner_id=1, image_url="https://res.cloudinary.com/dkul3ouvi/image/upload/v1677815579/photo-1493711662062-fa541adb3fc8_fqkzqb.jpg")
+    workspace3 = Workspace(name='Wayne Enterprises', description='A multinational conglomerate with interests in various industries, including defense and technology',
+                           owner_id=2, image_url="https://res.cloudinary.com/dkul3ouvi/image/upload/v1677815579/photo-1493711662062-fa541adb3fc8_fqkzqb.jpg")
 
     db.session.add(workspace1)
     db.session.add(workspace2)
@@ -14,7 +18,8 @@ def seed_workspaces():
 
 def undo_workspaces():
     if environment == "production":
-        db.session.execute(f"TRUNCATE table {SCHEMA}.workspaces RESTART IDENTITY CASCADE;")
+        db.session.execute(
+            f"TRUNCATE table {SCHEMA}.workspaces RESTART IDENTITY CASCADE;")
     else:
         db.session.execute(text("DELETE FROM workspaces"))
 
