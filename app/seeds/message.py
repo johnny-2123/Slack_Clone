@@ -65,15 +65,140 @@ def seed_messages():
         timestamp=datetime(2023, 4, 29, 14, 10, 0),
     )
 
-    db.session.add(message9)
-    db.session.add(message8)
-    db.session.add(message7)
-    db.session.add(message6)
-    db.session.add(message5)
-    db.session.add(message4)
-    db.session.add(message3)
-    db.session.add(message2)
+    message10 = Message(
+    user=luke,
+    channel=wayne_general,
+    content="I'll catch up with you later, Demo.",
+    timestamp=datetime(2023, 4, 29, 14, 15, 0),
+    parent=message9
+    )
+
+    message11 = Message(
+    user=demo,
+    channel=wayne_general,
+    content="Sounds good, Luke. Take care!",
+    timestamp=datetime(2023, 4, 29, 14, 20, 0),
+    parent=message9
+    )
+
+    message12 = Message(
+        user=luke,
+        channel=wayne_general,
+        content="Hey Demo, did you see the email from HR about the new benefits package?",
+        timestamp=datetime(2023, 4, 29, 15, 0, 0),
+    )
+    message13 = Message(
+        user=demo,
+        channel=wayne_general,
+        content="No, I haven't had a chance to check my email yet. What's in it?",
+        timestamp=datetime(2023, 4, 29, 15, 5, 0),
+    )
+    message14 = Message(
+        user=luke,
+        channel=wayne_general,
+        content="They're adding some new perks like free gym memberships and monthly massages.",
+        timestamp=datetime(2023, 4, 29, 15, 10, 0),
+    )
+    message15 = Message(
+        user=demo,
+        channel=wayne_general,
+        content="That sounds amazing! I'll definitely check it out.",
+        timestamp=datetime(2023, 4, 29, 15, 15, 0),
+    )
+
+    message16 = Message(
+    user=luke,
+    channel=wayne_general,
+    content="Hey Demo, I saw your latest commit on Github. Looks like you're making some great progress!",
+    timestamp=datetime(2023, 4, 29, 16, 0, 0),
+)
+
+    message17 = Message(
+    user=demo,
+    channel=wayne_general,
+    content="Thanks, Luke! I'm really excited about this project.",
+    timestamp=datetime(2023, 4, 29, 16, 5, 0),
+    parent=message16
+    )
+
+    message18 = Message(
+    user=demo,
+    channel=wayne_general,
+    content="By the way, has anyone heard about the company retreat? When is it happening?",
+    timestamp=datetime(2023, 4, 29, 16, 10, 0),
+)
+
+    message19 = Message(
+    user=luke,
+    channel=wayne_general,
+    content="I think it's scheduled for next month. They sent out an email about it last week.",
+    timestamp=datetime(2023, 4, 29, 16, 15, 0),
+    parent=message18
+    )
+
+    message20 = Message(
+    user=demo,
+    channel=wayne_general,
+    content="Oh, I must have missed that. Thanks for letting me know!",
+    timestamp=datetime(2023, 4, 29, 16, 20, 0),
+    parent=message18
+    )
+
+    message21 = Message(
+    user=demo,
+    channel=wayne_general,
+    content="Hey Luke, do you want to grab drinks after work tonight?",
+    timestamp=datetime(2023, 4, 29, 17, 0, 0),
+    )
+
+    message22 = Message(
+    user=luke,
+    channel=wayne_general,
+    content="Sure, that sounds great! What time and where?",
+    timestamp=datetime(2023, 4, 29, 17, 5, 0),
+    parent=message21
+    )
+
+    message23 = Message(
+    user=demo,
+    channel=wayne_general,
+    content="How about 7pm at that new bar on 5th street?",
+    timestamp=datetime(2023, 4, 29, 17, 10, 0),
+    parent=message21
+    )
+
+    message24 = Message(
+    user=luke,
+    channel=wayne_general,
+    content="Sounds good to me! I'll see you guys there.",
+    timestamp=datetime(2023, 4, 29, 17, 15, 0),
+    parent=message22
+    )
+
     db.session.add(message1)
+    db.session.add(message2)
+    db.session.add(message3)
+    db.session.add(message4)
+    db.session.add(message5)
+    db.session.add(message6)
+    db.session.add(message7)
+    db.session.add(message8)
+    db.session.add(message9)
+    db.session.add(message10)
+    db.session.add(message11)
+    db.session.add(message12)
+    db.session.add(message13)
+    db.session.add(message14)
+    db.session.add(message15)
+    db.session.add(message16)
+    db.session.add(message17)
+    db.session.add(message18)
+    db.session.add(message19)
+    db.session.add(message20)
+    db.session.add(message21)
+    db.session.add(message22)
+    db.session.add(message23)
+    db.session.add(message24)
 
     db.session.commit()
 

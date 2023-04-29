@@ -11,4 +11,7 @@ def get_channel_byId(id):
 
     channel = Channel.query.options(db.joinedload(Channel.messages)).filter(Channel.id==id).first()
 
+    if not channel:
+        return {'error': 'channel not found'}
+
     return {"channel": channel.to_dict()}

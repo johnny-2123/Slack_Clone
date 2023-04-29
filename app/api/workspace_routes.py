@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
 from app.models import Workspace, WorkspaceMember, User, db
 from app.forms.workspace_form import WorkspaceForm
+from sqlalchemy.orm import joinedload
 from .auth_routes import validation_errors_to_error_messages
 
 workspace_routes = Blueprint('workspaces', __name__)
@@ -176,10 +177,23 @@ def get_workspaces():
 
     workspaces = owner_workspaces.union(member_workspaces)
 
+    # workspaces = owner_workspaces.union(member_workspaces).all()
+
+    # print('**********************************************')
+    # print(workspaces)
+
     workspace_dicts = []
     for workspace in workspaces:
         workspace_dict = workspace.to_dict()
         workspace_dict['members'] = [member.to_dict() for member in workspace.members]
         workspace_dicts.append(workspace_dict)
+
+    # owner_workspaces = Workspace.query.options(db.joinedload(Workspace.members)).filter(Workspace.owner_id==current_user.id)
+
+    # member_workspaces=Workspace.query.join(WorkspaceMember).options(db.joinedload(Workspace.members)).filter(WorkspaceMember.id==current_user.id)
+
+    # workspaces = owner_workspaces.union(member_workspaces)
+
+    # return {"workspaces": workspace.to_dict() for workspace in workspaces}
 
     return {'workspaces': workspace_dicts}
