@@ -7,6 +7,36 @@ from .auth_routes import validation_errors_to_error_messages
 workspace_routes = Blueprint('workspaces', __name__)
 
 
+@workspace_routes.route('/<int:id>/members', methods=['DELETE'])
+@login_required
+def delete_workspace_member(id):
+    request_body = request.json
+    member_id = request_body.get('member_id')
+
+    workspace = Workspace.query.get(id)
+    if not workspace:
+        return {'error': 'Workspace not found'}, 404
+
+    if workspace.owner_id != current_user.id:
+        return {'error': 'Forbidden'}, 403
+
+    member = WorkspaceMember.query.join(User).filter(WorkspaceMember.workspace_id==workspace.id, WorkspaceMember.user_id==member_id).first()
+
+    if not member:
+        return {'error': 'Membership not found'}, 404
+
+    db.session.delete(member)
+    db.session.commit()
+
+
+    # does delete workspace member but doesnt return deleted workspace member
+    return {
+        'message': 'Membership succesfully deleted',
+        'deleted_membership': member.to_deleted_dict()
+    }
+
+
+
 @workspace_routes.route('/<int:id>/members', methods=['POST'])
 @login_required
 def create_workspace_member(id):
@@ -28,7 +58,7 @@ def create_workspace_member(id):
     user = User.query.get(new_member_id)
 
     if not user:
-        return {'error': 'User with that id not found'}
+        return {'error': 'User with that id not found'}, 404
 
     member = WorkspaceMember.query.filter_by(workspace_id=workspace.id, user_id=user.id).first()
 
@@ -36,7 +66,7 @@ def create_workspace_member(id):
     print(member)
 
     if member:
-        return {'error': 'membership already exists'}
+        return {'error': 'membership already exists'}, 400
 
     new_member = WorkspaceMember(workspace_id=workspace.id, user_id=user.id)
 
