@@ -8,6 +8,7 @@ from .models import db, User
 from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
 from .api.channel_routes import channel_routes
+from .api.direct_message_routes import direct_message_routes
 from .seeds import seed_commands
 from .config import Config
 
