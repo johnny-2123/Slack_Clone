@@ -12,12 +12,17 @@ class User(db.Model, UserMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(40), nullable=False, unique=True)
+    first_name = db.Column(db.String(35), nullable=False)
+    last_name = db.Column(db.String(35), nullable=False)
+    # image_url = db.Column(db.String)
     email = db.Column(db.String(255), nullable=False, unique=True)
     hashed_password = db.Column(db.String(255), nullable=False)
 
     workspaces = db.relationship("Workspace", back_populates="owner")
+    messages = db.relationship("Message", back_populates="user")
+    # channel_reads = db.relationship("UserChannelRead", back_populates="user")
     channels = db.relationship("Channel", back_populates="owner")
-
+    
     channel_memberships = db.relationship(
         "Channel", secondary=channel_member, back_populates="private_members"
     )

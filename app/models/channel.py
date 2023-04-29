@@ -18,6 +18,9 @@ class Channel(db.Model):
     private = db.Column(db.Boolean, default=False)
     last_sent_message_timestamp = db.Column(db.Date)
 
+    channel_reads = db.relationship("UserChannelRead", back_populates="channel")
+    messages = db.relationship('Message', back_populates='channel')
+
     owner = db.relationship("User", back_populates="channels")
     workspace = db.relationship("Workspace", back_populates="channels")
     private_members = db.relationship(
