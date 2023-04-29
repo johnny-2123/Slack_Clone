@@ -33,7 +33,7 @@ class Message(db.Model):
     content = db.Column(db.String(4000), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     channel_id= db.Column(db.Integer, db.ForeignKey('channels.id'))
-    direct_message_id = db.Column(db.Integer, db.ForeignKey('direct_messages.id'))
+    # direct_message_id = db.Column(db.Integer, db.ForeignKey('direct_messages.id'))
     parent_id = db.Column(db.Integer, db.ForeignKey('messages.id'))
     timestamp = db.Column(db.DateTime, default=func.now(), nullable=False)
     # attachment_id = db.Column(db.Integer, db.ForeignKey('attachments.id'))
