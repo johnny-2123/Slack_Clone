@@ -24,4 +24,5 @@ class Workspace(db.Model):
             "description": self.description,
             "owner": self.owner.to_dict(),
             "members": [member.to_dict() for member in self.members],
+            "channels": [channel.to_dict() for channel in self.channels]
         }
