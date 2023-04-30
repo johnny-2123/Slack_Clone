@@ -1,0 +1,7 @@
+.workspaceSideBarMainDiv {
+    outline: red dotted thin;
+    background-color: lightblue;
+    width: 20%;
+    height: 100%;
+    margin: 0;
+}

@@ -81,6 +81,9 @@ def create_workspace_member(id):
 def get_workspace(id):
     workspace = Workspace.query.get(id)
 
+    print('workspace************************************')
+    print(workspace.to_dict())
+
     if not workspace:
         return {'error': 'Workspace not found.'}, 404
 

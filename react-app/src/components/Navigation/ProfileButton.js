@@ -4,6 +4,7 @@ import { logout } from "../../store/session";
 import OpenModalButton from "../OpenModalButton";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
+<script src="https://kit.fontawesome.com/97726b2eee.js" crossorigin="anonymous"></script>
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
@@ -39,8 +40,8 @@ function ProfileButton({ user }) {
 
   return (
     <>
-      <button onClick={openMenu}>
-        <i className="fas fa-user-circle" />
+      <button className="profileButton" onClick={openMenu}>
+        <i className="fas fa-user-circle profileIcon" />
       </button>
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
