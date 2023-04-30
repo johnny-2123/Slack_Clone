@@ -5,4 +5,6 @@ from .workspace import Workspace
 from .workspace_members import WorkspaceMember
 from .user_channel_read import UserChannelRead
 from .message import Message
+from .reaction import Reaction
+from .message_reaction import MessageReaction
 from .db import environment, SCHEMA

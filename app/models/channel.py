@@ -38,4 +38,5 @@ class Channel(db.Model):
             "workspace_id": self.workspace_id,
             "private": self.private,
             "last_sent_message_timestamp": self.last_sent_message_timestamp,
+            "messages": [message.to_dict() for message in self.messages]
         }
