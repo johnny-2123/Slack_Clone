@@ -1,9 +1,6 @@
 .workspaceSideBarMainDiv {
-    outline: red dotted thin;
-    width: 100%;
-    height: 89vh;
-    margin: 0;
-    background-color: aqua;
+    width: 30%;
+    background-color: lightgray;
 }
 
 .workspaceSideBarMainDiv h1 {

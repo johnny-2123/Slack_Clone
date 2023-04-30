@@ -13,7 +13,6 @@ const LoggedInUserHomePage = ({ sessionUser }) => {
         dispatch(fetchUserWorkspaces(sessionUser?.id));
     }, [dispatch, sessionUser?.id])
 
-
     const workspaces = useSelector(state => {
         return state.workspaces.userWorkspaces
     });

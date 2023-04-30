@@ -1,36 +1,47 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory, useParams, useRouteMatch } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import WorkspaceSideBar from './WorkSpaceSideBar';
 import IndividualChannel from '../../Channel Components/Individual Channel';
 import ThreadSidebar from '../../Thread Components/ThreadSideBar';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom"; import { fetchIndividualWorkspace } from '../../../store/workspaces';
 import './IndividualWorkspace.css'
-import channels, { fetchChannels } from '../../../store/channels';
+import { fetchChannels, fetchIndividualChannel } from '../../../store/channels';
+import { NavLink } from 'react-router-dom/cjs/react-router-dom.min';
 
 
 function IndividualWorkspace() {
     const { workspaceId } = useParams()
     console.log(`workspaceId:::::::::`, workspaceId)
 
+    const { url, path } = useRouteMatch()
+
+    console.log(`urllllllllllllll`, url)
+
+    console.log(`pathhhhhhhhhhhh`, path)
+
     const dispatch = useDispatch()
 
     useEffect(() => {
-        // dispatch(fetchChannels(workspaceId))
         dispatch(fetchIndividualWorkspace(workspaceId))
-    }, [dispatch, workspaceId])
+    }, [dispatch])
 
     const currentWorkspace = useSelector(state => {
         return state.workspaces.currentWorkspace
     })
-
-    // const channels = useSelector(state => {
-    //     return state.channels.workspaceChannels
-    // })
-    // console.log(`channels**********:`, channels)
-
     console.log(`currentWorkspace*********************************:`, currentWorkspace)
 
+    const channels = currentWorkspace.channels
+    console.log(`channels**********:`, channels)
+
+    let channelsMapped = channels?.map((channel, idx) => {
+
+        return (
+            <div key={idx}>
+                <NavLink to={`${url}/channels/${channel.id}`} >{channel.name}</NavLink>
+            </div>
+        )
+    })
 
 
     const [workspaceWidth, setWorkspaceWidth] = useState(20);
@@ -57,27 +68,21 @@ function IndividualWorkspace() {
     };
 
     return (
-        <Router>
-            <div className='IndividualWorkspaceMainDiv'>
-                {showWorkspace &&
-                    <div className='WorkspaceSidebar' style={{ width: `${workspaceWidth}vw` }}                >
-                        <WorkspaceSideBar />
-                    </div>
-                }
-                <Switch >
-                    <Route path={'/workspaces/:workspaceId/channels/:channelId"'} >
-                        <div style={{ width: `${100 - workspaceWidth - threadWidth}vw`, height: `89vw` }}>
-                            <IndividualChannel />
-                        </div>
-                    </Route>
-                    <Route path={`/channels/:channelId/threads?threadId`}>
-                        <div style={{ width: `${threadWidth}vw` }}>
-                            <ThreadSidebar />
-                        </div>
-                    </Route>
-                </Switch>
-            </div>
-        </Router>
+
+        <div className='IndividualWorkspaceMainDiv'>
+            {showWorkspace &&
+                <WorkspaceSideBar channelsMapped={channelsMapped} />
+            }
+            <Switch>
+                <Route path={`${path}/channels/:channelId`} >
+                    <IndividualChannel />
+                </Route>
+                <Route path={`/channels/:channelId/threads/:threadId`}>
+                    <ThreadSidebar />
+                </Route>
+            </Switch>
+        </div>
+
     )
 
 }

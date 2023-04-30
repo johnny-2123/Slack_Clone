@@ -1,1 +1,4 @@
-.individualChannelMainDiv {}
+.individualChannelMainDiv {
+    background-color: firebrick;
+    flex: 1;
+}
