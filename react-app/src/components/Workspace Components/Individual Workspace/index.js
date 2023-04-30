@@ -4,8 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import WorkspaceSideBar from './WorkSpaceSideBar';
 import IndividualChannel from '../../Channel Components/Individual Channel';
 import ThreadSidebar from '../../Thread Components/ThreadSideBar';
-import { Route, Switch } from 'react-router-dom/cjs/react-router-dom.min';
-import { fetchIndividualWorkspace } from '../../../store/workspaces';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom"; import { fetchIndividualWorkspace } from '../../../store/workspaces';
 import './IndividualWorkspace.css'
 import channels, { fetchChannels } from '../../../store/channels';
 
@@ -58,26 +57,27 @@ function IndividualWorkspace() {
     };
 
     return (
-        <div className='IndividualWorkspaceMainDiv'>
-            {showWorkspace &&
-                <div className='WorkspaceSidebar' style={{ width: `${workspaceWidth}vw` }}                >
-                    <WorkspaceSideBar />
-                </div>
-            }
-            <Switch >
-                <Route path={'/channels/:channelId'} >
-                    <div style={{ width: `${100 - workspaceWidth - threadWidth}vw`, height: `89vw` }}>
-                        <IndividualChannel />
+        <Router>
+            <div className='IndividualWorkspaceMainDiv'>
+                {showWorkspace &&
+                    <div className='WorkspaceSidebar' style={{ width: `${workspaceWidth}vw` }}                >
+                        <WorkspaceSideBar />
                     </div>
-                </Route>
-                <Route path={`/channels/:channelId/threads?threadId`}>
-                    <div style={{ width: `${threadWidth}vw` }}>
-                        <ThreadSidebar />
-                    </div>
-                </Route>
-            </Switch>
-        </div>
-
+                }
+                <Switch >
+                    <Route path={'/workspaces/:workspaceId/channels/:channelId"'} >
+                        <div style={{ width: `${100 - workspaceWidth - threadWidth}vw`, height: `89vw` }}>
+                            <IndividualChannel />
+                        </div>
+                    </Route>
+                    <Route path={`/channels/:channelId/threads?threadId`}>
+                        <div style={{ width: `${threadWidth}vw` }}>
+                            <ThreadSidebar />
+                        </div>
+                    </Route>
+                </Switch>
+            </div>
+        </Router>
     )
 
 }

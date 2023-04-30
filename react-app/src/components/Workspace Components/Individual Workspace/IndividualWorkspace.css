@@ -1,7 +1,7 @@
 .IndividualWorkspaceMainDiv {
-    outline: orange thick solid;
+    position: relative;
     margin: top;
     flex-direction: column;
-    height: 86vh;
+    height: 89vh;
     background-color: lightblue;
 }

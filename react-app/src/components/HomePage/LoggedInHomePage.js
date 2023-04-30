@@ -10,7 +10,7 @@ const LoggedInUserHomePage = ({ sessionUser }) => {
     console.log(`sessionuser:`, sessionUser)
 
     useEffect(() => {
-        dispatch(fetchUserWorkspaces(sessionUser.id));
+        dispatch(fetchUserWorkspaces(sessionUser?.id));
     }, [dispatch, sessionUser?.id])
 
 
@@ -18,22 +18,25 @@ const LoggedInUserHomePage = ({ sessionUser }) => {
         return state.workspaces.userWorkspaces
     });
 
-    console.log(`workspacesInHomePage`, workspaces)
 
-    const workspacesArr = workspaces.map(workspace => (
-        <div key={workspace.id} className="individualWorkspaceDiv"  >
-            <div className="individualWorkspaceLeftDiv">
-                <img src={'https://res.cloudinary.com/dkul3ouvi/image/upload/v1682914339/photo-1517048676732-d65bc937f952_tbpyzn.jpg'} alt={workspace.name} />
-                <div className="individualWorkspaceDetails">
-                    <h2>{workspace.name}</h2>
-                    <h3>{workspace.members.length} Members</h3>
+    let workspacesArr = workspaces.map((workspace, idx) => {
+        let channelId = workspace.channels[0].id
+
+        return (
+            <div key={workspace.id} className="individualWorkspaceDiv"  >
+                <div className="individualWorkspaceLeftDiv">
+                    <img src={'https://res.cloudinary.com/dkul3ouvi/image/upload/v1682914339/photo-1517048676732-d65bc937f952_tbpyzn.jpg'} alt={workspace.name} />
+                    <div className="individualWorkspaceDetails">
+                        <h2>{workspace.name}</h2>
+                        <h3>{workspace.members.length} Members</h3>
+                    </div>
                 </div>
+                <NavLink to={`workspaces/${workspace.id}/channels/${channelId}`} className="launchWorkSpaceLink">
+                    Launch Slack
+                </NavLink>
             </div>
-            <NavLink to={`workspaces/${workspace.id}`} className="launchWorkSpaceLink">
-                Launch Slack
-            </NavLink>
-        </div>
-    ));
+        )
+    })
 
 
     return (
