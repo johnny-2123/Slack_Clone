@@ -3,7 +3,7 @@ from .direct_message_member import direct_message_member
 
 direct_messages = db.Table(
     'direct_messages',
-    db.Column('id', db.Integer, primary_key=True),
+    db.Column('id', db.Integer, db.ForeignKey('messages.direct_message_id'),primary_key=True),
     db.Column('topic', db.String),
     db.Column('workspace_id', db.Integer, nullable=False),
     db.Column('last_sent_message_timestamp', db.Date)
