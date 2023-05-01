@@ -23,8 +23,8 @@ function IndividualChannel() {
     })
     console.log(`messages in individual channel`, Messages)
 
-    const messagesMapped = Messages.map((message, idx) => {
-        const repliesMapped = message.replies.map((reply, idx) => {
+    const messagesMapped = Messages?.map((message, idx) => {
+        const repliesMapped = message?.replies?.map((reply, idx) => {
             return (<div className='replyDiv'>
                 <p>{reply.content}</p>
             </div>)
