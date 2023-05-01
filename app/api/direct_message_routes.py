@@ -1,6 +1,8 @@
 from flask import Blueprint, jsonify, request, abort
 from flask_login import login_required, current_user
-from app.models import Message, DirectMessage, DirectMessageMember, User, db
+from app.models import Message, User, db, direct_message_member
+from app.models import direct_message
+from app.models.direct_message import DirectMessage
 from .auth_routes import validation_errors_to_error_messages
 from datetime import datetime
 
@@ -14,13 +16,15 @@ def get_direct_messages():
     user_id = current_user.id
 
     # Get a list of DirectMessage objects associated with the user ID
-    direct_messages = DirectMessage.query.join(DirectMessageMember).\
-        filter(DirectMessageMember.user_id == user_id).\
-        order_by(DirectMessage.last_sent_message_timestamp.desc()).all()
+    print(current_user.dm_memberships)
+
+    # direct_messages = DirectMessage.query.join(direct_message_member).\
+    #     filter(direct_message_member.user_id == user_id).\
+    #     order_by(DirectMessage.last_sent_message_timestamp.desc()).all()
 
     # Create a list of dictionaries to return in the response
     response = []
-    for dm in direct_messages:
+    for dm in direct_message:
         users = [member.user_id for member in dm.direct_message_members]
         response.append({
             'id': dm.id,
@@ -75,7 +79,7 @@ def create_direct_message():
 
         # add users as members of the new direct message
         for user_id in users:
-            member = DirectMessageMember(user_id=user_id, direct_message_id=direct_message.id)
+            member = direct_message_member(user_id=user_id, direct_message_id=direct_message.id)
             db.session.add(member)
 
         # create initial message for the direct message
