@@ -14,23 +14,23 @@ const LoggedInUserHomePage = ({ sessionUser }) => {
     }, [dispatch, sessionUser?.id])
 
     const workspaces = useSelector(state => {
-        return state.workspaces.userWorkspaces
+        return state.workspaces?.userWorkspaces
     });
 
 
-    let workspacesArr = workspaces.map((workspace, idx) => {
-        let channelId = workspace.channels[0].id
+    let workspacesArr = workspaces?.map((workspace, idx) => {
+        let channelId = workspace?.channels[0]?.id
 
         return (
             <div key={workspace.id} className="individualWorkspaceDiv"  >
                 <div className="individualWorkspaceLeftDiv">
-                    <img src={'https://res.cloudinary.com/dkul3ouvi/image/upload/v1682914339/photo-1517048676732-d65bc937f952_tbpyzn.jpg'} alt={workspace.name} />
+                    <img src={'https://res.cloudinary.com/dkul3ouvi/image/upload/v1682914339/photo-1517048676732-d65bc937f952_tbpyzn.jpg'} alt={workspace?.name} />
                     <div className="individualWorkspaceDetails">
-                        <h2>{workspace.name}</h2>
-                        <h3>{workspace.members.length} Members</h3>
+                        <h2>{workspace?.name}</h2>
+                        <h3>{workspace?.members.length} Members</h3>
                     </div>
                 </div>
-                <NavLink to={`workspaces/${workspace.id}/channels/${channelId}`} className="launchWorkSpaceLink">
+                <NavLink to={`workspaces/${workspace?.id}/channels/${channelId}`} className="launchWorkSpaceLink">
                     Launch Slack
                 </NavLink>
             </div>
