@@ -1,0 +1,105 @@
+body {
+    background-color: #4A154B;
+    font-family: Arial, sans-serif;
+}
+
+.homePageLoggedInMainDiv {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem 3rem;
+}
+
+.homePageLoggedInMainDiv h1 {
+    color: black;
+    font-weight: 200;
+    margin-bottom: 1rem;
+}
+
+.workspacesDiv {
+    border: #6E446F solid .3rem;
+    border-radius: 5px;
+    margin-top: 2rem;
+    width: 85%;
+    max-width: 700px;
+}
+
+.workspacesHeaderDiv {
+    display: flex;
+    background-color: #ECDEEC;
+    margin: 0;
+    padding: 1.5rem 1rem;
+    border-radius: 5px 5px 0 0;
+}
+
+h2.workspacesHeaderDiv {
+    margin: 0;
+    padding-left: 1rem;
+    font-size: 1.35rem;
+    font-weight: 200;
+}
+
+.individualWorkspaceDiv {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid #cdcdcd;
+    background-color: white;
+}
+
+.individualWorkspaceDiv:last-child {
+    border-bottom: none;
+}
+
+.individualWorkspaceDiv img {
+    height: 30%;
+    width: 20%;
+    object-fit: contain;
+    margin-right: 1rem;
+    border-radius: 5px;
+}
+
+.individualWorkspaceLeftDiv {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.individualWorkspaceDetails {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.individualWorkspaceDetails h2 {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.individualWorkspaceDetails h3 {
+    font-size: 1rem;
+    color: rgb(114, 114, 114);
+    font-weight: 200;
+    margin-bottom: 0.5rem;
+}
+
+.launchWorkSpaceLink {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+    background-color: #4A154B;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 0.2rem;
+    width: 40rem;
+    height: 2.5rem;
+    transition: background-color 0.3s ease;
+}
+
+.launchWorkSpaceLink:hover {
+    background-color: #621f69e6;
+}
