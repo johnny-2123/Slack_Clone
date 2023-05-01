@@ -1,6 +1,35 @@
-.profile-dropdown {
-  position: absolute;
+body {
+  background-color: #F4EDE4;
 }
+
+.navigationUl {
+  outline: red dotted thin;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-left: 0;
+}
+
+.navigationUl li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+.profile-dropdown {
+  outline: blue dotted thin;
+  position: absolute;
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 0;
+  padding: .5rem;
+}
+
+.profile-dropdown button {}
 
 .hidden {
   display: none;

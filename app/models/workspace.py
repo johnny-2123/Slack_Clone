@@ -14,7 +14,8 @@ class Workspace(db.Model):
     owner_id = db.Column(db.Integer, db.ForeignKey("users.id"))
 
     owner = db.relationship("User",back_populates="workspaces")
-    members = db.relationship("WorkspaceMember", back_populates="workspace")
+    members = db.relationship("WorkspaceMember", back_populates="workspace", cascade="all, delete-orphan")
+    channels = db.relationship("Channel", back_populates='workspace')
 
     def to_dict(self):
         return {

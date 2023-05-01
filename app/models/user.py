@@ -2,6 +2,7 @@ from .direct_message_member import direct_message_member
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
+from .channel_members import channel_member
 
 
 
@@ -20,7 +21,15 @@ class User(db.Model, UserMixin):
     hashed_password = db.Column(db.String(255), nullable=False)
 
     workspaces = db.relationship("Workspace", back_populates="owner")
+    workspace_memberships = db.relationship("WorkspaceMember", back_populates="user", lazy=True, cascade="all, delete-orphan")
     messages = db.relationship("Message", back_populates="user")
+    # channel_reads = db.relationship("UserChannelRead", back_populates="user")
+    message_reactions = db.relationship("MessageReaction", back_populates="user")
+    channels = db.relationship("Channel", back_populates="owner")
+
+    channel_memberships = db.relationship(
+        "Channel", secondary=channel_member, back_populates="private_members"
+    )
 
     dm_memberships = db.relationship("DirectMessage", secondary=direct_message_member, back_populates="members")
 
