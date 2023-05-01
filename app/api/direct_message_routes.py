@@ -37,8 +37,8 @@ def get_direct_messages():
 #GET DIRECT MESSAGE BY ID
 @direct_message_routes.route("/<int:dm_id>", methods=["GET"])
 @login_required
-def get_direct_message(dm_id):
-    direct_message = DirectMessage.query.get(dm_id)
+def get_direct_message(id):
+    direct_message = DirectMessage.query.get(id)
 
     if not direct_message:
         return jsonify({
