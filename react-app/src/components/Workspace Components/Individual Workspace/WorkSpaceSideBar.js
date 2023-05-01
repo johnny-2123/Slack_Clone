@@ -9,7 +9,9 @@ function WorkspaceSideBar({ channelsMapped }) {
     return (
         <div className='workspaceSideBarMainDiv'>
             <h1>Workspace Sidebar</h1>
-            {channelsMapped}
+            <div className='channelList'>
+                {channelsMapped}
+            </div>
         </div>
 
     )

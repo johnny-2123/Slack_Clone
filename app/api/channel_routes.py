@@ -41,8 +41,8 @@ def get_channel_by_id(id):
     return {"channel": channel.to_dict()}
 
 # Return all the messages in a channel
-@channel_routes.route("/<int:channel_id>/messages")
+@channel_routes.route("/<int:id>/messages")
 @login_required
-def get_channel_messages(channel_id):
-    channel = Channel.query.get(channel_id)
+def get_channel_messages(id):
+    channel = Channel.query.get(id)
     return {"Messages": [message.to_dict() for message in channel.messages]}
