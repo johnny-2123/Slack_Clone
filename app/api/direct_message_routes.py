@@ -16,6 +16,7 @@ def get_direct_messages():
     user_id = current_user.id
 
     # Get a list of DirectMessage objects associated with the user ID
+    print('$$$$$$$$$$$$$$$$$$$$$@#$#$##$%$%$%$')
     print(current_user.dm_memberships)
 
     # direct_messages = DirectMessage.query.join(direct_message_member).\

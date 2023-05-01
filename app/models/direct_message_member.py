@@ -22,6 +22,6 @@ from .db import db, environment, SCHEMA
 
 direct_message_member = db.Table(
     "direct_message_members",
-    db.Column("user_id", db.Integer, db.ForeignKey("workspaces.id")),
+    db.Column("user_id", db.Integer, db.ForeignKey("users.id")),
     db.Column("direct_message_id", db.Integer, db.ForeignKey("direct_messages.id")),
 )
