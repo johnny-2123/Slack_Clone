@@ -1,8 +1,8 @@
 from flask import Blueprint, jsonify, request, abort
 from flask_login import login_required, current_user
-from app.models import Message, User, db, direct_message_member
+from app.models import Message, User, db
 from app.models import direct_message
-from app.models.direct_message import DirectMessage
+from app.models.direct_message import DirectMessage, direct_message_member
 from .auth_routes import validation_errors_to_error_messages
 from datetime import datetime
 
@@ -19,9 +19,9 @@ def get_direct_messages():
     print('$$$$$$$$$$$$$$$$$$$$$@#$#$##$%$%$%$')
     print(current_user.dm_memberships)
 
-    # direct_messages = DirectMessage.query.join(direct_message_member).\
-    #     filter(direct_message_member.user_id == user_id).\
-    #     order_by(DirectMessage.last_sent_message_timestamp.desc()).all()
+    direct_messages = DirectMessage.query.join(direct_message_member).\
+        filter(direct_message_member.user_id == user_id).\
+        order_by(DirectMessage.last_sent_message_timestamp.desc()).all()
 
     # Create a list of dictionaries to return in the response
     response = []
