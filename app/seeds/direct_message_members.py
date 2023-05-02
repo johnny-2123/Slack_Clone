@@ -8,16 +8,19 @@ def seed_direct_message_members():
     stark_dm = DirectMessage.query.filter_by(topic="Stark DM").first()
 
     # seed some direct message members
-    member1 = DirectMessageMember(user=demo, direct_message=acme_dm)
-    member2 = DirectMessageMember(user=luke, direct_message=acme_dm)
-    member3 = DirectMessageMember(user=demo, direct_message=stark_dm)
+    values = [
+        {"user_id": demo.id, "direct_message_id": acme_dm.id},
+        {"user_id": luke.id, "direct_message_id": acme_dm.id},
+        {"user_id": demo.id, "direct_message_id": stark_dm.id},
+    ]
 
     # add the direct message members to the session and commit
-    db.session.add_all([member1, member2, member3])
+    db.session.execute(direct_message_member.insert().values(values))
     db.session.commit()
+
 
 #UNDO
-
 def undo_direct_message_members():
-    db.session.execute('TRUNCATE direct_message_members RESTART IDENTITY CASCADE;')
+    db.session.execute(direct_message_member.delete())
     db.session.commit()
+
