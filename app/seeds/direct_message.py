@@ -1,4 +1,4 @@
-from app.models import db, DirectMessage, User, environment, SCHEMA
+from app.models import db, DirectMessage, Workspace, User, environment, SCHEMA
 from sqlalchemy.sql import text
 from datetime import datetime
 
@@ -35,4 +35,9 @@ def seed_direct_messages():
     dm3.members.extend([luke, bruce])
 
     db.session.add_all([dm1, dm2, dm3])
+    db.session.commit()
+
+#UNDO
+def undo_direct_messages():
+    db.session.execute('TRUNCATE direct_messages RESTART IDENTITY CASCADE;')
     db.session.commit()
