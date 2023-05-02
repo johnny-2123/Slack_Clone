@@ -4,8 +4,10 @@ from app.models import Workspace, WorkspaceMember, User, db
 from app.forms.workspace_form import WorkspaceForm
 from sqlalchemy.orm import joinedload
 from .auth_routes import validation_errors_to_error_messages
+from .channel_routes import workspace_channels
 
 workspace_routes = Blueprint('workspaces', __name__)
+workspace_routes.register_blueprint(workspace_channels,url_prefix='/<int:workspace_id>/channels')
 
 
 @workspace_routes.route('/<int:id>/members', methods=['DELETE'])
