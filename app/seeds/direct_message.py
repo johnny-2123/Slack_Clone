@@ -4,6 +4,7 @@ from datetime import datetime
 
 
 def seed_direct_messages():
+    # get some workspaces and users
     acme_workspace = Workspace.query.filter_by(name="Acme Corporation").first()
     stark_workspace = Workspace.query.filter_by(name="Stark Industries").first()
     wayne_workspace = Workspace.query.filter_by(name="Wayne Enterprises").first()
@@ -12,6 +13,7 @@ def seed_direct_messages():
     luke = User.query.filter_by(username="luke").first()
     bruce = User.query.filter_by(username="WayneBruce").first()
 
+    # create some direct messages and add members
     dm1 = DirectMessage(
         topic="Project X",
         workspace_id=acme_workspace.id,
@@ -34,6 +36,7 @@ def seed_direct_messages():
     dm2.members.extend([demo, bruce])
     dm3.members.extend([luke, bruce])
 
+    # add the direct messages to the session and commit
     db.session.add_all([dm1, dm2, dm3])
     db.session.commit()
 
