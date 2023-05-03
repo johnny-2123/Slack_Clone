@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
-from app.models import Workspace, WorkspaceMember, User, Channel, Message, db
+from app.models import Workspace, User, Channel, Message, db
 from sqlalchemy.orm import joinedload
 from sqlalchemy import or_
 
