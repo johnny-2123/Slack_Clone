@@ -8,6 +8,18 @@ channel_routes = Blueprint("channels", __name__)
 workspace_channels = Blueprint("workspace_channels", __name__)
 
 
+@workspace_channels.before_request
+def check_workspace():
+    workspace_id = request.view_args.get("workspace_id")
+    workspace = Workspace.query.get(workspace_id)
+    if not workspace:
+        return {"error": "Workspace not found"}, 404
+    print(current_user.to_dict())
+    print(workspace.members[1].to_dict())
+    # if not current_user in workspace.members:
+    #     return {"error": "User is not a member of this workspace"}, 403
+
+
 # Gets all channels in a workspace that are
 # not private, or that the current user is a member of
 @workspace_channels.route("/")
@@ -26,6 +38,7 @@ def get_channels(workspace_id):
     return {"Channels": [channel.to_dict() for channel in channels]}
 
 
+# Get a single channel
 @channel_routes.route("/<int:id>")
 @login_required
 def get_channel_by_id(id):
@@ -40,9 +53,17 @@ def get_channel_by_id(id):
 
     return {"channel": channel.to_dict()}
 
+
 # Return all the messages in a channel
 @channel_routes.route("/<int:id>/messages")
 @login_required
 def get_channel_messages(id):
     channel = Channel.query.get(id)
     return {"Messages": [message.to_dict() for message in channel.messages]}
+
+
+# Create a channel
+@workspace_channels.route("/", methods=["POST"])
+@login_required
+def create_channel(workspace_id):
+    pass
