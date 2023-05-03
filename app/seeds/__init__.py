@@ -1,9 +1,12 @@
 from flask.cli import AppGroup
+
+from app.seeds.direct_message import seed_direct_messages, undo_direct_messages
 from .users import seed_users, undo_users
 from .workspace import seed_workspaces, undo_workspaces
 from .workspace_members import seed_workspace_members, undo_workspace_members
 from .channels import seed_channels, undo_channels
 from .message import seed_messages, undo_messages
+from .direct_message import seed_direct_messages, undo_direct_messages
 from app.models.db import db, environment, SCHEMA
 
 # Creates a seed group to hold our commands
@@ -24,11 +27,13 @@ def seed():
         undo_workspace_members()
         undo_channels()
         undo_messages()
-    seed_users()
-    seed_workspaces()
-    seed_workspace_members()
-    seed_channels()
-    seed_messages()
+        seed_users()
+        seed_workspaces()
+        seed_workspace_members()
+        seed_channels()
+        seed_messages()
+        seed_direct_messages()
+
 
 
 # Creates the `flask seed undo` command
@@ -38,3 +43,4 @@ def undo():
     undo_workspaces()
     undo_workspace_members()
     undo_messages()
+    undo_direct_messages()

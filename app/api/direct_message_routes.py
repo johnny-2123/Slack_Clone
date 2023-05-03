@@ -3,7 +3,6 @@ from flask_login import login_required, current_user
 from app.models import Message, User, db
 from app.models import direct_message
 from app.models.direct_message import DirectMessage, direct_message_member
-from .auth_routes import validation_errors_to_error_messages
 from datetime import datetime
 
 direct_message_routes = Blueprint("direct_messages", __name__, url_prefix="/api/direct_messages")

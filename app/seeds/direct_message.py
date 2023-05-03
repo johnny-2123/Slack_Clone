@@ -36,6 +36,15 @@ def seed_direct_messages():
     dm2.members.extend([demo, bruce])
     dm3.members.extend([luke, bruce])
 
+    # create a new direct message and append a new member
+    dm4 = DirectMessage(
+        topic="New Project",
+        workspace_id=acme_workspace.id,
+        last_sent_message_timestamp=datetime.utcnow()
+    )
+
+    dm4.members.append(bruce)
+
     # add the direct messages to the session and commit
     db.session.add_all([dm1, dm2, dm3])
     db.session.commit()
