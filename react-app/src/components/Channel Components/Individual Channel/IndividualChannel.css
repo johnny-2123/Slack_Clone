@@ -1,0 +1,34 @@
+.individualChannelMainDiv {
+    flex: 1;
+    overflow-y: scroll;
+    background-color: lavender;
+}
+
+h1 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.messagesMainDiv {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.individualMessageDiv {
+    background-color: #FFFFFF;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+.repliesDiv {
+    margin-top: 10px;
+}
+
+.replyDiv {
+    background-color: #F0F0F0;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    padding: 5px;
+}

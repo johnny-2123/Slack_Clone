@@ -1,4 +1,5 @@
 from .db import db, environment, SCHEMA
+from .workspace_members import workspace_member
 
 
 class Workspace(db.Model):
@@ -13,9 +14,11 @@ class Workspace(db.Model):
     image_url = db.Column(db.String)
     owner_id = db.Column(db.Integer, db.ForeignKey("users.id"))
 
-    owner = db.relationship("User",back_populates="workspaces")
-    members = db.relationship("WorkspaceMember", back_populates="workspace", cascade="all, delete-orphan")
-    channels = db.relationship("Channel", back_populates='workspace')
+    owner = db.relationship("User", back_populates="workspaces")
+    members = db.relationship(
+        "User", secondary=workspace_member, back_populates="workspace_memberships"
+    )
+    channels = db.relationship("Channel", back_populates="workspace")
 
     def to_dict(self):
         return {
@@ -24,4 +27,5 @@ class Workspace(db.Model):
             "description": self.description,
             "owner": self.owner.to_dict(),
             "members": [member.to_dict() for member in self.members],
+            "channels": [channel.to_dict() for channel in self.channels],
         }

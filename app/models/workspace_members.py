@@ -1,26 +1,26 @@
 from .db import db, environment, SCHEMA
 
 
-class WorkspaceMember(db.Model):
-    __tablename__ = "workspace_members"
-    id = db.Column(db.Integer, primary_key=True)
+# class WorkspaceMember(db.Model):
+#     __tablename__ = "workspace_members"
+#     id = db.Column(db.Integer, primary_key=True)
 
-    workspace_id = db.Column(db.Integer, db.ForeignKey("workspaces.id"), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
-    status = db.Column(db.String(20))
+#     workspace_id = db.Column(db.Integer, db.ForeignKey("workspaces.id"), nullable=False)
+#     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+#     status = db.Column(db.String(20))
 
-    workspace = db.relationship("Workspace", back_populates="members")
-    user = db.relationship("User",  back_populates="workspace_memberships", lazy="joined")
+#     workspace = db.relationship("Workspace", back_populates="members")
+#     user = db.relationship("User",  back_populates="workspace_memberships", lazy="joined")
 
-    def to_dict(self):
-        return {"user": self.user.to_dict(), "status": self.status}
+#     def to_dict(self):
+#         return {"user": self.user.to_dict(), "status": self.status}
 
-    def to_deleted_dict(self):
-        return {
-            "workspace_id": self.workspace_id,
-            "user_id": self.user_id,
-            "status": self.status,
-        }
+#     def to_deleted_dict(self):
+#         return {
+#             "workspace_id": self.workspace_id,
+#             "user_id": self.user_id,
+#             "status": self.status,
+#         }
 
 
 # workspace = db.relationship('Workspace', backref=db.backref(
@@ -29,10 +29,8 @@ class WorkspaceMember(db.Model):
 #     'workspace_membership', lazy='dynamic'))
 
 
-# workspace_members = db.Table(
-#     "workspace_members",
-#     db.Column("id", db.Integer, primary_key=True),
-#     db.Column("workspace_id", db.Integer, db.ForeignKey("workspaces.id")),
-#     db.Column("user_id", db.Integer, db.ForeignKey(
-#         "users.id"), nullable=False),
-# )
+workspace_member = db.Table(
+    "workspace_members",
+    db.Column("workspace_id", db.Integer, db.ForeignKey("workspaces.id")),
+    db.Column("user_id", db.Integer, db.ForeignKey("users.id")),
+)

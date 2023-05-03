@@ -1,0 +1,43 @@
+.workspaceSideBarMainDiv {
+    width: 20%;
+    background-color: #F6F6F6;
+    padding: 1rem;
+    border-right: 1px solid #D7D8D9;
+    display: flex;
+    flex-direction: column;
+}
+
+.workspaceSideBarMainDiv h1 {
+    margin-top: 0;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.channelList {
+    margin-top: 20px;
+    outline: purple thin dotted;
+    padding-left: 1rem;
+}
+
+.channelList h3 {
+    margin-top: 0;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.channelList ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.channelList li {
+    margin-bottom: 10px;
+}
+
+.channelList a {
+    text-decoration: none;
+    color: #454545;
+    font-size: 0.9rem;
+}

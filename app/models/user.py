@@ -3,7 +3,8 @@ from .db import db, environment, SCHEMA, add_prefix_for_prod
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from .channel_members import channel_member
-
+from .workspace_members import workspace_member
+from .workspace import Workspace
 
 
 class User(db.Model, UserMixin):
@@ -21,7 +22,9 @@ class User(db.Model, UserMixin):
     hashed_password = db.Column(db.String(255), nullable=False)
 
     workspaces = db.relationship("Workspace", back_populates="owner")
-    workspace_memberships = db.relationship("WorkspaceMember", back_populates="user", lazy=True, cascade="all, delete-orphan")
+    workspace_memberships = db.relationship(
+        "Workspace", secondary=workspace_member, back_populates="members"
+    )
     messages = db.relationship("Message", back_populates="user")
     # channel_reads = db.relationship("UserChannelRead", back_populates="user")
     message_reactions = db.relationship("MessageReaction", back_populates="user")
@@ -30,8 +33,6 @@ class User(db.Model, UserMixin):
     channel_memberships = db.relationship(
         "Channel", secondary=channel_member, back_populates="private_members"
     )
-
-    dm_memberships = db.relationship("DirectMessage", secondary=direct_message_member, back_populates="members")
 
     @property
     def password(self):

@@ -1,5 +1,6 @@
 body {
-  background-color: #F4EDE4;
+  background-color: #4A154B;
+  margin: 0;
 }
 
 .navigationUl {
@@ -7,19 +8,26 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
   padding-left: 0;
+  padding: 1rem 1rem;
+  background-color: #4A154B;
+  margin: 0;
 }
 
 .navigationUl li {
   list-style: none;
 }
 
-a {
+.navigationUl a {
   text-decoration: none;
+  color: white;
+  font-size: 2rem;
+  font-weight: 500;
 }
 
 .profile-dropdown {
-  outline: blue dotted thin;
+  /* outline: blue dotted thin; */
   position: absolute;
   right: 10px;
   display: flex;
@@ -29,7 +37,23 @@ a {
   padding: .5rem;
 }
 
-.profile-dropdown button {}
+
+.profileButton {
+  /* outline: green thin dotted; */
+  border: none;
+  margin: 0;
+  background-color: #4A154B;
+}
+
+.profileIcon {
+  margin: 0;
+  color: white;
+  border: 1px #4A154B;
+  border-radius: 15px;
+  padding: 0;
+  font-size: 35px;
+}
+
 
 .hidden {
   display: none;
