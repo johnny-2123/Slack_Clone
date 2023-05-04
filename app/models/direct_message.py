@@ -13,9 +13,11 @@ class DirectMessage(db.Model):
     workspace_id = db.Column(db.Integer, db.ForeignKey("workspaces.id"),nullable=False)
     last_sent_message_timestamp = db.Column(db.Date)
 
-    #relationship, include secondary variable
+    #relationship
+    messages = relationship("Message", back_populates="direct_message")
+
     members = db.relationship(
-        "User", secondary=direct_message_member, back_populates="dm_memberships"
+        "User", secondary=direct_message_member, back_populates="dm_memberships",
     )
 
     def to_dict(self):
