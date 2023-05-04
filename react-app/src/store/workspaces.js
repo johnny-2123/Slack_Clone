@@ -1,8 +1,30 @@
 const GET_USER_WORKSPACES = "workspaces/GET_USER_WORKSPACES";
 const GET_INDIVIDUAL_WORKSPACE = 'workspaces/GET_INDIVIDUAL_WORKSPACE'
-const ADD_WORKSPACE_MEMBER = 'workspaces/ADD_WORKSPACE_MEMBER'
+const GET_WORKSPACE_MEMBERS = 'workspaces/GET_WORKSPACE_MEMBERS';
+const ADD_WORKSPACE_MEMBER = 'workspaces/ADD_WORKSPACE_MEMBER';
 
-// export const fetchAddWorkspace
+const getWorkspaceMembers = members => ({
+    type: GET_WORKSPACE_MEMBERS,
+    payload: members
+})
+
+export const fetchWorkspaceMembers = (workspaceId) => async dispatch => {
+    console.log(`fetching workspace members`)
+
+    const response = await fetch(`/api/workspaces/${workspaceId}/members`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+
+    if (response.ok) {
+        const workspaceMembers = await response.json();
+        console.log(`data returned from fetchWorkspace members`, workspaceMembers)
+        dispatch(getWorkspaceMembers(workspaceMembers.members))
+        return workspaceMembers
+    }
+}
 
 const getIndividualWorkspace = workspace => ({
     type: GET_INDIVIDUAL_WORKSPACE,
@@ -57,7 +79,8 @@ export const fetchUserWorkspaces = () => async dispatch => {
 
 const initialState = {
     userWorkspaces: [],
-    currentWorkspace: {}
+    currentWorkspace: {},
+    currentWorkspaceMembers: []
 }
 
 const workspaces = (state = initialState, action) => {
@@ -70,6 +93,10 @@ const workspaces = (state = initialState, action) => {
         case GET_INDIVIDUAL_WORKSPACE:
             return {
                 ...state, currentWorkspace: action.payload
+            }
+        case GET_WORKSPACE_MEMBERS:
+            return {
+                ...state, currentWorkspaceMembers: [...action.payload]
             }
         default:
             return state

@@ -1,10 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams, NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
-
+import { fetchWorkspaceMembers } from '../../../store/workspaces';
 import './WorkspaceSideBar.css'
 
-function WorkspaceSideBar({ members, channels, url }) {
+function WorkspaceSideBar({ channels, url }) {
+    const { workspaceId } = useParams()
+    console.log(`workspaceId in workspace sidebar component:`, workspaceId)
+
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(fetchWorkspaceMembers(workspaceId))
+    }, [dispatch])
+
+
+    const workspaceMembers = useSelector(state => {
+        return state.workspaces.currentWorkspaceMembers
+    })
+    console.log(`workspaceMembers in workspace sidebar:`, workspaceMembers)
 
     let channelsMapped = channels?.map((channel, idx) => {
 
@@ -15,9 +29,7 @@ function WorkspaceSideBar({ members, channels, url }) {
         )
     })
 
-
-
-    let membersMapped = members?.map((member, idx) => {
+    let membersMapped = workspaceMembers?.map((member, idx) => {
 
         return (
             <div className='workspaceSidebarMemberDiv' key={idx}>

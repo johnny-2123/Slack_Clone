@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory, useParams, useRouteMatch } from "react-router-dom";
+import { useParams, useRouteMatch } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import WorkspaceSideBar from './WorkSpaceSideBar';
 import IndividualChannel from '../../Channel Components/Individual Channel';
 import ThreadSidebar from '../../Thread Components/ThreadSideBar';
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom"; import { fetchIndividualWorkspace } from '../../../store/workspaces';
-import { fetchChannels, fetchIndividualChannel } from '../../../store/channels';
-import { NavLink } from 'react-router-dom/cjs/react-router-dom.min';
+import { BrowserRouter as Route, Switch } from "react-router-dom"; import { fetchIndividualWorkspace } from '../../../store/workspaces';
 import './IndividualWorkspace.css'
 import './WorkspaceSideBar.css'
 
@@ -15,9 +13,7 @@ function IndividualWorkspace() {
     console.log(`workspaceId:`, workspaceId)
 
     const { url, path } = useRouteMatch()
-
     console.log(`IndividualWorkspace url`, url)
-
     console.log(`IndividualWorkspace path`, path)
 
     const dispatch = useDispatch()
@@ -33,10 +29,6 @@ function IndividualWorkspace() {
 
     const channels = currentWorkspace.channels
     console.log(`channels**********:`, channels)
-
-    let members = currentWorkspace?.members
-    console.log(`members:`, members)
-
 
     // const [workspaceWidth, setWorkspaceWidth] = useState(20);
     // const [threadWidth, setThreadWidth] = useState(20);
@@ -65,7 +57,7 @@ function IndividualWorkspace() {
 
         <div className='IndividualWorkspaceMainDiv'>
             {showWorkspace &&
-                <WorkspaceSideBar members={members} channels={channels} url={url} />
+                <WorkspaceSideBar channels={channels} url={url} />
             }
             <Switch>
                 <Route path={`${path}/channels/:channelId`} >
