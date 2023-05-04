@@ -13,18 +13,24 @@ class Channel(db.Model):
     description = db.Column(db.String(255))
     topic = db.Column(db.String(40))
     owner_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    date_created = db.Column(db.Date, nullable=False, server_default=db.func.now())
+    date_created = db.Column(db.DateTime, nullable=False, default=db.func.now())
     workspace_id = db.Column(db.Integer, db.ForeignKey("workspaces.id"))
     private = db.Column(db.Boolean, default=False)
     last_sent_message_timestamp = db.Column(db.Date)
 
     channel_reads = db.relationship("UserChannelRead", back_populates="channel")
-    messages = db.relationship('Message', back_populates='channel')
+    messages = db.relationship("Message", back_populates="channel")
 
     owner = db.relationship("User", back_populates="channels")
     workspace = db.relationship("Workspace", back_populates="channels")
     private_members = db.relationship(
         "User", secondary=channel_member, back_populates="channel_memberships"
+    )
+
+    __table_args__ = (
+        # A constraint that says each channel
+        # name in a workspace must be unique
+        db.UniqueConstraint("workspace_id", "name", name="workspace_channel_uc"),
     )
 
     def to_dict(self):

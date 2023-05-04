@@ -28,9 +28,9 @@ class Message(db.Model):
     # attachment = db.relationship('Attachment', back_populates='message')
     message_reactions = db.relationship("MessageReaction", back_populates="message")
 
-
     def to_dict(self):
         return {
             "content": self.content,
-            "replies": [reply.to_dict() for reply in self.replies]
+            "replies": [reply.to_dict() for reply in self.replies],
+            "timestamp": self.timestamp,
         }
