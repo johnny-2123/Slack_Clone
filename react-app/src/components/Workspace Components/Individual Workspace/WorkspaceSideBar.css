@@ -1,8 +1,8 @@
 .workspaceSideBarMainDiv {
     width: 20%;
-    background-color: #F6F6F6;
+    background-color: #f6f6f6;
     padding: 1rem;
-    border-right: 1px solid #D7D8D9;
+    border-right: 1px solid #d7d8d9;
     display: flex;
     flex-direction: column;
 }
@@ -12,6 +12,18 @@
     font-size: 1.2rem;
     margin-bottom: 20px;
     font-weight: 600;
+}
+
+.membersListDiv {
+    margin-bottom: 1rem;
+}
+
+.membersListDiv .workspaceSidebarMemberDiv {
+    margin-bottom: 0.5rem;
+}
+
+.membersListDiv .workspaceSidebarMemberUsername {
+    margin: 0;
 }
 
 .channelsListDiv {

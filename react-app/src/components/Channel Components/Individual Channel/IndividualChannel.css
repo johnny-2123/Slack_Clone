@@ -1,7 +1,7 @@
 .individualChannelMainDiv {
     flex: 1;
     overflow-y: scroll;
-    background-color: lavender;
+    background-color: white;
 }
 
 h1 {
@@ -16,10 +16,13 @@ h1 {
     margin-top: 20px;
 }
 
+.messagesMainDiv p {
+    margin: 0;
+}
+
 .individualMessageDiv {
     background-color: #FFFFFF;
-    margin-bottom: 10px;
-    padding: 10px;
+    padding: 10px 10px;
 }
 
 .repliesDiv {

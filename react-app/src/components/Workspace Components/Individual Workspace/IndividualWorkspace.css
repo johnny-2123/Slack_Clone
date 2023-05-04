@@ -1,8 +1,7 @@
 .IndividualWorkspaceMainDiv {
     position: relative;
-    margin: top;
     display: flex;
     flex-direction: row;
     height: 89vh;
-    background-color: lightblue;
+    background-color: white;
 }
