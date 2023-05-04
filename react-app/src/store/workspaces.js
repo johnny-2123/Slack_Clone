@@ -3,6 +3,26 @@ const GET_INDIVIDUAL_WORKSPACE = 'workspaces/GET_INDIVIDUAL_WORKSPACE'
 const GET_WORKSPACE_MEMBERS = 'workspaces/GET_WORKSPACE_MEMBERS';
 const ADD_WORKSPACE_MEMBER = 'workspaces/ADD_WORKSPACE_MEMBER';
 
+const addWorkspaceMember = member => ({
+    type: ADD_WORKSPACE_MEMBER,
+    payload: member
+})
+
+export const fetchAddWorkspaceMember = (workspaceId, userId) => async dispatch => {
+    console.log(`fetch adding workspace member`)
+
+    const response = await fetch(`/api/workspaces/${workspaceId}/members`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            user_id: userId
+        })
+    })
+
+}
+
 const getWorkspaceMembers = members => ({
     type: GET_WORKSPACE_MEMBERS,
     payload: members

@@ -1,0 +1,39 @@
+.WorkspaceMembersMainDiv {
+    flex: 1;
+    overflow-y: scroll;
+    background-color: white;
+    overflow-y: scroll;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-items: flex-start;
+}
+
+.WorkspaceMembersSubDiv {
+    outline: purple dotted thin;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    margin-top: 19.5px;
+    padding: 0;
+}
+
+.WorkspaceMemberIndividualDiv {
+    background-color: #f4f1f4;
+    border-radius: 5px;
+    margin: .5rem;
+}
+
+.WorkspaceMemberIndividualDiv img {
+    width: 10rem;
+}
+
+.workspaceMemberInfoDiv {
+    padding: 0 .75rem;
+}
+
+.workspaceSidebarMemberUsername {
+    font-weight: 200;
+}

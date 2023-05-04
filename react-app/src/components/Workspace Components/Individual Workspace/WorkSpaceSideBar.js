@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams, NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchWorkspaceMembers } from '../../../store/workspaces';
+import { fetchWorkspaceMembers, fetchAddWorkspaceMember } from '../../../store/workspaces';
 import './WorkspaceSideBar.css'
 
 function WorkspaceSideBar({ channels, url }) {
@@ -42,8 +42,8 @@ function WorkspaceSideBar({ channels, url }) {
     return (
         <div className='workspaceSideBarMainDiv'>
             <h1>Workspace Sidebar</h1>
-            <div className='membersListDiv'>
-                {membersMapped}
+            <div className='channelsListDiv'>
+                <NavLink to={`${url}/members`}>People</NavLink>
             </div>
             <div className='channelsListDiv'>
                 {channelsMapped}

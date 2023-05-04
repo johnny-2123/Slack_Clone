@@ -14,18 +14,6 @@
     font-weight: 600;
 }
 
-.membersListDiv {
-    margin-bottom: 1rem;
-}
-
-.membersListDiv .workspaceSidebarMemberDiv {
-    margin-bottom: 0.5rem;
-}
-
-.membersListDiv .workspaceSidebarMemberUsername {
-    margin: 0;
-}
-
 .channelsListDiv {
     margin-top: 20px;
     outline: purple thin dotted;

@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useRouteMatch } from "react-router-dom";
+import { useHistory, useParams, useRouteMatch } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import WorkspaceSideBar from './WorkSpaceSideBar';
+import WorkspaceMembers from '../WorkspaceMembers'
 import IndividualChannel from '../../Channel Components/Individual Channel';
 import ThreadSidebar from '../../Thread Components/ThreadSideBar';
-import { BrowserRouter as Route, Switch } from "react-router-dom"; import { fetchIndividualWorkspace } from '../../../store/workspaces';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { fetchIndividualWorkspace } from '../../../store/workspaces';
 import './IndividualWorkspace.css'
 import './WorkspaceSideBar.css'
 
@@ -65,6 +67,9 @@ function IndividualWorkspace() {
                 </Route>
                 <Route path={`/channels/:channelId/threads/:threadId`}>
                     <ThreadSidebar />
+                </Route>
+                <Route path={`${path}/members`}>
+                    <WorkspaceMembers url={url} />
                 </Route>
             </Switch>
         </div>
