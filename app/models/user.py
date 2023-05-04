@@ -6,6 +6,8 @@ from .channel_members import channel_member
 from .workspace_members import workspace_member
 from .workspace import Workspace
 from .direct_message import DirectMessage
+from .direct_message_member import direct_message_member
+
 
 
 class User(db.Model, UserMixin):
