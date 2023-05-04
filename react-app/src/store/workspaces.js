@@ -2,13 +2,14 @@ const GET_USER_WORKSPACES = "workspaces/GET_USER_WORKSPACES";
 const GET_INDIVIDUAL_WORKSPACE = 'workspaces/GET_INDIVIDUAL_WORKSPACE'
 const GET_WORKSPACE_MEMBERS = 'workspaces/GET_WORKSPACE_MEMBERS';
 const ADD_WORKSPACE_MEMBER = 'workspaces/ADD_WORKSPACE_MEMBER';
+const REMOVE_WORKSPACE_MEMBER = 'workspaces/REMOVE_WORKSPACE_MEMBER';
 
 const addWorkspaceMember = member => ({
     type: ADD_WORKSPACE_MEMBER,
     payload: member
 })
 
-export const fetchAddWorkspaceMember = (workspaceId, userId) => async dispatch => {
+export const fetchAddWorkspaceMember = (workspaceId, userEmail) => async dispatch => {
     console.log(`fetch adding workspace member`)
 
     const response = await fetch(`/api/workspaces/${workspaceId}/members`, {
@@ -17,11 +18,44 @@ export const fetchAddWorkspaceMember = (workspaceId, userId) => async dispatch =
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            user_id: userId
+            user_email: userEmail
         })
     })
 
+    if (response.ok) {
+        const newMember = await response.json();
+        console.log(`member added`, newMember);
+        dispatch(addWorkspaceMember(newMember));
+        return newMember;
+    }
+
 }
+
+
+const removeWorkspaceMember = memberId => ({
+    type: REMOVE_WORKSPACE_MEMBER,
+    payload: memberId
+});
+
+export const fetchRemoveWorkspaceMember = (workspaceId, memberId) => async dispatch => {
+    console.log(`fetch removing workspace member`);
+
+    const response = await fetch(`/api/workspaces/${workspaceId}/members`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            member_id: memberId
+        })
+    });
+
+    if (response.ok) {
+        const removedUser = await response.json()
+        console.log(`data returned from fetch remove Workspace member`, removedUser);
+        dispatch(removeWorkspaceMember(removedUser.deleted_membership.id));
+    }
+};
 
 const getWorkspaceMembers = members => ({
     type: GET_WORKSPACE_MEMBERS,
@@ -118,6 +152,16 @@ const workspaces = (state = initialState, action) => {
             return {
                 ...state, currentWorkspaceMembers: [...action.payload]
             }
+        case REMOVE_WORKSPACE_MEMBER:
+            newState = { ...state };
+            newState.currentWorkspaceMembers = newState.currentWorkspaceMembers.filter(
+                member => member.id !== action.payload
+            );
+            return newState;
+        case ADD_WORKSPACE_MEMBER:
+            newState = { ...state };
+            newState.currentWorkspaceMembers = [...newState.currentWorkspaceMembers, action.payload];
+            return newState;
         default:
             return state
     }
