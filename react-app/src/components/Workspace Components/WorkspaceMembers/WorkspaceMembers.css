@@ -1,12 +1,23 @@
-.WorkspaceMembersMainDiv {
+html {
+    margin: 0;
+    padding: 0;
+}
+
+
+#WorkspaceMembersMainDiv {
+    outline: pink dotted thin;
     flex: 1;
     overflow-y: scroll;
-    background-color: white;
+    /* background-color: white; */
     overflow-y: scroll;
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-items: flex-start;
+}
+
+.addWorkspaceMemberForm {
+    margin-left: 1.5rem;
+
 }
 
 .WorkspaceMembersSubDiv {
@@ -14,16 +25,21 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     margin-top: 19.5px;
-    padding: 0;
+    padding: 0 25px;
 }
 
 .WorkspaceMemberIndividualDiv {
+    outline: pink dotted thin;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    max-width: 400px;
     background-color: #f4f1f4;
     border-radius: 5px;
-    margin: .5rem;
+    margin-right: 10px;
+    margin-bottom: 10px;
 }
 
 .WorkspaceMemberIndividualDiv img {

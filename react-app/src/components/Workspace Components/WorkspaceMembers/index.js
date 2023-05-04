@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector, useStore } from 'react-redux';
 import './WorkspaceMembers.css'
 import { fetchWorkspaceMembers, fetchRemoveWorkspaceMember, fetchAddWorkspaceMember } from '../../../store/workspaces';
 
@@ -11,15 +11,23 @@ function WorkspaceMembers({ url }) {
 
     const dispatch = useDispatch()
 
+    const sessionUser = useSelector(state => state.session?.user);
+    const currentWorkspace = useSelector(state => state.workspaces?.currentWorkspace)
+
     useEffect(() => {
         dispatch(fetchWorkspaceMembers(workspaceId))
-    }, [dispatch])
+        sessionUser?.id === currentWorkspace.owner?.id ? setUserIsOrganizer(true) : setUserIsOrganizer(false)
+        setLoaded(true)
+    }, [sessionUser, currentWorkspace])
 
+
+
+    const [userIsOrganizer, setUserIsOrganizer] = useState(false);
+    const [loaded, setLoaded] = useState(false)
     const [newUserEmail, setNewUserEmail] = useState('')
 
     const handleAddMember = (event) => {
         event.preventDefault()
-        const email = newUserEmail
         dispatch(fetchAddWorkspaceMember(workspaceId, newUserEmail))
         setNewUserEmail('')
     }
@@ -40,7 +48,7 @@ function WorkspaceMembers({ url }) {
                 <img src='https://res.cloudinary.com/dkul3ouvi/image/upload/v1683176759/favpng_user-interface-design-default_fmppay.png' />
                 <div className='workspaceMemberInfoDiv'>
                     <h4 className='workspaceSidebarMemberUsername'>{member?.username}</h4>
-                    <button onClick={() => handleDeleteMember(member?.id)}>Delete</button>
+                    {userIsOrganizer && <button onClick={() => handleDeleteMember(member?.id)}>Delete</button>}
                 </div>
             </div>
         )
@@ -49,7 +57,7 @@ function WorkspaceMembers({ url }) {
     return (
         <div id='WorkspaceMembersMainDiv'>
             <h1 id='ChannelTitle'>People</h1>
-            <form onSubmit={handleAddMember}>
+            <form className='addWorkspaceMemberForm' onSubmit={handleAddMember}>
                 <label htmlFor="email">Add Member: </label>
                 <input
                     type="text"

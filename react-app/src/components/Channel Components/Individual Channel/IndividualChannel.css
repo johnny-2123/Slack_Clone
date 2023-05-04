@@ -9,6 +9,7 @@ html {
     background-color: white;
     overflow-y: scroll;
     height: 100%;
+
 }
 
 #ChannelTitle {
@@ -20,19 +21,23 @@ html {
 }
 
 .messagesMainDiv {
+    outline: purple dotted thin;
+
     display: flex;
     flex-direction: column;
     margin-top: 20px;
-    padding: 0 1rem;
+    padding: 0 25px;
 }
 
 .messagesMainDiv p {
+    outline: pink dotted thin;
+
     margin: 0;
 }
 
 .individualMessageDiv {
     background-color: #FFFFFF;
-    padding: 10px 10px;
+    padding: 10px 0px;
 }
 
 .repliesDiv {

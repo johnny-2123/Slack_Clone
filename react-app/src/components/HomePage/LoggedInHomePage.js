@@ -9,14 +9,16 @@ const LoggedInUserHomePage = ({ sessionUser }) => {
 
     console.log(`sessionuser:`, sessionUser)
 
+    const [loaded, setLoaded] = useState(false);
+
     useEffect(() => {
         dispatch(fetchUserWorkspaces(sessionUser?.id));
+        setLoaded(true)
     }, [dispatch, sessionUser?.id])
 
     const workspaces = useSelector(state => {
         return state.workspaces?.userWorkspaces
     });
-
 
     let workspacesArr = workspaces?.map((workspace, idx) => {
         let channelId = workspace?.channels[0]?.id
@@ -39,15 +41,16 @@ const LoggedInUserHomePage = ({ sessionUser }) => {
 
 
     return (
-        <div className='homePageLoggedInMainDiv'>
+        < div className='homePageLoggedInMainDiv'>
             <h1>Welcome Back {sessionUser?.username}</h1>
-            <div className='workspacesDiv'>
+            {loaded && (workspaces[0]?.name !== undefined) && <div className='workspacesDiv'>
                 <div>
                     <h2 className='workspacesHeaderDiv'>Workspaces for {sessionUser?.email}</h2>
                 </div>
                 {workspacesArr}
-            </div>
-        </div>
+            </div>}
+        </div >
+
     );
 };
 
