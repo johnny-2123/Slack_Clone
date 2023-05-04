@@ -1,4 +1,4 @@
-from .db import db, environment, SCHEMA
+from .db import db, environment, SCHEMA,add_prefix_for_prod
 from sqlalchemy import func
 
 
@@ -6,15 +6,14 @@ class Message(db.Model):
     __tablename__ = "messages"
 
     if environment == "production":
-        if environment == "production":
-            __table_args__ = {"schema": SCHEMA, "idx_timestamp": db.timestamp}
+        __table_args__ = {"schema": SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(4000), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
-    channel_id = db.Column(db.Integer, db.ForeignKey("channels.id"))
+    user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False)
+    channel_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("channels.id")))
     # direct_message_id = db.Column(db.Integer, db.ForeignKey('direct_messages.id'))
-    parent_id = db.Column(db.Integer, db.ForeignKey("messages.id"))
+    parent_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("messages.id")))
     timestamp = db.Column(db.DateTime, default=func.now(), nullable=False)
     # attachment_id = db.Column(db.Integer, db.ForeignKey('attachments.id'))
 

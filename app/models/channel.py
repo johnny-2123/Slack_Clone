@@ -1,20 +1,17 @@
-from .db import db, environment, SCHEMA
+from .db import db, environment, SCHEMA,add_prefix_for_prod
 from .channel_members import channel_member
 
 
 class Channel(db.Model):
     __tablename__ = "channels"
 
-    if environment == "production":
-        __table_args__ = {"schema": SCHEMA}
-
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(40), nullable=False)
     description = db.Column(db.String(255))
     topic = db.Column(db.String(40))
-    owner_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    owner_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")))
     date_created = db.Column(db.DateTime, nullable=False, default=db.func.now())
-    workspace_id = db.Column(db.Integer, db.ForeignKey("workspaces.id"))
+    workspace_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("workspaces.id")))
     private = db.Column(db.Boolean, default=False)
     last_sent_message_timestamp = db.Column(db.Date)
 
@@ -31,6 +28,7 @@ class Channel(db.Model):
         # A constraint that says each channel
         # name in a workspace must be unique
         db.UniqueConstraint("workspace_id", "name", name="workspace_channel_uc"),
+        {"schema": SCHEMA} if (environment == "production") else {},
     )
 
     def to_dict(self):

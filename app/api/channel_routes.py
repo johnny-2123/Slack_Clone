@@ -1,6 +1,8 @@
 from functools import wraps
 from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
+from app.api.auth_routes import validation_errors_to_error_messages
+from app.forms.channel_form import ChannelForm
 from app.models import Workspace, User, Channel, Message, db
 from sqlalchemy import or_
 from sqlalchemy.exc import IntegrityError
@@ -24,6 +26,21 @@ def check_workspace():
     if not current_user in workspace.members:
         return {"error": "User is not a member of this workspace"}, 403
     request.workspace = workspace
+
+
+# Checks if a channel exists, and if the current user
+# has permissions to view it before proceeding
+@channel_routes.before_request
+def check_channel():
+    channel_id = request.view_args.get("channel_id")
+    channel = Channel.query.get(channel_id)
+    if not channel:
+        return {"error": "channel not found"}, 404
+    if not current_user in channel.workspace.members:
+        return {"error": "User is not a member of this workspace"}, 403
+    if channel.private and (not current_user in channel.private_members):
+        return {"error": "User does not have access to this channel"}, 403
+    request.channel = channel
 
 
 # Checks if the current user has permissions to perform an action
@@ -62,23 +79,20 @@ def get_channels(workspace_id):
 
 
 # Get a single channel
-@channel_routes.route("/<int:id>")
+@channel_routes.route("/")
 @login_required
-def get_channel_by_id(id):
+def get_channel_by_id(channel_id):
     channel = (
         Channel.query.options(db.joinedload(Channel.messages))
-        .filter(Channel.id == id)
+        .filter(Channel.id == channel_id)
         .first()
     )
-
-    if not channel:
-        return {"error": "channel not found"}
-
+    # print(db.inspect(db.engine).get_table_options(Channel.__table__.name))
     return {"channel": channel.to_dict()}
 
 
 # Get all the messages in a channel
-@channel_routes.route("/<int:id>/messages")
+@channel_routes.route("/messages")
 @login_required
 def get_channel_messages(id):
     channel = Channel.query.get(id)
@@ -91,23 +105,25 @@ def get_channel_messages(id):
 @needs_permission
 def create_channel(workspace_id):
     workspace = request.workspace
-    request_body = request.json
-    name, description, topic, private = request_body.values()
-    new_channel = Channel(
-        name=name,
-        description=description,
-        topic=topic,
-        private=private,
-        owner=current_user,
-        workspace=workspace,
-    )
-    if private:
-        new_channel.private_members.append(current_user)
-    db.session.add(new_channel)
-    try:
-        db.session.commit()
-        return new_channel.to_dict()
-    except IntegrityError as e:
-        db.session.rollback()
-        error_info = e.orig.args
-        return {"error": "IntegrityError", "info": error_info}
+    form = ChannelForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        new_channel = Channel(
+            name=form.data["name"],
+            description=form.data["description"],
+            topic=form.data["topic"],
+            private=form.data["private"],
+            owner=current_user,
+            workspace=workspace,
+        )
+        if form.data["private"]:
+            new_channel.private_members.append(current_user)
+        db.session.add(new_channel)
+        try:
+            db.session.commit()
+            return new_channel.to_dict()
+        except IntegrityError as e:
+            db.session.rollback()
+            error_info = e.orig.args
+            return {"error": "IntegrityError", "info": error_info}
+    return {"errors": validation_errors_to_error_messages(form.errors)}, 401
