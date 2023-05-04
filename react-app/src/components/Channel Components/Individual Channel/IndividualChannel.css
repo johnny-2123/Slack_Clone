@@ -21,7 +21,7 @@ html {
 }
 
 .messagesMainDiv {
-    outline: purple dotted thin;
+    /* outline: purple dotted thin; */
 
     display: flex;
     flex-direction: column;
@@ -30,7 +30,7 @@ html {
 }
 
 .messagesMainDiv p {
-    outline: pink dotted thin;
+    /* outline: pink dotted thin; */
 
     margin: 0;
 }

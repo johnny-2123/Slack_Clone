@@ -5,7 +5,7 @@ html {
 
 
 #WorkspaceMembersMainDiv {
-    outline: pink dotted thin;
+    /* outline: pink dotted thin; */
     flex: 1;
     overflow-y: scroll;
     /* background-color: white; */
@@ -35,7 +35,7 @@ html {
 }
 
 .WorkspaceMembersSubDiv {
-    outline: purple dotted thin;
+    /* outline: purple dotted thin; */
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -45,7 +45,7 @@ html {
 }
 
 .WorkspaceMemberIndividualDiv {
-    outline: pink dotted thin;
+    /* outline: pink dotted thin; */
     flex: 1;
     display: flex;
     align-items: center;
