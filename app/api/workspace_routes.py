@@ -5,7 +5,7 @@ from app.forms.workspace_form import WorkspaceForm
 from sqlalchemy.orm import joinedload
 from .auth_routes import validation_errors_to_error_messages
 from .channel_routes import workspace_channels
-
+from ..socket import socketio
 workspace_routes = Blueprint('workspaces', __name__)
 workspace_routes.register_blueprint(workspace_channels,url_prefix='/<int:workspace_id>/channels')
 
@@ -25,14 +25,14 @@ def delete_workspace_member(id):
 
     # member = WorkspaceMember.query.join(User).filter(WorkspaceMember.workspace_id==workspace.id, WorkspaceMember.user_id==member_id).first()
     member = User.query.get(member_id)
-    
+
     if not member:
         return {'error':"user not found"}
-    
+
 
     if not member in workspace.members:
         return {'error': 'User is not currently a member of this workspace'}, 404
-    
+
     workspace.members.remove(member)
 
     # db.session.delete(member)
@@ -47,12 +47,13 @@ def delete_workspace_member(id):
 
 
 # Add a member to a workspace
+
 @workspace_routes.route('/<int:id>/members', methods=['POST'])
 @login_required
 def create_workspace_member(id):
     request_body = request.json
     workspace = Workspace.query.get(id)
-    new_member_id = request_body.get('user_id')
+    user_email = request_body.get('user_email')
 
 
     if not workspace:
@@ -62,10 +63,10 @@ def create_workspace_member(id):
         return {'error': 'Must be workspace owner to add a member to a workspace'}
 
 
-    if not new_member_id:
-        return {'error': 'User is required'}, 400
+    if not user_email:
+        return {'error': 'User email is required'}, 400
 
-    user = User.query.get(new_member_id)
+    user = User.query.filter_by(email=user_email).first()
 
     if not user:
         return {'error': 'User with that id not found'}, 404
@@ -86,6 +87,28 @@ def create_workspace_member(id):
 
     # return new_member.to_dict()
     return {"message":f"added {user.username} to {workspace.name}"}
+
+# Get Members for a Single Workspace
+@workspace_routes.route('/<int:id>/members', methods=['GET'])
+@login_required
+def get_workspace_members(id):
+    workspace = Workspace.query.get(id)
+    user_id = current_user.id
+
+    print('back end route for getting members for a single workspace**************************************************************************')
+
+    if not workspace:
+        return {'error': 'Workspace not found'}, 404
+
+    user = User.query.get(user_id)
+
+    if not user:
+        return {'error':"current user not found"}
+
+    if not user in workspace.members:
+        return {'error': 'Forbidden'}, 404
+
+    return {"members": [member.to_dict() for member in workspace.members]}
 
 # Get a workspace
 @workspace_routes.route('/<int:id>', methods=['GET'])
@@ -185,7 +208,7 @@ def create_workspace():
 @login_required
 def get_workspaces():
     # owner_workspaces = Workspace.query.filter_by(owner_id=current_user.id)
-    
+
 
     # member_workspaces = Workspace.query.join(WorkspaceMember)\
     #     .filter(WorkspaceMember.user_id == current_user.id)\

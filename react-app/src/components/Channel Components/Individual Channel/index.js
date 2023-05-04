@@ -6,6 +6,8 @@ import { fetchChannelMessages, fetchIndividualChannel } from '../../../store/cha
 
 function IndividualChannel() {
     const { channelId } = useParams()
+    console.log(`channelId in individual channel:`, channelId)
+
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -41,8 +43,8 @@ function IndividualChannel() {
     })
 
     return (
-        <div className='individualChannelMainDiv'>
-            <h1>{channel?.name} </h1>
+        <div id='individualChannelMainDiv'>
+            <h1 id='ChannelTitle'>#{channel?.name} </h1>
             <div className='messagesMainDiv'>
                 {messagesMapped}
             </div>

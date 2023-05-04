@@ -1,5 +1,5 @@
 body {
-    background-color: #F4EDE4;
+    background-color: white;
 }
 
 .homePageNotLoggedInMainDiv {
@@ -46,6 +46,10 @@ body {
     flex-direction: row;
 }
 
+.homePageButtons a {
+    text-decoration: none;
+}
+
 .homePageLoginButton {
     background-color: #611F69;
     color: #ffffff;
@@ -53,19 +57,19 @@ body {
     font-weight: bold;
     padding: 12px 32px;
     margin-right: 16px;
-    border: #F4EDE4 solid 2px;
+    border: white solid 2px;
     border-radius: 4px;
 }
 
 .homePageLoginButton:hover {
     cursor: pointer;
     color: #611F69;
-    background-color: #F4EDE4;
+    background-color: white;
     border: #611F69 solid 2px;
 }
 
 .homePageSignupButton {
-    background-color: #F4EDE4;
+    background-color: white;
     color: #611F69;
     font-size: 24px;
     font-weight: bold;
@@ -87,6 +91,5 @@ body {
 
 .homePageBottomdiv {
     margin-top: 64px;
-    background-color: #F7F7F7;
     color: #616161;
 }
