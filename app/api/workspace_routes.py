@@ -53,7 +53,7 @@ def delete_workspace_member(id):
 def create_workspace_member(id):
     request_body = request.json
     workspace = Workspace.query.get(id)
-    new_member_id = request_body.get('user_id')
+    user_email = request_body.get('user_email')
 
 
     if not workspace:
@@ -63,10 +63,10 @@ def create_workspace_member(id):
         return {'error': 'Must be workspace owner to add a member to a workspace'}
 
 
-    if not new_member_id:
-        return {'error': 'User is required'}, 400
+    if not user_email:
+        return {'error': 'User email is required'}, 400
 
-    user = User.query.get(new_member_id)
+    user = User.query.filter_by(email=user_email).first()
 
     if not user:
         return {'error': 'User with that id not found'}, 404
@@ -87,6 +87,28 @@ def create_workspace_member(id):
 
     # return new_member.to_dict()
     return {"message":f"added {user.username} to {workspace.name}"}
+
+# Get Members for a Single Workspace
+@workspace_routes.route('/<int:id>/members', methods=['GET'])
+@login_required
+def get_workspace_members(id):
+    workspace = Workspace.query.get(id)
+    user_id = current_user.id
+
+    print('back end route for getting members for a single workspace**************************************************************************')
+
+    if not workspace:
+        return {'error': 'Workspace not found'}, 404
+
+    user = User.query.get(user_id)
+
+    if not user:
+        return {'error':"current user not found"}
+
+    if not user in workspace.members:
+        return {'error': 'Forbidden'}, 404
+
+    return {"members": [member.to_dict() for member in workspace.members]}
 
 # Get a workspace
 @workspace_routes.route('/<int:id>', methods=['GET'])
