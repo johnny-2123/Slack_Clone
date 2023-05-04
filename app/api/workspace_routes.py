@@ -5,7 +5,7 @@ from app.forms.workspace_form import WorkspaceForm
 from sqlalchemy.orm import joinedload
 from .auth_routes import validation_errors_to_error_messages
 from .channel_routes import workspace_channels
-
+from ..socket import socketio
 workspace_routes = Blueprint('workspaces', __name__)
 workspace_routes.register_blueprint(workspace_channels,url_prefix='/<int:workspace_id>/channels')
 
@@ -25,14 +25,14 @@ def delete_workspace_member(id):
 
     # member = WorkspaceMember.query.join(User).filter(WorkspaceMember.workspace_id==workspace.id, WorkspaceMember.user_id==member_id).first()
     member = User.query.get(member_id)
-    
+
     if not member:
         return {'error':"user not found"}
-    
+
 
     if not member in workspace.members:
         return {'error': 'User is not currently a member of this workspace'}, 404
-    
+
     workspace.members.remove(member)
 
     # db.session.delete(member)
@@ -47,6 +47,7 @@ def delete_workspace_member(id):
 
 
 # Add a member to a workspace
+
 @workspace_routes.route('/<int:id>/members', methods=['POST'])
 @login_required
 def create_workspace_member(id):
@@ -185,7 +186,7 @@ def create_workspace():
 @login_required
 def get_workspaces():
     # owner_workspaces = Workspace.query.filter_by(owner_id=current_user.id)
-    
+
 
     # member_workspaces = Workspace.query.join(WorkspaceMember)\
     #     .filter(WorkspaceMember.user_id == current_user.id)\
