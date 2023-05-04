@@ -14,7 +14,7 @@ class DirectMessage(db.Model):
     last_sent_message_timestamp = db.Column(db.Date)
 
     #relationship
-    messages = relationship("Message", back_populates="direct_message")
+    messages = db.relationship("Message", back_populates="direct_message")
 
     members = db.relationship(
         "User", secondary=direct_message_member, back_populates="dm_memberships",
