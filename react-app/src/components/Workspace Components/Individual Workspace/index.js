@@ -34,26 +34,9 @@ function IndividualWorkspace() {
     const channels = currentWorkspace.channels
     console.log(`channels**********:`, channels)
 
-    let channelsMapped = channels?.map((channel, idx) => {
-
-        return (
-            <div key={idx}>
-                <NavLink to={`${url}/channels/${channel.id}`} >{channel.name}</NavLink>
-            </div>
-        )
-    })
-
     let members = currentWorkspace?.members
     console.log(`members:`, members)
 
-    let membersMapped = members?.map((member, idx) => {
-
-        return (
-            <div className='workspaceSidebarMemberDiv' key={idx}>
-                <p className='workspaceSidebarMemberUsername'>{member.username}</p>
-            </div>
-        )
-    })
 
     // const [workspaceWidth, setWorkspaceWidth] = useState(20);
     // const [threadWidth, setThreadWidth] = useState(20);
@@ -82,7 +65,7 @@ function IndividualWorkspace() {
 
         <div className='IndividualWorkspaceMainDiv'>
             {showWorkspace &&
-                <WorkspaceSideBar channelsMapped={channelsMapped} membersMapped={membersMapped} />
+                <WorkspaceSideBar members={members} channels={channels} url={url} />
             }
             <Switch>
                 <Route path={`${path}/channels/:channelId`} >

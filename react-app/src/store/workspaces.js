@@ -1,5 +1,8 @@
 const GET_USER_WORKSPACES = "workspaces/GET_USER_WORKSPACES";
 const GET_INDIVIDUAL_WORKSPACE = 'workspaces/GET_INDIVIDUAL_WORKSPACE'
+const ADD_WORKSPACE_MEMBER = 'workspaces/ADD_WORKSPACE_MEMBER'
+
+// export const fetchAddWorkspace
 
 const getIndividualWorkspace = workspace => ({
     type: GET_INDIVIDUAL_WORKSPACE,
