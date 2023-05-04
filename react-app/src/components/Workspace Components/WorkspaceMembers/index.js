@@ -48,7 +48,7 @@ function WorkspaceMembers({ url }) {
                 <img src='https://res.cloudinary.com/dkul3ouvi/image/upload/v1683176759/favpng_user-interface-design-default_fmppay.png' />
                 <div className='workspaceMemberInfoDiv'>
                     <h4 className='workspaceSidebarMemberUsername'>{member?.username}</h4>
-                    {userIsOrganizer && <button onClick={() => handleDeleteMember(member?.id)}>Delete</button>}
+                    {userIsOrganizer && <button onClick={() => handleDeleteMember(member?.id)}>Remove</button>}
                 </div>
             </div>
         )
@@ -58,11 +58,12 @@ function WorkspaceMembers({ url }) {
         <div id='WorkspaceMembersMainDiv'>
             <h1 id='ChannelTitle'>People</h1>
             <form className='addWorkspaceMemberForm' onSubmit={handleAddMember}>
-                <label htmlFor="email">Add Member: </label>
+                <label htmlFor="email">Add Member </label>
                 <input
                     type="text"
                     id="email"
                     name="email"
+                    placeholder='enter user email'
                     onChange={(e) => setNewUserEmail(e.target.value)}
                     required
                 />

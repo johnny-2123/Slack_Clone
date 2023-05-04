@@ -20,6 +20,20 @@ html {
 
 }
 
+.addWorkspaceMemberForm input {
+    margin-right: 1rem;
+    padding: .4rem 1.2rem;
+
+}
+
+.addWorkspaceMemberForm button {
+    background-color: #4a154bcf;
+    border: none;
+    color: white;
+    padding: .5rem 1.2rem;
+    border-radius: 2px
+}
+
 .WorkspaceMembersSubDiv {
     outline: purple dotted thin;
     display: flex;
@@ -48,6 +62,13 @@ html {
 
 .workspaceMemberInfoDiv {
     padding: 0 .75rem;
+}
+
+.workspaceMemberInfoDiv button {
+    background-color: #4a154bcf;
+    border: none;
+    color: white;
+    padding: .5rem .75rem
 }
 
 .workspaceSidebarMemberUsername {
