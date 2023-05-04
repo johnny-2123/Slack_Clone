@@ -10,7 +10,7 @@ const addWorkspaceMember = member => ({
 })
 
 export const fetchAddWorkspaceMember = (workspaceId, userEmail) => async dispatch => {
-    console.log(`fetch adding workspace member`)
+    // console.log(`fetch adding workspace member`)
 
     const response = await fetch(`/api/workspaces/${workspaceId}/members`, {
         method: "POST",
@@ -24,7 +24,7 @@ export const fetchAddWorkspaceMember = (workspaceId, userEmail) => async dispatc
 
     if (response.ok) {
         const newMember = await response.json();
-        console.log(`member added`, newMember);
+        // console.log(`member added`, newMember);
         dispatch(addWorkspaceMember(newMember));
         return newMember;
     }
@@ -38,7 +38,7 @@ const removeWorkspaceMember = memberId => ({
 });
 
 export const fetchRemoveWorkspaceMember = (workspaceId, memberId) => async dispatch => {
-    console.log(`fetch removing workspace member`);
+    // console.log(`fetch removing workspace member`);
 
     const response = await fetch(`/api/workspaces/${workspaceId}/members`, {
         method: "DELETE",
@@ -52,7 +52,7 @@ export const fetchRemoveWorkspaceMember = (workspaceId, memberId) => async dispa
 
     if (response.ok) {
         const removedUser = await response.json()
-        console.log(`data returned from fetch remove Workspace member`, removedUser);
+        // console.log(`data returned from fetch remove Workspace member`, removedUser);
         dispatch(removeWorkspaceMember(removedUser.deleted_membership.id));
     }
 };
@@ -63,7 +63,7 @@ const getWorkspaceMembers = members => ({
 })
 
 export const fetchWorkspaceMembers = (workspaceId) => async dispatch => {
-    console.log(`fetching workspace members`)
+    // console.log(`fetching workspace members`)
 
     const response = await fetch(`/api/workspaces/${workspaceId}/members`, {
         method: "GET",
@@ -74,7 +74,7 @@ export const fetchWorkspaceMembers = (workspaceId) => async dispatch => {
 
     if (response.ok) {
         const workspaceMembers = await response.json();
-        console.log(`data returned from fetchWorkspace members`, workspaceMembers)
+        // console.log(`data returned from fetchWorkspace members`, workspaceMembers)
         dispatch(getWorkspaceMembers(workspaceMembers.members))
         return workspaceMembers
     }
@@ -86,7 +86,7 @@ const getIndividualWorkspace = workspace => ({
 })
 
 export const fetchIndividualWorkspace = (workspaceId) => async dispatch => {
-    console.log(`fetching individual workspace********`)
+    // console.log(`fetching individual workspace********`)
 
     const response = await fetch(`/api/workspaces/${workspaceId}`, {
         method: "GET",
@@ -97,7 +97,7 @@ export const fetchIndividualWorkspace = (workspaceId) => async dispatch => {
 
     if (response.ok) {
         const workspace = await response.json();
-        console.log(`data return from individual workspace fetch####################################################:`, workspace)
+        // console.log(`data return from individual workspace fetch####################################################:`, workspace)
         dispatch(getIndividualWorkspace(workspace));
 
         return workspace
@@ -111,7 +111,7 @@ const getUserWorkspaces = workspaces => ({
 
 export const fetchUserWorkspaces = () => async dispatch => {
 
-    console.log(`fetchUserWorkspaces Before**************************************`)
+    // console.log(`fetchUserWorkspaces Before**************************************`)
 
     const response = await fetch('/api/workspaces/', {
         method: "GET",
@@ -122,7 +122,7 @@ export const fetchUserWorkspaces = () => async dispatch => {
 
     if (response.ok) {
         const workspaces = await response.json();
-        console.log(`data return from workspace fetch***************:`, workspaces)
+        // console.log(`data return from workspace fetch***************:`, workspaces)
         dispatch(getUserWorkspaces(workspaces.workspaces));
 
         return workspaces
