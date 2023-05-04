@@ -12,11 +12,11 @@ export const fetchChannelMessages = (channelId) => async dispatch => {
 
     const response = await fetch(`/api/channels/${channelId}/messages`)
 
-    console.log(`response from fetchChannelMessages in redux ***********************************************************************`, response)
+    console.log(`response from fetchChannelMessages in redux: `, response)
 
     if (response.ok) {
         const messages = await response.json()
-        console.log(`data return from  fetchChannelMessages***************:`, messages)
+        console.log(`data return from  fetchChannelMessages:`, messages)
         dispatch(getChannelMessages(messages))
         return messages
     }
@@ -28,7 +28,7 @@ const getIndividualChannel = channel => ({
 })
 
 export const fetchIndividualChannel = (channelId) => async dispatch => {
-    console.log(`fetching individual channel ###############################################################`)
+    console.log(`fetching individual channel: `)
 
     const response = await fetch(`/api/channels/${channelId}`)
 

@@ -5,20 +5,20 @@ import WorkspaceSideBar from './WorkSpaceSideBar';
 import IndividualChannel from '../../Channel Components/Individual Channel';
 import ThreadSidebar from '../../Thread Components/ThreadSideBar';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom"; import { fetchIndividualWorkspace } from '../../../store/workspaces';
-import './IndividualWorkspace.css'
 import { fetchChannels, fetchIndividualChannel } from '../../../store/channels';
 import { NavLink } from 'react-router-dom/cjs/react-router-dom.min';
-
+import './IndividualWorkspace.css'
+import './WorkspaceSideBar.css'
 
 function IndividualWorkspace() {
     const { workspaceId } = useParams()
-    console.log(`workspaceId:::::::::`, workspaceId)
+    console.log(`workspaceId:`, workspaceId)
 
     const { url, path } = useRouteMatch()
 
-    console.log(`urllllllllllllll`, url)
+    console.log(`IndividualWorkspace url`, url)
 
-    console.log(`pathhhhhhhhhhhh`, path)
+    console.log(`IndividualWorkspace path`, path)
 
     const dispatch = useDispatch()
 
@@ -29,7 +29,7 @@ function IndividualWorkspace() {
     const currentWorkspace = useSelector(state => {
         return state.workspaces.currentWorkspace
     })
-    console.log(`currentWorkspace*********************************:`, currentWorkspace)
+    console.log(`currentWorkspace*:`, currentWorkspace)
 
     const channels = currentWorkspace.channels
     console.log(`channels**********:`, channels)
@@ -43,35 +43,46 @@ function IndividualWorkspace() {
         )
     })
 
+    let members = currentWorkspace?.members
+    console.log(`members:`, members)
 
-    const [workspaceWidth, setWorkspaceWidth] = useState(20);
-    const [threadWidth, setThreadWidth] = useState(20);
+    let membersMapped = members?.map((member, idx) => {
+
+        return (
+            <div className='workspaceSidebarMemberDiv' key={idx}>
+                <p className='workspaceSidebarMemberUsername'>{member.username}</p>
+            </div>
+        )
+    })
+
+    // const [workspaceWidth, setWorkspaceWidth] = useState(20);
+    // const [threadWidth, setThreadWidth] = useState(20);
     const [showWorkspace, setShowWorkspace] = useState(true);
-    const [showThread, setShowThread] = useState(false);
+    // const [showThread, setShowThread] = useState(false);
 
-    const handleWorkspaceResize = (newWidth) => {
-        if (newWidth < 10) {
-            setShowWorkspace(false);
-        } else {
-            setShowWorkspace(true);
-            setWorkspaceWidth(newWidth);
-        }
-    };
+    // const handleWorkspaceResize = (newWidth) => {
+    //     if (newWidth < 10) {
+    //         setShowWorkspace(false);
+    //     } else {
+    //         setShowWorkspace(true);
+    //         setWorkspaceWidth(newWidth);
+    //     }
+    // };
 
-    const handleThreadResize = (newWidth) => {
-        if (newWidth < 10) {
-            setShowThread(false);
-        } else {
-            setShowThread(true);
-            setThreadWidth(newWidth);
-        }
-    };
+    // const handleThreadResize = (newWidth) => {
+    //     if (newWidth < 10) {
+    //         setShowThread(false);
+    //     } else {
+    //         setShowThread(true);
+    //         setThreadWidth(newWidth);
+    //     }
+    // };
 
     return (
 
         <div className='IndividualWorkspaceMainDiv'>
             {showWorkspace &&
-                <WorkspaceSideBar channelsMapped={channelsMapped} />
+                <WorkspaceSideBar channelsMapped={channelsMapped} membersMapped={membersMapped} />
             }
             <Switch>
                 <Route path={`${path}/channels/:channelId`} >
