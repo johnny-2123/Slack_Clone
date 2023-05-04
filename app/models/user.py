@@ -3,6 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from .channel_members import channel_member
 from .workspace_members import workspace_member
+from .workspace import Workspace
 
 
 class User(db.Model, UserMixin):
@@ -31,6 +32,14 @@ class User(db.Model, UserMixin):
     channel_memberships = db.relationship(
         "Channel", secondary=channel_member, back_populates="private_members"
     )
+
+    def create_workspace(self, name, description, image_url):
+        workspace = Workspace(
+            name=name, owner=self, description=description, image_url=image_url
+        )
+        self.workspaces.append(workspace)
+        self.workspace_memberships.append(workspace)
+        return workspace
 
     @property
     def password(self):
