@@ -5,15 +5,15 @@ const getDirectMessages = directMessages => ({
     payload: directMessages
 })
 
-export const fetchDirectMessages = () => async dispatch => {
+export const fetchDirectMessages = (workspaceId) => async dispatch => {
     console.log(`fetching Direct Messages`)
-
-    const response = await fetch(`/api/direct_messages/`)
+    console.log(`workspace id &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&`, workspaceId)
+    const response = await fetch(`/api/workspaces/${workspaceId}/direct_messages`)
 
     console.log(`response from fetchDirectMessages in redux store:`, response)
 
     if (response.ok) {
-        const directMessages = await response.json()
+        const { directMessages } = await response.json()
         console.log(`data returned from direct messages fetch:`, directMessages)
         dispatch(getDirectMessages(directMessages))
         return directMessages

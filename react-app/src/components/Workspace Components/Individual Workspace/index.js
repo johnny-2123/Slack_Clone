@@ -9,7 +9,6 @@ import IndividualDirectMessage from '../../DirectMessage Components/Individual D
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { fetchIndividualWorkspace } from '../../../store/workspaces';
 import { fetchDirectMessages } from '../../../store/directMessages';
-import { fetchChannels } from '../../../store/channels';
 import './IndividualWorkspace.css'
 import './WorkspaceSideBar.css'
 
@@ -25,7 +24,7 @@ function IndividualWorkspace() {
 
     useEffect(() => {
         dispatch(fetchIndividualWorkspace(workspaceId))
-        dispatch(fetchChannels)
+        dispatch(fetchDirectMessages(workspaceId))
     }, [dispatch])
 
     const currentWorkspace = useSelector(state => {
@@ -35,6 +34,10 @@ function IndividualWorkspace() {
 
     const channels = currentWorkspace.channels
     console.log(`channels**********:`, channels)
+
+    const directMessages = useSelector(state => {
+        return state.directMessages
+    })
 
     // const [workspaceWidth, setWorkspaceWidth] = useState(20);
     // const [threadWidth, setThreadWidth] = useState(20);

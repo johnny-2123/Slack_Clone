@@ -14,7 +14,9 @@ function WorkspaceSideBar({ channels, url }) {
         dispatch(fetchWorkspaceMembers(workspaceId))
     }, [dispatch])
 
-
+    const currentWorkspace = useSelector(state => {
+        return state.workspaces.currentWorkspace
+    })
     const workspaceMembers = useSelector(state => {
         return state.workspaces.currentWorkspaceMembers
     })
@@ -41,7 +43,7 @@ function WorkspaceSideBar({ channels, url }) {
 
     return (
         <div className='workspaceSideBarMainDiv'>
-            <h1>Workspace Sidebar</h1>
+            <h1>{currentWorkspace?.name}</h1>
             <div className='channelsListDiv'>
                 <NavLink to={`${url}/members`}>People</NavLink>
             </div>

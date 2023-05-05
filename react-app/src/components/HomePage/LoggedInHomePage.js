@@ -22,7 +22,6 @@ const LoggedInUserHomePage = ({ sessionUser }) => {
 
     let workspacesArr = workspaces?.map((workspace, idx) => {
         let channelId = workspace?.channels[0]?.id
-        console.log(`channelId from workspaces arr in loggedInhomePage:`, channelId)
         return (
             <div key={workspace.id} className="individualWorkspaceDiv"  >
                 <div className="individualWorkspaceLeftDiv">

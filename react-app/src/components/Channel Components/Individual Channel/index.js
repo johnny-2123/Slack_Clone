@@ -6,7 +6,7 @@ import { fetchChannelMessages, fetchIndividualChannel } from '../../../store/cha
 
 function IndividualChannel() {
     const { channelId } = useParams()
-    console.log(`channelId in individual channel:`, channelId)
+    // console.log(`channelId in individual channel:`, channelId)
 
     const dispatch = useDispatch()
 
@@ -18,16 +18,16 @@ function IndividualChannel() {
     const { channel } = useSelector(state => {
         return state.channels?.currentChannel
     })
-    console.log(`channel in individual channel`, channel)
+    // console.log(`channel in individual channel`, channel)
 
     const { Messages } = useSelector(state => {
         return state.channels?.currentChannelMessages
     })
-    console.log(`messages in individual channel`, Messages)
+    // console.log(`messages in individual channel`, Messages)
 
     const messagesMapped = Messages?.map((message, idx) => {
         const repliesMapped = message?.replies?.map((reply, idx) => {
-            return (<div className='replyDiv'>
+            return (<div key={idx} className='replyDiv'>
                 <p>{reply.content}</p>
             </div>)
         })
@@ -35,7 +35,7 @@ function IndividualChannel() {
         return (
             <div className='individualMessageDiv' >
                 <p>{message.content}</p>
-                <div className='repliesDiv'>
+                <div key={idx} className='repliesDiv'>
                     {message.replies.length > 0 && repliesMapped}
                 </div>
             </div>
