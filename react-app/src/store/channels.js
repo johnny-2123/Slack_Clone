@@ -46,15 +46,15 @@ const getChannels = channels => ({
 })
 
 export const fetchChannels = (workspaceId) => async dispatch => {
-    // console.log(`fetchChannelsBefore******`)
+    console.log(`fetchChannelsBefore******`)
 
     const response = await fetch('/api/channels/')
 
-    // console.log(`response from fetchChannels in redux store***********************************************************************$$$$$$$$$$$$$$$$$$$$$$$$`, response)
+    console.log(`response from fetchChannels in redux store:`, response)
 
     if (response.ok) {
         const channels = await response.json()
-        // console.log(`data return from channels fetch***************:`, channels)
+        console.log(`data return from channels fetch***************:`, channels)
         dispatch(getChannels(channels))
         return channels
     }

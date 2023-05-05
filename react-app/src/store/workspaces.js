@@ -167,4 +167,4 @@ const workspaces = (state = initialState, action) => {
     }
 }
 
-export default workspaces
+export default workspaces;

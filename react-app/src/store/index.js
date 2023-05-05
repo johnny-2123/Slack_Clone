@@ -3,11 +3,13 @@ import thunk from 'redux-thunk';
 import session from './session'
 import workspaces from './workspaces';
 import channels from './channels';
+import directMessages from './directMessages'
 
 const rootReducer = combineReducers({
   session,
   workspaces,
-  channels
+  channels,
+  directMessages
 });
 
 

@@ -18,5 +18,6 @@ class DirectMessage(db.Model):
             'id': self.id,
             'topic': self.topic,
             'workspace_id': self.workspace_id,
+            'users': [member.to_dict() for member in self.members],
             'last_sent_message_timestamp': self.last_sent_message_timestamp,
         }

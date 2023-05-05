@@ -5,8 +5,11 @@ import WorkspaceSideBar from './WorkSpaceSideBar';
 import WorkspaceMembers from '../WorkspaceMembers'
 import IndividualChannel from '../../Channel Components/Individual Channel';
 import ThreadSidebar from '../../Thread Components/ThreadSideBar';
+import IndividualDirectMessage from '../../DirectMessage Components/Individual Direct Message'
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { fetchIndividualWorkspace } from '../../../store/workspaces';
+import { fetchDirectMessages } from '../../../store/directMessages';
+import { fetchChannels } from '../../../store/channels';
 import './IndividualWorkspace.css'
 import './WorkspaceSideBar.css'
 
@@ -22,6 +25,7 @@ function IndividualWorkspace() {
 
     useEffect(() => {
         dispatch(fetchIndividualWorkspace(workspaceId))
+        dispatch(fetchChannels)
     }, [dispatch])
 
     const currentWorkspace = useSelector(state => {
@@ -34,7 +38,7 @@ function IndividualWorkspace() {
 
     // const [workspaceWidth, setWorkspaceWidth] = useState(20);
     // const [threadWidth, setThreadWidth] = useState(20);
-    const [showWorkspace, setShowWorkspace] = useState(true);
+    const [showWorkspaceSideBar, setShowWorkspaceSidebar] = useState(true);
     // const [showThread, setShowThread] = useState(false);
 
     // const handleWorkspaceResize = (newWidth) => {
@@ -58,7 +62,7 @@ function IndividualWorkspace() {
     return (
 
         <div className='IndividualWorkspaceMainDiv'>
-            {showWorkspace &&
+            {showWorkspaceSideBar &&
                 <WorkspaceSideBar channels={channels} url={url} />
             }
             <Switch>

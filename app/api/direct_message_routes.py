@@ -5,40 +5,48 @@ from app.models import Message, User, DirectMessage, db
 from app.models.direct_message import direct_message_member
 from datetime import datetime
 direct_message_routes = Blueprint("direct_messages", __name__, url_prefix="/api/direct_messages")
-from sqlalchemy.orm import joinedload
+from sqlalchemy import and_
 #GET DIRECT MESSAGES
 @direct_message_routes.route("/", methods=["GET"])
 @login_required
 def get_direct_messages():
     # Get the user ID from the current user object
     user_id = current_user.id
-    user = User.query.get(user_id)
     print('get direct messages route *******************************************************************')
     print(user_id)
+
+    data = request.json
+    workspace_id = data.get('workspace_id')
     # Get a list of DirectMessage objects associated with the user ID
     print(current_user.dm_memberships)
     # direct_messages = DirectMessage.query.join(direct_message_member).\
     #     filter(direct_message_member.user_id == user_id).\
     #     order_by(DirectMessage.last_sent_message_timestamp.desc()).all()
 
-    direct_messages = DirectMessage.query.filter(DirectMessage.members.any(id=user_id)).all()
+    direct_messages = DirectMessage.query.filter(
+        and_(
+            DirectMessage.members.any(id=user_id),
+            DirectMessage.workspace_id == workspace_id
+        )
+    ).all()
 
     print(direct_messages)
 
     # Create a list of dictionaries to return in the response
     response = []
     print('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
-    for dm in direct_messages:
-        users = [member.id for member in dm.members]
-        response.append({
-            "id": dm.id,
-            "topic": dm.topic,
-            "workspace_id": dm.workspace_id,
-            "users": users,
-            "last_sent_message_timestamp": dm.last_sent_message_timestamp
-        })
+    # for dm in direct_messages:
+    #     users = [member.id for member in dm.members]
+    #     response.append({
+    #         "id": dm.id,
+    #         "topic": dm.topic,
+    #         "workspace_id": dm.workspace_id,
+    #         "users": users,
+    #         "last_sent_message_timestamp": dm.last_sent_message_timestamp
+    #     })
     # Return the response as JSON
-    return jsonify(response), 200, {"Content-Type": "application/json"}
+    return jsonify([dm.to_dict() for dm in direct_messages]), 200, {"Content-Type": "application/json"}
+    # return jsonify(response), 200, {"Content-Type": "application/json"}
 
 #GET DIRECT MESSAGE BY ID
 @direct_message_routes.route("/<int:id>", methods=["GET"])
