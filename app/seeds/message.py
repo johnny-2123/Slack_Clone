@@ -6,9 +6,6 @@ from datetime import datetime
 
 def seed_messages():
     wayne_general = Channel.query.filter_by(name="general").first()
-
-    print('*******************************************************************************')
-    print(wayne_general)
     acme_workspace = Workspace.query.filter_by(name='Acme Corporation').first()
     stark_workspace = Workspace.query.filter_by(name="Stark Industries").first()
 
@@ -207,10 +204,6 @@ def seed_messages():
     db.session.add(message24)
 
     dm1 = DirectMessage.query.filter_by(topic="Project X").first()
-
-    print('*******************************************************************************')
-    print(dm1)
-
     dm2 = DirectMessage.query.filter_by(topic="Budget").first()
     dm3 = DirectMessage.query.filter_by(topic="Marketing Strategy", workspace_id=wayne_general.id).first()
     dm4 = DirectMessage.query.filter_by(topic="New Project").first()
@@ -264,6 +257,77 @@ def seed_messages():
         timestamp=datetime(2023, 5, 2, 11, 0, 0),
     )
 
+    message33 = Message(
+    user=luke,
+    direct_message=dm1,
+    content="Here are the details for the prototype that we finished for Project X. Let me know what you think!",
+    timestamp=datetime(2023, 5, 1, 11, 15, 0),
+    parent=message27
+    )
+
+    message34 = Message(
+    user=luke,
+    direct_message=dm4,
+    content="I think it sounds like a great idea, Bruce. What do you think, Demo?",
+    timestamp=datetime(2023, 5, 2, 11, 30, 0),
+    parent=message29
+    )
+
+    message35 = Message(
+    user=bruce,
+    direct_message=dm4,
+    content="It would work by having users fill out a profile with their interests and hobbies, and then the platform would suggest connections based on commonalities. We could also incorporate group chats and events.",
+    timestamp=datetime(2023, 5, 2, 11, 15, 0),
+    parent=message32
+    )
+
+    message36 = Message(
+    user=demo,
+    direct_message=dm4,
+    content="I like the idea too, but do you think there's enough demand for another social media platform?",
+    timestamp=datetime(2023, 5, 2, 10, 30, 0),
+    parent=message30
+    )
+
+    message37 = Message(
+    user=luke,
+    direct_message=dm4,
+    content="That's a good point, Demo. Maybe we could do some market research to find out.",
+    timestamp=datetime(2023, 5, 2, 11, 0, 0),
+    parent=message36
+    )
+
+    message38 = Message(
+    user=demo,
+    direct_message=dm4,
+    content="I think it sounds like a good idea too! Let's discuss it more in the next meeting.",
+    timestamp=datetime(2023, 5, 2, 12, 0, 0),
+    parent=message34
+    )
+
+    message39 = Message(
+    user=bruce,
+    channel=wayne_general,
+    content="No problem, Demo. Just wanted to make sure you were in the loop.",
+    timestamp=datetime(2023, 4, 29, 16, 30, 0),
+    parent=message20
+    )
+
+    message40 = Message(
+    user=bruce,
+    channel=wayne_general,
+    content="Thanks for letting us know, Luke. Do you have any thoughts on how we can make up for the shortfall?",
+    timestamp=datetime(2023, 4, 28, 14, 0, 0),
+    parent=message16
+    )
+
+    message41 = Message(
+    user=bruce,
+    channel=wayne_general,
+    content="Thanks for the update, Demo. Do you need any additional resources or support?",
+    timestamp=datetime(2023, 4, 25, 10, 30, 0),
+    parent=message9
+    )
 
     db.session.add(message20)
     db.session.add(message21)
@@ -278,6 +342,15 @@ def seed_messages():
     db.session.add(message30)
     db.session.add(message31)
     db.session.add(message32)
+    db.session.add(message33)
+    db.session.add(message34)
+    db.session.add(message35)
+    db.session.add(message36)
+    db.session.add(message37)
+    db.session.add(message38)
+    db.session.add(message39)
+    db.session.add(message40)
+    db.session.add(message41)
 
     db.session.commit()
 
