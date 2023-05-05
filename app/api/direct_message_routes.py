@@ -147,3 +147,35 @@ def delete_direct_message(id):
         "statusCode": 200,
         "errors": []
     }), 200
+
+#ADD MESSAGE TO DM
+@direct_message_routes.route("/<int:id>/messages", methods=["POST"])
+@login_required
+def add_message_to_direct_message(id):
+    data = request.json
+    content = data.get('content')
+    if not content:
+        return jsonify({"error": "message content required"}), 404
+
+    direct_message = DirectMessage.query.get(id)
+    if not direct_message:
+        return jsonify({"error": "direct message not found"}), 404
+
+    now = datetime.now()
+    message = Message(
+        content=content,
+        user=current_user,
+        timestamp=now,
+        direct_message=direct_message
+    )
+    direct_message.last_sent_message_timestamp = now
+    db.session.commit()
+    return jsonify({
+        "id": message.id,
+        "content": message.content,
+        "user_id": message.user_id,
+        "channel_id": message.channel_id,
+        "parent_id": message.parent_id,
+        "timestamp": message.timestamp.isoformat(),
+        "direct_message_id": direct_message.id,
+    }), 201

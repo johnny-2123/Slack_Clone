@@ -1,13 +1,38 @@
 const GET_DIRECT_MESSAGES = "direct_messages/GET_DIRECT_MESSAGES"
 const GET_INDIVIDUAL_DM = 'direct_message/GET_INDIViDUAL_DM'
+const ADD_DIRECT_MESSAGE = 'direct_message/ADD_DIRECT_MESSAGE'
+
+const addDirectMessage = directMessage => ({
+    type: ADD_DIRECT_MESSAGE,
+    payload: directMessage
+})
+
+export const fetchAddDirectMessage = (directMessageId, content) => async dispatch => {
+    console.log(`messsage in fetchAddDirectMessage`, directMessageId, content)
+
+    const response = await fetch(`/api/direct_messages/${directMessageId}/messages`, {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content })
+    });
+    console.log(`response from fetchAddDirectMessage`, response)
+
+    if (response.ok) {
+        const directMessage = await response.json()
+        console.log(`data from fetchAddDirectMessage response`, directMessage)
+        dispatch(addDirectMessage)
+        return directMessage
+    }
+
+}
 
 const getIndividualDM = directMessage => ({
     type: GET_INDIVIDUAL_DM,
     payload: directMessage
 })
 
-export const fetchIndividualDM = (directMessageId) => async dispatch => {
 
+export const fetchIndividualDM = (directMessageId) => async dispatch => {
     const response = await fetch(`/api/direct_messages/${directMessageId}`)
 
     if (response.ok) {
@@ -23,15 +48,11 @@ const getDirectMessages = directMessages => ({
 })
 
 export const fetchDirectMessages = (workspaceId) => async dispatch => {
-    console.log(`fetching Direct Messages`)
-    console.log(`workspace id &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&`, workspaceId)
-    const response = await fetch(`/api/workspaces/${workspaceId}/direct_messages`)
 
-    console.log(`response from fetchDirectMessages in redux store:`, response)
+    const response = await fetch(`/api/workspaces/${workspaceId}/direct_messages`)
 
     if (response.ok) {
         const { directMessages } = await response.json()
-        console.log(`data returned from direct messages fetch:`, directMessages)
         dispatch(getDirectMessages(directMessages))
         return directMessages
     }
@@ -54,6 +75,9 @@ const directMessages = (state = initialState, action) => {
             return {
                 ...state, currentIndividualDM: action.payload
             }
+        case ADD_DIRECT_MESSAGE:
+            newState = { ...state }
+            return { ...newState, currentDirectMessages: newState.directMessages.currentDirectMessages.push(action.payload) }
         default:
             return state
     }
