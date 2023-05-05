@@ -1,10 +1,6 @@
-body {
-  background-color: #4A154B;
-  margin: 0;
-}
-
 .navigationUl {
   outline: red dotted thin;
+  height: 5vh;
   display: flex;
   flex-direction: row;
   justify-content: space-between;

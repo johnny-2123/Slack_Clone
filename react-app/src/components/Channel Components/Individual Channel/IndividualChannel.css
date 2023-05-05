@@ -3,13 +3,13 @@ html {
     padding: 0;
 }
 
-#individualChannelMainDiv {
+.individualChannelMainDiv {
     flex: 1;
-    overflow-y: scroll;
+    overflow-y: hidden;
     background-color: white;
-    overflow-y: scroll;
     height: 100%;
-
+    margin: 0;
+    padding: 0;
 }
 
 #ChannelTitle {
@@ -22,11 +22,12 @@ html {
 
 .messagesMainDiv {
     /* outline: purple dotted thin; */
-
     display: flex;
     flex-direction: column;
     margin-top: 20px;
     padding: 0 25px;
+    height: 82%;
+    overflow-y: scroll;
 }
 
 .messagesMainDiv p {

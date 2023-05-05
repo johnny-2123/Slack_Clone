@@ -4,7 +4,10 @@
     padding: 1rem;
     border-right: 1px solid #d7d8d9;
     display: flex;
+    height: 90vh;
     flex-direction: column;
+    margin: 0;
+    padding: 0;
 }
 
 .workspaceSideBarMainDiv h1 {

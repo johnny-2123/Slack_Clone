@@ -7,6 +7,7 @@ const addDirectMessage = directMessage => ({
     payload: directMessage
 })
 
+// add a message to a conversation between workspace users
 export const fetchAddDirectMessage = (directMessageId, content) => async dispatch => {
     console.log(`messsage in fetchAddDirectMessage`, directMessageId, content)
 
@@ -31,7 +32,7 @@ const getIndividualDM = directMessage => ({
     payload: directMessage
 })
 
-
+// get details of a single direct conversation between workspace users in a workspace
 export const fetchIndividualDM = (directMessageId) => async dispatch => {
     const response = await fetch(`/api/direct_messages/${directMessageId}`)
 
@@ -47,6 +48,7 @@ const getDirectMessages = directMessages => ({
     payload: directMessages
 })
 
+// get list of direct conversations for the current user and current workspace
 export const fetchDirectMessages = (workspaceId) => async dispatch => {
 
     const response = await fetch(`/api/workspaces/${workspaceId}/direct_messages`)

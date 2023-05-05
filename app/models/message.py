@@ -31,6 +31,8 @@ class Message(db.Model):
 
     def to_dict(self):
         return {
+            "user": self.user.to_dict(),
             "content": self.content,
+            "timestamp": self.timestamp,
             "replies": [reply.to_dict() for reply in self.replies]
         }

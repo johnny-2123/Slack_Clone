@@ -43,7 +43,7 @@ function IndividualChannel() {
     })
 
     return (
-        <div id='individualChannelMainDiv'>
+        <div class='individualChannelMainDiv'>
             <h1 id='ChannelTitle'>#{channel?.name} </h1>
             <div className='messagesMainDiv'>
                 {messagesMapped}
