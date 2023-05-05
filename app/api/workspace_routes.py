@@ -116,11 +116,13 @@ def get_workspace_members(id):
 def get_workspace(id):
     workspace = Workspace.query.get(id)
 
+    if not workspace:
+        return {'error': 'Workspace not found.'}, 404
+
     print('workspace************************************')
     print(workspace.to_dict())
 
-    if not workspace:
-        return {'error': 'Workspace not found.'}, 404
+
 
     return workspace.to_dict()
 

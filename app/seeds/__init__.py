@@ -4,6 +4,7 @@ from .workspace import seed_workspaces, undo_workspaces
 from .workspace_members import seed_workspace_members, undo_workspace_members
 from .channels import seed_channels, undo_channels
 from .message import seed_messages, undo_messages
+from .direct_messages import seed_direct_messages, undo_direct_messages
 from app.models.db import db, environment, SCHEMA
 
 # Creates a seed group to hold our commands
@@ -24,12 +25,13 @@ def seed():
         undo_workspace_members()
         undo_channels()
         undo_messages()
+        undo_direct_messages()
     seed_users()
     seed_workspaces()
     seed_workspace_members()
     seed_channels()
     seed_messages()
-
+    seed_direct_messages()
 
 # Creates the `flask seed undo` command
 @seed_commands.command('undo')
@@ -38,3 +40,4 @@ def undo():
     undo_workspaces()
     undo_workspace_members()
     undo_messages()
+    undo_direct_messages()
