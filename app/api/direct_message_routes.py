@@ -12,9 +12,6 @@ from sqlalchemy import and_
 def get_direct_messages():
     # Get the user ID from the current user object
     user_id = current_user.id
-    print('get direct messages route *******************************************************************')
-    print(user_id)
-
     data = request.json
     workspace_id = data.get('workspace_id')
     # Get a list of DirectMessage objects associated with the user ID
@@ -34,7 +31,6 @@ def get_direct_messages():
 
     # Create a list of dictionaries to return in the response
     response = []
-    print('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
     # for dm in direct_messages:
     #     users = [member.id for member in dm.members]
     #     response.append({
@@ -45,7 +41,7 @@ def get_direct_messages():
     #         "last_sent_message_timestamp": dm.last_sent_message_timestamp
     #     })
     # Return the response as JSON
-    return jsonify([dm.to_dict() for dm in direct_messages]), 200, {"Content-Type": "application/json"}
+    return jsonify([dm.to_dict() for dm in direct_messages])
     # return jsonify(response), 200, {"Content-Type": "application/json"}
 
 #GET DIRECT MESSAGE BY ID

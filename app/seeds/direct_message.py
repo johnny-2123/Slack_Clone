@@ -25,18 +25,17 @@ def seed_direct_messages():
         workspace_id=wayne_workspace.id,
         last_sent_message_timestamp=datetime.utcnow()
     )
-    dm1.members.extend([demo, luke])
-    dm2.members.extend([demo, bruce])
-    dm3.members.extend([luke, bruce])
-    # create a new direct message and append a new member
     dm4 = DirectMessage(
         topic="New Project",
         workspace_id=acme_workspace.id,
         last_sent_message_timestamp=datetime.utcnow()
     )
-    dm4.members.append(bruce)
+    dm1.members.extend([demo, luke])
+    dm2.members.extend([demo, bruce])
+    dm3.members.extend([luke, bruce])
+    dm4.members.extend([bruce, luke, demo])
     # add the direct messages to the session and commit
-    db.session.add_all([dm1, dm2, dm3])
+    db.session.add_all([dm1, dm2, dm3, dm4])
     db.session.commit()
 #UNDO
 def undo_direct_messages():

@@ -28,16 +28,18 @@ function IndividualWorkspace() {
     }, [dispatch])
 
     const currentWorkspace = useSelector(state => {
-        return state.workspaces.currentWorkspace
+        return state.workspaces?.currentWorkspace
     })
-    console.log(`currentWorkspace*:`, currentWorkspace)
+    // console.log(`currentWorkspace*:`, currentWorkspace)
 
-    const channels = currentWorkspace.channels
-    console.log(`channels**********:`, channels)
+    const channels = currentWorkspace?.channels
+    // console.log(`channels**********:`, channels)
 
     const directMessages = useSelector(state => {
-        return state.directMessages
+        return state.directMessages.currentDirectMessages
     })
+
+    console.log(`directMessages**********:`, directMessages)
 
     // const [workspaceWidth, setWorkspaceWidth] = useState(20);
     // const [threadWidth, setThreadWidth] = useState(20);
@@ -66,7 +68,7 @@ function IndividualWorkspace() {
 
         <div className='IndividualWorkspaceMainDiv'>
             {showWorkspaceSideBar &&
-                <WorkspaceSideBar channels={channels} url={url} />
+                <WorkspaceSideBar channels={channels} url={url} directMessages={directMessages} />
             }
             <Switch>
                 <Route path={`${path}/channels/:channelId`} >

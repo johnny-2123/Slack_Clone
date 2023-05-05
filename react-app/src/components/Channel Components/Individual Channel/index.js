@@ -28,15 +28,15 @@ function IndividualChannel() {
     const messagesMapped = Messages?.map((message, idx) => {
         const repliesMapped = message?.replies?.map((reply, idx) => {
             return (<div key={idx} className='replyDiv'>
-                <p>{reply.content}</p>
+                <p>{reply?.content}</p>
             </div>)
         })
 
         return (
             <div className='individualMessageDiv' >
-                <p>{message.content}</p>
+                <p>{message?.content}</p>
                 <div key={idx} className='repliesDiv'>
-                    {message.replies.length > 0 && repliesMapped}
+                    {message?.replies?.length > 0 && repliesMapped}
                 </div>
             </div>
         )

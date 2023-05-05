@@ -22,7 +22,7 @@ export const fetchDirectMessages = (workspaceId) => async dispatch => {
 
 
 const initialState = {
-    workspaceDirectMessages: []
+    currentDirectMessages: []
 }
 
 const directMessages = (state = initialState, action) => {
@@ -30,7 +30,7 @@ const directMessages = (state = initialState, action) => {
     switch (action.type) {
         case GET_DIRECT_MESSAGES:
             return {
-                ...state, workspaceDirectMessages: [...action.payload]
+                ...state, currentDirectMessages: [...action.payload]
             }
         default:
             return state
