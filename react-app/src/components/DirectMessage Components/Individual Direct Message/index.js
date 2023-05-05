@@ -1,13 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchIndividualDM } from "../../../store/directMessages"
+import { fetchIndividualDM, fetchAddDirectMessage } from "../../../store/directMessages"
 
 function IndividualDirectMessage() {
     const { directMessageId } = useParams()
     console.log(`directmessageId in individual dm:`, directMessageId)
 
     const dispatch = useDispatch()
+
+    const [content, setContent] = useState('')
+
+    const handleSendMessage = (event) => {
+        event.preventDefault();
+        dispatch(fetchAddDirectMessage(directMessageId, content))
+        setContent('')
+    }
 
     useEffect(() => {
         dispatch(fetchIndividualDM(directMessageId))
@@ -21,7 +29,7 @@ function IndividualDirectMessage() {
 
     console.log(`directmessage individual dm`, currentDM)
 
-    // Use `reduce` to get an array of user first names, excluding the session user's name
+    // get an array of user first names, excluding the session user's name
     const names = currentDM?.users?.reduce((x, user) => {
         if (user.first_name !== sessionUser.first_name) {
             x.push(user.first_name);
@@ -42,6 +50,7 @@ function IndividualDirectMessage() {
                 <div key={idx} className='repliesDiv'>
                     {message?.replies?.length > 0 && repliesMapped}
                 </div>
+
             </div>
         )
     })
@@ -51,6 +60,14 @@ function IndividualDirectMessage() {
             <div className='messagesMainDiv'>
                 {messagesMapped}
             </div>
+            <form onSubmit={handleSendMessage}>
+                <input
+                    type="text"
+                    onChange={(e) => setContent(e.target.value)}
+                    required
+                />
+                <button type="submit">Send</button>
+            </form>
         </div>
 
     )
