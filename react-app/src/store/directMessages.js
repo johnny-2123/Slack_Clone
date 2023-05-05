@@ -1,4 +1,21 @@
 const GET_DIRECT_MESSAGES = "direct_messages/GET_DIRECT_MESSAGES"
+const GET_INDIVIDUAL_DM = 'direct_message/GET_INDIViDUAL_DM'
+
+const getIndividualDM = directMessage => ({
+    type: GET_INDIVIDUAL_DM,
+    payload: directMessage
+})
+
+export const fetchIndividualDM = (directMessageId) => async dispatch => {
+
+    const response = await fetch(`/api/direct_messages/${directMessageId}`)
+
+    if (response.ok) {
+        const directMessage = await response.json()
+        dispatch(getIndividualDM(directMessage))
+        return directMessage
+    }
+}
 
 const getDirectMessages = directMessages => ({
     type: GET_DIRECT_MESSAGES,
@@ -22,7 +39,8 @@ export const fetchDirectMessages = (workspaceId) => async dispatch => {
 
 
 const initialState = {
-    currentDirectMessages: []
+    currentDirectMessages: [],
+    currentIndividualDM: {}
 }
 
 const directMessages = (state = initialState, action) => {
@@ -31,6 +49,10 @@ const directMessages = (state = initialState, action) => {
         case GET_DIRECT_MESSAGES:
             return {
                 ...state, currentDirectMessages: [...action.payload]
+            }
+        case GET_INDIVIDUAL_DM:
+            return {
+                ...state, currentIndividualDM: action.payload
             }
         default:
             return state

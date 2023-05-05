@@ -80,6 +80,9 @@ function IndividualWorkspace() {
                 <Route path={`${path}/members`}>
                     <WorkspaceMembers url={url} />
                 </Route>
+                <Route path={`${url}/direct_messages/:directMessageId`}>
+                    <IndividualDirectMessage />
+                </Route>
             </Switch>
         </div>
 
