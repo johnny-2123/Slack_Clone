@@ -60,6 +60,7 @@ def get_direct_message(id):
         "topic": direct_message.topic,
         "workspace_id": direct_message.workspace_id,
         "messages": [message.to_dict() for message in direct_message.messages],
+        "users": [member.to_dict() for member in direct_message.members],
         "last_sent_message_timestamp": direct_message.last_sent_message_timestamp.isoformat()
     }), 200
 
