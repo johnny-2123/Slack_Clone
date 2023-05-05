@@ -6,6 +6,8 @@ from app.models.direct_message import direct_message_member
 from datetime import datetime
 direct_message_routes = Blueprint("direct_messages", __name__, url_prefix="/api/direct_messages")
 from sqlalchemy import and_
+from flask_socketio import SocketIO, emit
+socketio = SocketIO()
 #GET DIRECT MESSAGES
 @direct_message_routes.route("/", methods=["GET"])
 @login_required
@@ -149,6 +151,7 @@ def delete_direct_message(id):
     }), 200
 
 #ADD MESSAGE TO DM
+@socketio.on("direct_message")
 @direct_message_routes.route("/<int:id>/messages", methods=["POST"])
 @login_required
 def add_message_to_direct_message(id):
@@ -170,6 +173,9 @@ def add_message_to_direct_message(id):
     )
     direct_message.last_sent_message_timestamp = now
     db.session.commit()
+
+
+
     return jsonify({
         "id": message.id,
         "content": message.content,
