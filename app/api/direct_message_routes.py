@@ -41,7 +41,7 @@ def get_direct_messages():
     return jsonify(response), 200, {"Content-Type": "application/json"}
 
 #GET DIRECT MESSAGE BY ID
-@direct_message_routes.route("/<int:dm_id>", methods=["GET"])
+@direct_message_routes.route("/<int:id>", methods=["GET"])
 @login_required
 def get_direct_message(id):
     direct_message = DirectMessage.query.get(id)
@@ -55,6 +55,7 @@ def get_direct_message(id):
         "id": direct_message.id,
         "topic": direct_message.topic,
         "workspace_id": direct_message.workspace_id,
+        "messages": [message.to_dict() for message in direct_message.messages],
         "last_sent_message_timestamp": direct_message.last_sent_message_timestamp.isoformat()
     }), 200
 
