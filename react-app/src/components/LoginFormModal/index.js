@@ -22,15 +22,15 @@ function LoginFormModal() {
   };
 
   return (
-    <div className="form-container">
-    <h1 className="form-header">Log In</h1>
+    <div className="lfform-container">
+    <h1 className="lfform-header">Log In</h1>
     <form onSubmit={handleSubmit}>
-    <ul className="form-errors">
+    <ul className="lfform-errors">
     {errors.map((error, idx) => (
-    <li key={idx} className="form-error">{error}</li>
+    <li key={idx} className="lfform-error">{error}</li>
     ))}
     </ul>
-    <div className="form-input">
+    <div className="lfform-input">
     <label htmlFor="email">Email</label>
     <input
     type="text"
@@ -40,7 +40,7 @@ function LoginFormModal() {
     required
     />
     </div>
-    <div className="form-input">
+    <div className="lfform-input">
     <label htmlFor="password">Password</label>
     <input
     type="password"
@@ -50,7 +50,7 @@ function LoginFormModal() {
     required
     />
     </div>
-    <button type="submit" className="form-button">Log In</button>
+    <button type="submit" className="lfform-button">Log In</button>
     </form>
     </div>
     );
