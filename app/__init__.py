@@ -16,6 +16,9 @@ from .socket import socketio
 
 app = Flask(__name__, static_folder="../react-app/build", static_url_path="/")
 
+# VERY IMPORTANT DO NOT REMOVE
+app.url_map.strict_slashes = False
+
 # Setup login manager
 login = LoginManager(app)
 login.login_view = "auth.unauthorized"

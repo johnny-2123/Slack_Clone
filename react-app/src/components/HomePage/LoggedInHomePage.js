@@ -3,6 +3,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUserWorkspaces } from '../../store/workspaces'
 import './LoggedIn.css';
+import { fetchChannels } from '../../store/channels';
 
 const LoggedInUserHomePage = ({ sessionUser }) => {
     const dispatch = useDispatch()
@@ -21,7 +22,7 @@ const LoggedInUserHomePage = ({ sessionUser }) => {
     });
 
     let workspacesArr = workspaces?.map((workspace, idx) => {
-        let channelId = workspace?.channels[0]?.id
+        // let channelId = workspace?.channels[0]?.id
         return (
             <div key={workspace.id} className="individualWorkspaceDiv"  >
                 <div className="individualWorkspaceLeftDiv">
@@ -31,7 +32,7 @@ const LoggedInUserHomePage = ({ sessionUser }) => {
                         <h3>{workspace?.members.length} Members</h3>
                     </div>
                 </div>
-                <NavLink to={`workspaces/${workspace?.id}/channels/${channelId}`} className="launchWorkSpaceLink">
+                <NavLink to={`workspaces/${workspace?.id}`} className="launchWorkSpaceLink">
                     Launch Slack
                 </NavLink>
             </div>

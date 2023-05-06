@@ -39,7 +39,7 @@ const getChannels = channels => ({
 
 export const fetchChannels = (workspaceId) => async dispatch => {
 
-    const response = await fetch('/api/channels/')
+    const response = await fetch(`/api/workspaces/${workspaceId}/channels`)
 
     if (response.ok) {
         const channels = await response.json()
@@ -60,7 +60,7 @@ const channels = (state = initialState, action) => {
     switch (action.type) {
         case GET_CHANNELS:
             return {
-                ...state, workspaceChannels: [...action.payload]
+                ...state, workspaceChannels: [...action.payload.Channels]
             }
         case GET_INDIVIDUAL_CHANNEL:
             return {

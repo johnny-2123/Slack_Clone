@@ -18,6 +18,7 @@ workspace_channels = Blueprint("workspace_channels", __name__)
 # Checks if a workspace exists, and that the current user
 # is a member of that workspace before proceeding
 @workspace_channels.before_request
+@login_required
 def check_workspace():
     workspace_id = request.view_args.get("workspace_id")
     workspace = Workspace.query.get(workspace_id)
@@ -31,6 +32,7 @@ def check_workspace():
 # Checks if a channel exists, and if the current user
 # has permissions to view it before proceeding
 @channel_routes.before_request
+@login_required
 def check_channel():
     channel_id = request.view_args.get("channel_id")
     channel = Channel.query.get(channel_id)
@@ -49,7 +51,7 @@ def needs_permission(f):
     def wrapper(*args, **kwargs):
         workspace = request.workspace
         if current_user.id is not workspace.owner.id:
-            return {"error": "user does not have permission to do that"}, 403
+            return {"error": "user does not have permission perform that action"}, 403
         return f(*args, **kwargs)
 
     return wrapper
@@ -63,7 +65,6 @@ def needs_permission(f):
 # Gets all channels in a workspace that are
 # not private, or that the current user is a member of
 @workspace_channels.route("/")
-@login_required
 def get_channels(workspace_id):
     channels = (
         Channel.query.filter(Channel.workspace_id == workspace_id)
@@ -80,33 +81,25 @@ def get_channels(workspace_id):
 
 # Get a single channel
 @channel_routes.route("/")
-@login_required
 def get_channel_by_id(channel_id):
-    channel = (
-        Channel.query.options(db.joinedload(Channel.messages))
-        .filter(Channel.id == channel_id)
-        .first()
-    )
-    # print(db.inspect(db.engine).get_table_options(Channel.__table__.name))
+    channel = request.channel
     return {"channel": channel.to_dict()}
 
 
 # Get all the messages in a channel
 @channel_routes.route("/messages")
-@login_required
-def get_channel_messages(id):
-    channel = Channel.query.get(id)
+def get_channel_messages(channel_id):
+    channel = Channel.query.get(channel_id)
     return {"Messages": [message.to_dict() for message in channel.messages]}
 
 
 # Create a channel
 @workspace_channels.route("/", methods=["POST"])
-@login_required
 @needs_permission
 def create_channel(workspace_id):
     workspace = request.workspace
     form = ChannelForm()
-    form['csrf_token'].data = request.cookies['csrf_token']
+    form["csrf_token"].data = request.cookies["csrf_token"]
     if form.validate_on_submit():
         new_channel = Channel(
             name=form.data["name"],

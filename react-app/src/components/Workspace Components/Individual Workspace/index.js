@@ -11,20 +11,29 @@ import { fetchIndividualWorkspace } from '../../../store/workspaces';
 import { fetchDirectMessages } from '../../../store/directMessages';
 import './IndividualWorkspace.css'
 import './WorkspaceSideBar.css'
+import { fetchChannels } from '../../../store/channels';
+import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
 
 function IndividualWorkspace() {
     const { workspaceId } = useParams()
     console.log(`workspaceId:`, workspaceId)
 
-    const { url, path } = useRouteMatch()
+    const { url, path } = useRouteMatch(`/workspaces/${workspaceId}`)
     console.log(`IndividualWorkspace url`, url)
     console.log(`IndividualWorkspace path`, path)
 
     const dispatch = useDispatch()
 
+    const [isChannelsLoaded, setIsChannelsLoaded] = useState(false);
+
     useEffect(() => {
         dispatch(fetchIndividualWorkspace(workspaceId))
         dispatch(fetchDirectMessages(workspaceId))
+        dispatch(fetchChannels(workspaceId))
+            .then(() => {
+                // set isChannelsLoaded to true when channels are loaded
+                setIsChannelsLoaded(true);
+            });
     }, [dispatch])
 
     const currentWorkspace = useSelector(state => {
@@ -32,7 +41,9 @@ function IndividualWorkspace() {
     })
     // console.log(`currentWorkspace*:`, currentWorkspace)
 
-    const channels = currentWorkspace?.channels
+    const channels = useSelector(state=>{
+        return state.channels?.workspaceChannels
+    })
     // console.log(`channels**********:`, channels)
 
     const directMessages = useSelector(state => {
@@ -82,6 +93,10 @@ function IndividualWorkspace() {
                 </Route>
                 <Route path={`${url}/direct_messages/:directMessageId`}>
                     <IndividualDirectMessage />
+                </Route>
+                <Route path={`${path}/`}>
+                    {/* only redirect if channels are loaded */}
+                    {isChannelsLoaded && <Redirect to={`${path}/channels/${channels[0]?.id}`} />}
                 </Route>
             </Switch>
         </div>
