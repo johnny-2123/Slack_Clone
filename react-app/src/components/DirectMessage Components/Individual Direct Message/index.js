@@ -42,7 +42,7 @@ function IndividualDirectMessage() {
     const messagesMapped = currentDM?.messages?.map((message, idx) => {
         const repliesMapped = message?.replies?.map((reply, idx) => {
             return (
-                <div className='individualMessageDiv'>
+                <div className='individualMessageDiv' key={idx}>
                     <div className='messageSenderProfilePicDiv'>
                         <img src='https://res.cloudinary.com/dkul3ouvi/image/upload/v1683176759/favpng_user-interface-design-default_fmppay.png' className='messageSenderProfilePic' alt='pfp' />
                     </div>
@@ -52,7 +52,7 @@ function IndividualDirectMessage() {
                             <h5 className='messageTimestamp'>{reply.timestamp}</h5>
                         </div>
                         <p>{reply?.content}</p>
-                        <div key={idx} className='repliesDiv'>
+                        <div className='repliesDiv'>
                             {reply?.replies?.length > 0 && repliesMapped}
                         </div>
                     </div>
@@ -60,7 +60,7 @@ function IndividualDirectMessage() {
             )
         })
         return (
-            <div className='individualMessageDiv'>
+            <div className='individualMessageDiv' key={idx}>
                 <div className='messageSenderProfilePicDiv'>
                     <img src='https://res.cloudinary.com/dkul3ouvi/image/upload/v1683176759/favpng_user-interface-design-default_fmppay.png' className='messageSenderProfilePic' alt='pfp' />
                 </div>
@@ -70,7 +70,7 @@ function IndividualDirectMessage() {
                         <h5 className='messageTimestamp'>{message.timestamp}</h5>
                     </div>
                     <p>{message?.content}</p>
-                    <div key={idx} className='repliesDiv'>
+                    <div className='repliesDiv'>
                         {message?.replies?.length > 0 && repliesMapped}
                     </div>
                 </div>
@@ -79,7 +79,7 @@ function IndividualDirectMessage() {
         )
     })
     return (
-        <div class='individualChannelMainDiv'>
+        <div className='individualChannelMainDiv'>
             <h1 id='ChannelTitle'> {names}</h1>
             <div className='messagesMainDiv'>
                 {messagesMapped}

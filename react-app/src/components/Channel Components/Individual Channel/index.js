@@ -33,9 +33,9 @@ function IndividualChannel() {
         })
 
         return (
-            <div className='individualMessageDiv' >
+            <div className='individualMessageDiv' key={idx} >
                 <p>{message?.content}</p>
-                <div key={idx} className='repliesDiv'>
+                <div className='repliesDiv'>
                     {message?.replies?.length > 0 && repliesMapped}
                 </div>
             </div>
@@ -43,7 +43,7 @@ function IndividualChannel() {
     })
 
     return (
-        <div class='individualChannelMainDiv'>
+        <div className='individualChannelMainDiv'>
             <h1 id='ChannelTitle'>#{channel?.name} </h1>
             <div className='messagesMainDiv'>
                 {messagesMapped}
