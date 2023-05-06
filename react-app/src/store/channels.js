@@ -56,7 +56,6 @@ const initialState = {
 }
 
 const channels = (state = initialState, action) => {
-    let newState;
     switch (action.type) {
         case GET_CHANNELS:
             return {

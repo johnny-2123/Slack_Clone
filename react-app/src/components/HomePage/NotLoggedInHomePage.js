@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import { NavLink } from 'react-router-dom';
 import './HomePage.css';
 
 const NotLoggedInUserHomePage = () => {
@@ -17,7 +16,7 @@ const NotLoggedInUserHomePage = () => {
                     </ul>
 
                 </div>
-                <img className='homePageImage' src='https://res.cloudinary.com/dkul3ouvi/image/upload/v1682901409/vecteezy_people-user-team-png-transparent_9664234_909_oz8x4i.png' />
+                <img className='homePageImage' src='https://res.cloudinary.com/dkul3ouvi/image/upload/v1682901409/vecteezy_people-user-team-png-transparent_9664234_909_oz8x4i.png' alt='home-page' />
             </div>
             <div>
                 <div className='homePageButtons'>

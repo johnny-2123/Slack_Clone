@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory, useParams } from "react-router-dom";
-import { useDispatch, useSelector, useStore } from 'react-redux';
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
 import './WorkspaceMembers.css'
 import { fetchWorkspaceMembers, fetchRemoveWorkspaceMember, fetchAddWorkspaceMember } from '../../../store/workspaces';
 
-function WorkspaceMembers({ url }) {
+function WorkspaceMembers() {
 
     const { workspaceId } = useParams()
     console.log(`workspaceId in workspace sidebar component:`, workspaceId)
@@ -17,13 +17,13 @@ function WorkspaceMembers({ url }) {
     useEffect(() => {
         dispatch(fetchWorkspaceMembers(workspaceId))
         sessionUser?.id === currentWorkspace.owner?.id ? setUserIsOrganizer(true) : setUserIsOrganizer(false)
-        setLoaded(true)
-    }, [sessionUser, currentWorkspace])
+        // setLoaded(true)
+    }, [sessionUser, currentWorkspace,dispatch,workspaceId])
 
 
 
     const [userIsOrganizer, setUserIsOrganizer] = useState(false);
-    const [loaded, setLoaded] = useState(false)
+    // const [loaded, setLoaded] = useState(false)
     const [newUserEmail, setNewUserEmail] = useState('')
 
     const handleAddMember = (event) => {
@@ -45,7 +45,7 @@ function WorkspaceMembers({ url }) {
 
         return (
             <div className='WorkspaceMemberIndividualDiv' key={idx}>
-                <img src='https://res.cloudinary.com/dkul3ouvi/image/upload/v1683176759/favpng_user-interface-design-default_fmppay.png' />
+                <img src='https://res.cloudinary.com/dkul3ouvi/image/upload/v1683176759/favpng_user-interface-design-default_fmppay.png' alt='pfp' />
                 <div className='workspaceMemberInfoDiv'>
                     <h4 className='workspaceSidebarMemberUsername'>{member?.username}</h4>
                     {userIsOrganizer && <button onClick={() => handleDeleteMember(member?.id)}>Remove</button>}

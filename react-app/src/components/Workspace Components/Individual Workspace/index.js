@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory, useParams, useRouteMatch } from "react-router-dom";
+import { useParams, useRouteMatch } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import WorkspaceSideBar from './WorkSpaceSideBar';
 import WorkspaceMembers from '../WorkspaceMembers'
 import IndividualChannel from '../../Channel Components/Individual Channel';
 import ThreadSidebar from '../../Thread Components/ThreadSideBar';
 import IndividualDirectMessage from '../../DirectMessage Components/Individual Direct Message'
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import { fetchIndividualWorkspace } from '../../../store/workspaces';
 import { fetchDirectMessages } from '../../../store/directMessages';
 import './IndividualWorkspace.css'
@@ -34,11 +34,11 @@ function IndividualWorkspace() {
                 // set isChannelsLoaded to true when channels are loaded
                 setIsChannelsLoaded(true);
             });
-    }, [dispatch])
+    }, [dispatch,workspaceId])
 
-    const currentWorkspace = useSelector(state => {
-        return state.workspaces?.currentWorkspace
-    })
+    // const currentWorkspace = useSelector(state => {
+    //     return state.workspaces?.currentWorkspace
+    // })
     // console.log(`currentWorkspace*:`, currentWorkspace)
 
     const channels = useSelector(state=>{
@@ -54,7 +54,9 @@ function IndividualWorkspace() {
 
     // const [workspaceWidth, setWorkspaceWidth] = useState(20);
     // const [threadWidth, setThreadWidth] = useState(20);
-    const [showWorkspaceSideBar, setShowWorkspaceSidebar] = useState(true);
+
+    // const [showWorkspaceSideBar, setShowWorkspaceSidebar] = useState(true);
+
     // const [showThread, setShowThread] = useState(false);
 
     // const handleWorkspaceResize = (newWidth) => {
@@ -78,9 +80,9 @@ function IndividualWorkspace() {
     return (
 
         <div className='IndividualWorkspaceMainDiv'>
-            {showWorkspaceSideBar &&
+            {/* {showWorkspaceSideBar && */}
                 <WorkspaceSideBar channels={channels} url={url} directMessages={directMessages} />
-            }
+            {/* } */}
             <Switch>
                 <Route path={`${path}/channels/:channelId`} >
                     <IndividualChannel />

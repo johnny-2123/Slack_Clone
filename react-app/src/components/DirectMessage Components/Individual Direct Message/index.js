@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchIndividualDM, fetchAddDirectMessage } from "../../../store/directMessages"
 import "./IndividualdirectMessage.css"
@@ -44,7 +44,7 @@ function IndividualDirectMessage() {
             return (
                 <div className='individualMessageDiv'>
                     <div className='messageSenderProfilePicDiv'>
-                        <img src='https://res.cloudinary.com/dkul3ouvi/image/upload/v1683176759/favpng_user-interface-design-default_fmppay.png' className='messageSenderProfilePic' />
+                        <img src='https://res.cloudinary.com/dkul3ouvi/image/upload/v1683176759/favpng_user-interface-design-default_fmppay.png' className='messageSenderProfilePic' alt='pfp' />
                     </div>
                     <div className='messageDetailsDiv'>
                         <div className='messageSenderNameAndTimeStampDiv'>
@@ -62,7 +62,7 @@ function IndividualDirectMessage() {
         return (
             <div className='individualMessageDiv'>
                 <div className='messageSenderProfilePicDiv'>
-                    <img src='https://res.cloudinary.com/dkul3ouvi/image/upload/v1683176759/favpng_user-interface-design-default_fmppay.png' className='messageSenderProfilePic' />
+                    <img src='https://res.cloudinary.com/dkul3ouvi/image/upload/v1683176759/favpng_user-interface-design-default_fmppay.png' className='messageSenderProfilePic' alt='pfp' />
                 </div>
                 <div className='messageDetailsDiv'>
                     <div className='messageSenderNameAndTimeStampDiv'>

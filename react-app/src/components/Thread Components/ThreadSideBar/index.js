@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { useHistory, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
 import './ThreadSidebar.css'
 
 function ThreadSidebar() {

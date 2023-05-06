@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUserWorkspaces } from '../../store/workspaces'
 import './LoggedIn.css';
-import { fetchChannels } from '../../store/channels';
 
 const LoggedInUserHomePage = ({ sessionUser }) => {
     const dispatch = useDispatch()

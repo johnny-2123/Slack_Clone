@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { useHistory, useParams, NavLink } from "react-router-dom";
+import React, { useEffect } from 'react';
+import { useParams, NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchWorkspaceMembers, fetchAddWorkspaceMember } from '../../../store/workspaces';
+import { fetchWorkspaceMembers } from '../../../store/workspaces';
 import './WorkspaceSideBar.css'
 
 function WorkspaceSideBar({ channels, directMessages, url }) {
@@ -12,7 +12,7 @@ function WorkspaceSideBar({ channels, directMessages, url }) {
 
     useEffect(() => {
         dispatch(fetchWorkspaceMembers(workspaceId))
-    }, [dispatch])
+      }, [dispatch, workspaceId]);
 
     const currentWorkspace = useSelector(state => {
         return state.workspaces.currentWorkspace
