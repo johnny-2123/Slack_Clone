@@ -1,0 +1,76 @@
+html {
+    margin: 0;
+    padding: 0;
+}
+
+
+#WorkspaceMembersMainDiv {
+    /* outline: pink dotted thin; */
+    flex: 1;
+    overflow-y: scroll;
+    /* background-color: white; */
+    overflow-y: scroll;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.addWorkspaceMemberForm {
+    margin-left: 1.5rem;
+
+}
+
+.addWorkspaceMemberForm input {
+    margin-right: 1rem;
+    padding: .4rem 1.2rem;
+
+}
+
+.addWorkspaceMemberForm button {
+    background-color: #4a154bcf;
+    border: none;
+    color: white;
+    padding: .5rem 1.2rem;
+    border-radius: 2px
+}
+
+.WorkspaceMembersSubDiv {
+    /* outline: purple dotted thin; */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 19.5px;
+    padding: 0 25px;
+}
+
+.WorkspaceMemberIndividualDiv {
+    /* outline: pink dotted thin; */
+    flex: 1;
+    display: flex;
+    align-items: center;
+    max-width: 400px;
+    background-color: #f4f1f4;
+    border-radius: 5px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.WorkspaceMemberIndividualDiv img {
+    width: 10rem;
+}
+
+.workspaceMemberInfoDiv {
+    padding: 0 .75rem;
+}
+
+.workspaceMemberInfoDiv button {
+    background-color: #4a154bcf;
+    border: none;
+    color: white;
+    padding: .5rem .75rem
+}
+
+.workspaceSidebarMemberUsername {
+    font-weight: 200;
+}

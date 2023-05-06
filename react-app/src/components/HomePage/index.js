@@ -10,13 +10,15 @@ const HomePage = () => {
     const sessionUser = useSelector(state => state.session.user)
 
     const [loggedIn, setLoggedIn] = useState(false);
+    const [loaded, setLoaded] = useState(false);
 
     useEffect(() => {
         if (sessionUser?.username) {
             setLoggedIn(true)
-
+            setLoaded(true)
         } else {
             setLoggedIn(false)
+            setLoaded(true)
         }
     }, [sessionUser])
 
@@ -26,8 +28,8 @@ const HomePage = () => {
 
     return (
         <>
-            {loggedIn && <LoggedInUserHomePage sessionUser={sessionUser} />}
-            {!loggedIn && <NotLoggedInUserHomePage />}
+            {loaded && loggedIn && <LoggedInUserHomePage sessionUser={sessionUser} />}
+            {loaded && !loggedIn && <NotLoggedInUserHomePage />}
         </>
     );
 };

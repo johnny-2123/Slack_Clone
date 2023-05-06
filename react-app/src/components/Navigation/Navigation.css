@@ -1,10 +1,6 @@
-body {
-  background-color: #4A154B;
-  margin: 0;
-}
-
 .navigationUl {
   outline: red dotted thin;
+  height: 5vh;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -29,12 +25,14 @@ body {
 .profile-dropdown {
   /* outline: blue dotted thin; */
   position: absolute;
-  right: 10px;
+  right: 15px;
+  top: 70px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding-left: 0;
   padding: .5rem;
+  z-index: 2;
 }
 
 
@@ -43,6 +41,10 @@ body {
   border: none;
   margin: 0;
   background-color: #4A154B;
+}
+
+.profileButton:hover {
+  cursor: pointer;
 }
 
 .profileIcon {

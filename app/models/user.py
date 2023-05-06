@@ -4,6 +4,8 @@ from flask_login import UserMixin
 from .channel_members import channel_member
 from .workspace_members import workspace_member
 from .workspace import Workspace
+from .direct_message import DirectMessage
+from .direct_message_member import direct_message_member
 
 
 class User(db.Model, UserMixin):
@@ -33,6 +35,16 @@ class User(db.Model, UserMixin):
         "Channel", secondary=channel_member, back_populates="private_members"
     )
 
+    # direct_messages = db.relationship(
+    #     "DirectMessage", secondary=direct_message_member, back_populates="members",
+    #     primaryjoin="User.id == direct_message_member.c.user_id",
+    #     secondaryjoin="DirectMessage.id == direct_message_member.c.direct_message_id"
+    # )
+
+    dm_memberships = db.relationship(
+        "DirectMessage", secondary=direct_message_member, back_populates="members"
+    )
+
     def create_workspace(self, name, description, image_url):
         workspace = Workspace(
             name=name, owner=self, description=description, image_url=image_url
@@ -53,4 +65,4 @@ class User(db.Model, UserMixin):
         return check_password_hash(self.password, password)
 
     def to_dict(self):
-        return {"id": self.id, "username": self.username, "email": self.email}
+        return {"id": self.id, "username": self.username, "email": self.email, "first_name": self.first_name, "last_name": self.last_name}

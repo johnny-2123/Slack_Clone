@@ -1,4 +1,4 @@
-from app.models import db, Message, User, Channel, environment, SCHEMA
+from app.models import db, Message, User, Channel, DirectMessage, Workspace, environment, SCHEMA
 from sqlalchemy.sql import text
 
 from datetime import datetime
@@ -6,9 +6,12 @@ from datetime import datetime
 
 def seed_messages():
     wayne_general = Channel.query.filter_by(name="general").first()
+    acme_workspace = Workspace.query.filter_by(name='Acme Corporation').first()
+    stark_workspace = Workspace.query.filter_by(name="Stark Industries").first()
+
     demo = User.query.filter_by(username="Demo").first()
     luke = User.query.filter_by(username="luke").first()
-
+    bruce = User.query.filter_by(username="WayneBruce").first()
     message1 = Message(
         user=demo,
         channel=wayne_general,
@@ -199,6 +202,128 @@ def seed_messages():
     db.session.add(message22)
     db.session.add(message23)
     db.session.add(message24)
+
+    dm1 = DirectMessage.query.filter_by(topic="Project X").first()
+    dm2 = DirectMessage.query.filter_by(topic="Budget").first()
+    dm3 = DirectMessage.query.filter_by(topic="Marketing Strategy", workspace_id=wayne_general.id).first()
+    dm4 = DirectMessage.query.filter_by(topic="New Project").first()
+
+    message25 = Message(
+        user=demo,
+        direct_message=dm1,
+        content="Hey Luke, do you have any updates on Project X?",
+        timestamp=datetime(2023, 5, 1, 10, 30, 0),
+    )
+    message26 = Message(
+        user=luke,
+        direct_message=dm1,
+        content="Yes, we just finished the prototype. I'll send you the details in a bit.",
+        timestamp=datetime(2023, 5, 1, 10, 45, 0),
+    )
+    message27 = Message(
+        user=demo,
+        direct_message=dm1,
+        content="Great, thanks!",
+        timestamp=datetime(2023, 5, 1, 11, 0, 0),
+    )
+    message28 = Message(
+        user=bruce,
+        direct_message=dm4,
+        content="Hey guys, I have an idea for a new project that I think could be really successful.",
+        timestamp=datetime(2023, 5, 2, 9, 0, 0),
+    )
+    message29 = Message(
+        user=demo,
+        direct_message=dm4,
+        content="What kind of project is it?",
+        timestamp=datetime(2023, 5, 2, 9, 30, 0),
+    )
+    message30 = Message(
+        user=luke,
+        direct_message=dm4,
+        content="Yeah, tell us more!",
+        timestamp=datetime(2023, 5, 2, 10, 0, 0),
+    )
+    message31 = Message(
+        user=bruce,
+        direct_message=dm4,
+        content="It's a new social media platform that connects people based on their interests and hobbies.",
+        timestamp=datetime(2023, 5, 2, 10, 30, 0),
+    )
+    message32 = Message(
+        user=demo,
+        direct_message=dm4,
+        content="Interesting, how would it work?",
+        timestamp=datetime(2023, 5, 2, 11, 0, 0),
+    )
+
+    message33 = Message(
+    user=luke,
+    direct_message=dm1,
+    content="Here are the details for the prototype that we finished for Project X. Let me know what you think!",
+    timestamp=datetime(2023, 5, 1, 11, 15, 0),
+    parent=message27
+    )
+
+    message34 = Message(
+    user=demo,
+    direct_message=dm1,
+    content="I think it sounds like a great idea, Bruce. What do you think, Demo?",
+    timestamp=datetime(2023, 5, 2, 11, 30, 0),
+    parent=message27
+    )
+
+    message35 = Message(
+    user=luke,
+    direct_message=dm1,
+    content="It would work by having users fill out a profile with their interests and hobbies, and then the platform would suggest connections based on commonalities. We could also incorporate group chats and events.",
+    timestamp=datetime(2023, 5, 2, 11, 15, 0),
+    parent=message27
+    )
+
+    message36 = Message(
+    user=demo,
+    direct_message=dm1,
+    content="I like the idea too, but do you think there's enough demand for another social media platform?",
+    timestamp=datetime(2023, 5, 2, 10, 30, 0),
+    parent=message27
+    )
+
+    message37 = Message(
+    user=luke,
+    direct_message=dm4,
+    content="That's a good point, Demo. Maybe we could do some market research to find out.",
+    timestamp=datetime(2023, 5, 2, 11, 0, 0),
+    parent=message30
+    )
+
+    message38 = Message(
+    user=demo,
+    direct_message=dm4,
+    content="I think it sounds like a good idea too! Let's discuss it more in the next meeting.",
+    timestamp=datetime(2023, 5, 2, 12, 0, 0),
+    parent=message29
+    )
+
+    db.session.add(message20)
+    db.session.add(message21)
+    db.session.add(message22)
+    db.session.add(message23)
+    db.session.add(message24)
+    db.session.add(message25)
+    db.session.add(message26)
+    db.session.add(message27)
+    db.session.add(message28)
+    db.session.add(message29)
+    db.session.add(message30)
+    db.session.add(message31)
+    db.session.add(message32)
+    db.session.add(message33)
+    db.session.add(message34)
+    db.session.add(message35)
+    db.session.add(message36)
+    db.session.add(message37)
+    db.session.add(message38)
 
     db.session.commit()
 
