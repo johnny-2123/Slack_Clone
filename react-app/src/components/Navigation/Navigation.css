@@ -31,10 +31,31 @@
   flex-direction: column;
   justify-content: center;
   padding-left: 0;
-  padding: .5rem;
+  padding: 1rem;
   z-index: 2;
+  background-color: #f2f2f2;
+  border-radius: 8px;
+  width: 200px;
+  font-size: 1.2rem;
 }
 
+/* not working */
+.profile-dropdown li {
+  margin-bottom: 10px;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.profile-dropdown li:hover {
+  background-color: blue;
+  color: white;
+  cursor: pointer;
+}
+/* end */
+
+
+.profile-dropdown > *:not(:last-child) {
+  margin-bottom: 10px;
+}
 
 .profileButton {
   /* outline: green thin dotted; */
