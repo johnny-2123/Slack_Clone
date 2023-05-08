@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from "react-router-dom";
+// import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import './WorkspaceMembers.css'
 import { fetchWorkspaceMembers, fetchRemoveWorkspaceMember, fetchAddWorkspaceMember } from '../../../store/workspaces';
 
-function WorkspaceMembers() {
-
-    const { workspaceId } = useParams()
+function WorkspaceMembers({workspaceId}) {
+    // const { workspaceId } = useParams()
     console.log(`workspaceId in workspace sidebar component:`, workspaceId)
 
     const dispatch = useDispatch()

@@ -91,7 +91,7 @@ function IndividualWorkspace() {
                     <ThreadSidebar />
                 </Route>
                 <Route path={`${path}/members`}>
-                    <WorkspaceMembers url={url} />
+                    <WorkspaceMembers workspaceId={workspaceId} />
                 </Route>
                 <Route path={`${url}/direct_messages/:directMessageId`}>
                     <IndividualDirectMessage />
