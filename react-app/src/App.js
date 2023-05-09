@@ -7,6 +7,7 @@ import { authenticate } from "./store/session";
 import Navigation from "./components/Navigation";
 import HomePage from "./components/HomePage";
 import IndividualWorkspace from "./components/Workspace Components/Individual Workspace";
+import AboutPage from './components/AboutPage/AboutPage';
 
 function App() {
   const dispatch = useDispatch();
@@ -31,6 +32,9 @@ function App() {
           </Route>
           <Route path="/workspaces/:workspaceId" >
             <IndividualWorkspace />
+          </Route>
+          <Route exact path='/about'>
+            <AboutPage />
           </Route>
         </Switch>
       )}

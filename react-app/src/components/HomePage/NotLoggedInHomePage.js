@@ -25,7 +25,7 @@ const NotLoggedInUserHomePage = () => {
                 </div>
             </div>
             <div className='homePageBottomdiv'>
-                <h3>About</h3>
+                <NavLink to={'/about'} className='aboutPage'>About Us</NavLink>
             </div>
         </div>
     );
