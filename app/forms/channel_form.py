@@ -12,7 +12,8 @@ def unique_name(form, field):
         .filter(Channel.name == name)
         .first()
     )
-    if channel:
+    # if channel and not (hasattr(request, "channel") and (channel is request.channel)):
+    if channel and (not hasattr(request, 'channel') or channel is not request.channel):
         raise ValidationError("Channel with that name already exists in this workspace")
 
 

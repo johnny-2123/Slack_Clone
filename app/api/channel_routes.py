@@ -43,6 +43,7 @@ def check_channel():
     if channel.private and (not current_user in channel.private_members):
         return {"error": "User does not have access to this channel"}, 403
     request.channel = channel
+    request.workspace = channel.workspace
 
 
 # Checks if the current user has permissions to perform an action
@@ -120,3 +121,40 @@ def create_channel(workspace_id):
             error_info = e.orig.args
             return {"error": "IntegrityError", "info": error_info}
     return {"errors": validation_errors_to_error_messages(form.errors)}, 401
+
+
+# Update a channel
+@channel_routes.route("/", methods=["PUT"])
+@needs_permission
+def update_channel(channel_id):
+    channel = request.channel
+    form = ChannelForm()
+    form["csrf_token"].data = request.cookies["csrf_token"]
+    if form.validate_on_submit():
+        channel.name = form.data["name"]
+        channel.description = form.data["description"]
+        channel.topic = form.data["topic"]
+        if channel.private != form.data["private"]:
+            channel.private = form.data["private"]
+            channel.private_members.clear()
+            if form.data["private"]:
+                channel.private_members.append(current_user)
+        db.session.add(channel)
+        try:
+            db.session.commit()
+            return channel.to_dict()
+        except IntegrityError as e:
+            db.session.rollback()
+            error_info = e.orig.args
+            return {"error": "IntegrityError", "info": error_info}
+    return {"errors": validation_errors_to_error_messages(form.errors)}, 401
+
+
+# Delete a channel
+@channel_routes.route("/", methods=["DELETE"])
+@needs_permission
+def delete_channel(channel_id):
+    channel = request.channel
+    db.session.delete(channel)
+    db.session.commit()
+    return {"message": "Channel deleted successfully"}
