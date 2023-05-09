@@ -79,7 +79,8 @@ const directMessages = (state = initialState, action) => {
             }
         case ADD_DIRECT_MESSAGE:
             newState = { ...state };
-            return { ...newState, currentDirectMessages: newState.directMessages.currentDirectMessages.push(action.payload) }
+            newState.currentDirectMessages = [...newState.currentDirectMessages, action.payload]
+            return newState
         default:
             return state
     }

@@ -9,21 +9,19 @@ function WorkspaceMembers({ workspaceId }) {
     const sessionUser = useSelector(state => state.session?.user);
     const currentWorkspace = useSelector(state => state.workspaces?.currentWorkspace)
     const { currentWorkspaceMembers } = useSelector(state => state.workspaces)
-
-    console.log(`workspaceMembers in workspace members comoponent:`, currentWorkspaceMembers)
     const [errors, setErrors] = useState([]);
 
     useEffect(() => {
         dispatch(fetchWorkspaceMembers(workspaceId))
 
-    }, [dispatch])
+    }, [dispatch, workspaceId])
 
     useEffect(() => {
         sessionUser?.id === currentWorkspace.owner?.id ? setUserIsOrganizer(true) : setUserIsOrganizer(false)
         if (sessionUser && currentWorkspaceMembers) {
             setLoaded(true);
         }
-    }, [dispatch, sessionUser, currentWorkspaceMembers, workspaceId])
+    }, [dispatch, sessionUser, currentWorkspace.owner?.id, currentWorkspaceMembers, workspaceId])
 
 
     const [userIsOrganizer, setUserIsOrganizer] = useState(false);
@@ -38,7 +36,6 @@ function WorkspaceMembers({ workspaceId }) {
             console.log(`data above setErrors in handle submit for new workspace modal`, data.error)
             setErrors((data.error))
         } else {
-            // history.push(`/workspaces/${data.id}`)
         }
 
         setNewUserEmail('')

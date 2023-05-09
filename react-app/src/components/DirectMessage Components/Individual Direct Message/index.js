@@ -6,29 +6,40 @@ import "./IndividualdirectMessage.css"
 // react component for conversation between up to 9 workspace users
 function IndividualDirectMessage() {
     const { directMessageId } = useParams()
-    console.log(`directmessageId in individual dm:`, directMessageId)
+    // console.log(`directmessageId in individual dm:`, directMessageId)
 
     const dispatch = useDispatch()
 
+    const sessionUser = useSelector(state => state.session?.user);
+    const currentDM = useSelector(state => state?.directMessages?.currentIndividualDM)
+    const dmMessages = useSelector(state => state?.directMessages?.currentIndividualDM?.messages)
+
+    const [messages, setMessages] = useState()
+
     const [content, setContent] = useState('')
 
-    const handleSendMessage = (event) => {
+    const handleSendMessage = async (event) => {
         event.preventDefault();
-        dispatch(fetchAddDirectMessage(directMessageId, content))
-        setContent('')
+        const data = await dispatch(fetchAddDirectMessage(directMessageId, content))
+            .catch(data => console.log(data))
+        if (data.error) {
+            console.log(`data above setErrors in handle submit for new message in IndividualDirectMessage`, data.error)
+        } else {
+            setContent('')
+            const newMessage = await data
+            // console.log(`newMessage in IndividualDirectMessage`, newMessage)
+            setMessages([...messages, newMessage])
+        }
     }
 
     useEffect(() => {
         dispatch(fetchIndividualDM(directMessageId))
+
     }, [dispatch, directMessageId])
 
-    // Get the session user and the current individual direct message from the Redux store
-    const sessionUser = useSelector(state => state.session?.user);
-    const currentDM = useSelector(state => {
-        return state?.directMessages?.currentIndividualDM
-    })
-
-    console.log(`directmessage individual dm`, currentDM)
+    useEffect(() => {
+        setMessages(dmMessages)
+    }, [dmMessages])
 
     // get an array of user first names, excluding the session user's name
     const names = currentDM?.users?.reduce((x, user) => {
@@ -39,7 +50,9 @@ function IndividualDirectMessage() {
     }, []).join(', ');
 
     // Map over the messages in the current direct message to render each message and its replies
-    const messagesMapped = currentDM?.messages?.map((message, idx) => {
+    const messagesMapped = messages?.map((message, idx) => {
+        const messageLoaded = message?.content;
+
         const repliesMapped = message?.replies?.map((reply, idx) => {
             return (
                 <div className='individualMessageDiv' key={idx}>
@@ -49,7 +62,7 @@ function IndividualDirectMessage() {
                     <div className='messageDetailsDiv'>
                         <div className='messageSenderNameAndTimeStampDiv'>
                             <h4 className='messageSenderName'>{reply?.user?.first_name} {reply?.user?.last_name}</h4>
-                            <h5 className='messageTimestamp'>{reply.timestamp}</h5>
+                            <h5 className='messageTimestamp'>{reply?.timestamp}</h5>
                         </div>
                         <p>{reply?.content}</p>
                         <div className='repliesDiv'>
@@ -59,7 +72,7 @@ function IndividualDirectMessage() {
                 </div>
             )
         })
-        return (
+        return messageLoaded && (
             <div className='individualMessageDiv' key={idx}>
                 <div className='messageSenderProfilePicDiv'>
                     <img src='https://res.cloudinary.com/dkul3ouvi/image/upload/v1683176759/favpng_user-interface-design-default_fmppay.png' className='messageSenderProfilePic' alt='pfp' />
@@ -67,7 +80,7 @@ function IndividualDirectMessage() {
                 <div className='messageDetailsDiv'>
                     <div className='messageSenderNameAndTimeStampDiv'>
                         <h4 className='messageSenderName'>{message?.user?.first_name} {message?.user?.last_name}</h4>
-                        <h5 className='messageTimestamp'>{message.timestamp}</h5>
+                        <h5 className='messageTimestamp'>{message?.timestamp}</h5>
                     </div>
                     <p>{message?.content}</p>
                     <div className='repliesDiv'>

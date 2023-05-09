@@ -68,7 +68,7 @@ h2.workspacesHeaderDiv {
 
 
 .workspacesSubDiv {
-    max-height: 600px;
+    max-height: 500px;
     border-top: #4A154B 2px solid;
     overflow-y: scroll;
 }

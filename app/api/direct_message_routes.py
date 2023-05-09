@@ -179,7 +179,7 @@ def add_message_to_direct_message(id):
     return jsonify({
         "id": message.id,
         "content": message.content,
-        "user_id": message.user_id,
+        "user": message.user.to_dict(),
         "channel_id": message.channel_id,
         "parent_id": message.parent_id,
         "timestamp": message.timestamp.isoformat(),
