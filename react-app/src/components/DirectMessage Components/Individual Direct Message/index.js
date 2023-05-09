@@ -27,7 +27,6 @@ function IndividualDirectMessage() {
         } else {
             setContent('')
             const newMessage = await data
-            // console.log(`newMessage in IndividualDirectMessage`, newMessage)
             setMessages([...messages, newMessage])
         }
     }
@@ -103,7 +102,7 @@ function IndividualDirectMessage() {
                     onChange={(e) => setContent(e.target.value)}
                     required
                 />
-                <button className='sendMessageButton' type="submit">Send</button>
+                <button className='sendMessageButton' type="submit"><i className="fa-solid fa-paper-plane" /></button>
             </form>
         </div>
 
