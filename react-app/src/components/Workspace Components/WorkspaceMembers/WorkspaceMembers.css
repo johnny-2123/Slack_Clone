@@ -34,6 +34,10 @@ html {
     border-radius: 2px
 }
 
+.addWorkspaceMemberForm button:hover {
+    cursor: pointer;
+}
+
 .WorkspaceMembersSubDiv {
     /* outline: purple dotted thin; */
     display: flex;
@@ -69,6 +73,10 @@ html {
     border: none;
     color: white;
     padding: .5rem .75rem
+}
+
+.workspaceMemberInfoDiv button:hover {
+    cursor: pointer;
 }
 
 .workspaceSidebarMemberUsername {

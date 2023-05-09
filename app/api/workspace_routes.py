@@ -82,16 +82,16 @@ def create_workspace_member(id):
     user = User.query.filter_by(email=user_email).first()
 
     if not user:
-        return {'error': 'User with that id not found'}, 404
+        return {'error': ['User not found']}, 404
 
     if user in workspace.members:
-        return {'error': 'membership already exists'}, 400
+        return {'error': ['membership already exists']}, 400
 
     workspace.members.append(user)
 
     db.session.commit()
 
-    return {"message":f"added {user.username} to {workspace.name}"}
+    return user.to_dict(), 200
 
 # Get Members for a Single Workspace
 @workspace_routes.route('/<int:id>/members', methods=['GET'])
