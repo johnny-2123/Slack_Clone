@@ -63,16 +63,16 @@ function WorkspaceMembers({ workspaceId }) {
         (loaded && <div className='WorkspaceMembersMainDiv'>
             <h1 id='ChannelTitle'>People</h1>
             <form className='addWorkspaceMemberForm' onSubmit={handleAddMember}>
-                <label htmlFor="email">Add Member </label>
+                {/* <label htmlFor="email">Add Member </label> */}
                 <input
                     type="text"
                     id="email"
                     name="email"
-                    placeholder='enter user email'
+                    placeholder='Add User By Email'
                     onChange={(e) => setNewUserEmail(e.target.value)}
                     required
                 />
-                <button type="submit">Add</button>
+                <button type="submit"><i class="fa-solid fa-user-plus" /></button>
             </form>
             <ul className="lfform-errors">
                 {errors.map((error, idx) => (
