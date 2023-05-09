@@ -70,7 +70,7 @@ function IndividualWorkspace() {
                     <IndividualDirectMessage />
                 </Route>
                 <Route path={`${path}/`}>
-                    {<Redirect to={`${path}/members`} />}
+                    <Redirect to={`${path}/members`} />
                 </Route>
             </Switch>
         </div>
