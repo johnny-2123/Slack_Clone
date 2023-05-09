@@ -1,0 +1,17 @@
+.about-container {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .about-sidebar {
+    width: 15%;
+    background-color: #ECECEC;
+    height: 100%;
+    position: relative;
+  }
+
+  .about-content {
+    flex: 1;
+    padding: 20px;
+  }
+  
