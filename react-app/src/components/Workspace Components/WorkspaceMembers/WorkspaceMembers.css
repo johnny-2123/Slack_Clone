@@ -4,7 +4,7 @@ html {
 }
 
 
-#WorkspaceMembersMainDiv {
+.WorkspaceMembersMainDiv {
     /* outline: pink dotted thin; */
     flex: 1;
     overflow-y: scroll;

@@ -21,8 +21,6 @@ const HomePage = () => {
         }
     }, [sessionUser])
 
-    console.log(`sessionUserindex:`, sessionUser)
-
     console.log(`userLoggedin?:`, loggedIn)
 
     return (

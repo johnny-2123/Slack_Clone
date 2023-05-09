@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { fetchAddWorkspace } from "../../store/workspaces";
-import { useModal } from "../../context/Modal";
+import { fetchAddWorkspace } from "../../../store/workspaces";
+import { useModal } from "../../../context/Modal";
 import "./NewWorkspaceModal.css";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-
+import { useHistory } from 'react-router-dom'
 
 function AddWorkspaceModal() {
     const history = useHistory()

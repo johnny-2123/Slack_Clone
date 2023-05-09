@@ -3,7 +3,40 @@ const GET_INDIVIDUAL_WORKSPACE = 'workspaces/GET_INDIVIDUAL_WORKSPACE'
 const GET_WORKSPACE_MEMBERS = 'workspaces/GET_WORKSPACE_MEMBERS';
 const ADD_WORKSPACE_MEMBER = 'workspaces/ADD_WORKSPACE_MEMBER';
 const REMOVE_WORKSPACE_MEMBER = 'workspaces/REMOVE_WORKSPACE_MEMBER';
-const ADD_WORKSPACE = 'create/CREATE_WORKSPACE';
+const ADD_WORKSPACE = 'workspaces/CREATE_WORKSPACE';
+const UPDATE_WORKSPACE = 'workspaces/UPDATE_WORKSPACE';
+
+const updateWorkspace = workspace => ({
+    type: UPDATE_WORKSPACE,
+    payload: workspace
+})
+
+export const fetchUpdateWorkspace = (workspace, workspaceId) => async dispatch => {
+
+    console.log(`fetch Updating workspace`)
+
+    const response = await fetch(`/api/workspaces/${workspaceId}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(workspace)
+    })
+
+    console.log(`response from fetchUpdateWorkpace:`, response)
+
+    if (response.ok) {
+        const updatedWorkspace = await response.json();
+        console.log(`updated workspace data from fetchUpdateWorkspace:`, updatedWorkspace);
+        dispatch(updateWorkspace(updatedWorkspace));
+        return updatedWorkspace
+    } else {
+        const data = await response.json()
+        console.log(`caught errors in fetch update workspace`, data)
+        return data
+    }
+
+}
 
 const addWorkspace = workspace => ({
     type: ADD_WORKSPACE,
@@ -189,6 +222,10 @@ const workspaces = (state = initialState, action) => {
         case ADD_WORKSPACE:
             newState = { ...state }
             newState.userWorkspaces = [...newState.userWorkspaces, action.payload]
+            return newState
+        case UPDATE_WORKSPACE:
+            newState = { ...state }
+            newState.currentWorkspace = action.payload;
             return newState
         case GET_WORKSPACE_MEMBERS:
             return {

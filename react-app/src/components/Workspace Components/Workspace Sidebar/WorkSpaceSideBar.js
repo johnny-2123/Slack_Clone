@@ -6,7 +6,6 @@ import './WorkspaceSideBar.css'
 
 function WorkspaceSideBar({ channels, directMessages, url }) {
     const { workspaceId } = useParams()
-    console.log(`workspaceId in workspace sidebar component:`, workspaceId)
 
     const dispatch = useDispatch()
 
@@ -23,7 +22,7 @@ function WorkspaceSideBar({ channels, directMessages, url }) {
     let channelsMapped = channels?.map((channel, idx) => {
         return (
             <div key={idx}>
-                <NavLink to={`${url}/channels/${channel.id}`} >{channel.name}</NavLink>
+                <NavLink to={`${url}/channels/${channel.id}`} ><i class="fa-solid fa-hashtag"></i>  {channel.name}</NavLink>
             </div>
         )
     })
@@ -37,16 +36,17 @@ function WorkspaceSideBar({ channels, directMessages, url }) {
         }, []).join(', ');
         return (
             <div key={idx}>
-                <NavLink to={`${url}/direct_messages/${dm.id}`} >{names}</NavLink>
+                <NavLink to={`${url}/direct_messages/${dm.id}`} ><i class="fa-solid fa-message"></i> {names}</NavLink>
             </div>
         )
     })
 
     return (
         <div className='workspaceSideBarMainDiv'>
-            <h1>{currentWorkspace?.name}</h1>
+            <h1 className='workspaceSidebarName' >{currentWorkspace?.name}</h1>
             <div className='channelsListDiv'>
-                <NavLink to={`${url}/members`}>People</NavLink>
+                <NavLink to={`${url}/edit`}><i class="fa-solid fa-gear"></i> Edit Workspace</NavLink>
+                <NavLink to={`${url}/members`}>  <i className="fa-solid fa-users peopleIconWorkspaceSidebar" /> People</NavLink>
             </div>
             <div className='channelsListDiv'>
                 {channelsMapped}
@@ -55,9 +55,7 @@ function WorkspaceSideBar({ channels, directMessages, url }) {
                 {directMessagesMapped}
             </div>
         </div>
-
     )
-
 }
 
 export default WorkspaceSideBar

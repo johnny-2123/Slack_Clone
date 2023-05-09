@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from 'react';
-// import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import './WorkspaceMembers.css'
 import { fetchWorkspaceMembers, fetchRemoveWorkspaceMember, fetchAddWorkspaceMember } from '../../../store/workspaces';
 
-function WorkspaceMembers({workspaceId}) {
-    // const { workspaceId } = useParams()
-    console.log(`workspaceId in workspace sidebar component:`, workspaceId)
-
+function WorkspaceMembers({ workspaceId }) {
     const dispatch = useDispatch()
 
     const sessionUser = useSelector(state => state.session?.user);
@@ -17,7 +13,7 @@ function WorkspaceMembers({workspaceId}) {
         dispatch(fetchWorkspaceMembers(workspaceId))
         sessionUser?.id === currentWorkspace.owner?.id ? setUserIsOrganizer(true) : setUserIsOrganizer(false)
         // setLoaded(true)
-    }, [sessionUser, currentWorkspace,dispatch,workspaceId])
+    }, [sessionUser, currentWorkspace, dispatch, workspaceId])
 
 
 
@@ -38,7 +34,7 @@ function WorkspaceMembers({workspaceId}) {
     const workspaceMembers = useSelector(state => {
         return state.workspaces.currentWorkspaceMembers
     })
-    console.log(`workspaceMembers in workspace members comoponent:`, workspaceMembers)
+    // console.log(`workspaceMembers in workspace members comoponent:`, workspaceMembers)
 
     let membersMapped = workspaceMembers?.map((member, idx) => {
 
@@ -54,7 +50,7 @@ function WorkspaceMembers({workspaceId}) {
     })
 
     return (
-        <div id='WorkspaceMembersMainDiv'>
+        <div className='WorkspaceMembersMainDiv'>
             <h1 id='ChannelTitle'>People</h1>
             <form className='addWorkspaceMemberForm' onSubmit={handleAddMember}>
                 <label htmlFor="email">Add Member </label>

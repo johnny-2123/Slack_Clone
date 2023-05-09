@@ -100,8 +100,6 @@ def get_workspace_members(id):
     workspace = Workspace.query.get(id)
     user_id = current_user.id
 
-    print('back end route for getting members for a single workspace**************************************************************************')
-
     if not workspace:
         return {'error': 'Workspace not found'}, 404
 
@@ -177,8 +175,9 @@ def update_workspace(id):
         updated_workspace = Workspace.query.get(id)
 
         return updated_workspace.to_dict()
-
-    return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+    print('**************************************errors in workspace routes update workspace,')
+    print(validation_errors_to_error_messages(form.errors))
+    return {'errors': (form.errors)}, 400
 
 # Create a workspace
 @workspace_routes.route('/', methods=['POST'])
@@ -199,11 +198,9 @@ def create_workspace():
         db.session.commit()
 
         created_workspace = Workspace.query.get(new_workspace.id)
-        # print('*************************************************************created workspace in workspace routes:')
-        # print(created_workspace.to_dict())
         return created_workspace.to_dict()
     # print('**************************************errors in workspace routes create new workspace,')
-    # print((form.errors))
+    # print(validation_errors_to_error_messages(form.errors))
     return {'errors': (form.errors)}, 400
 
 # Get all User workspaces

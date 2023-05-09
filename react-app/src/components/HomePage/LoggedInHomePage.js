@@ -3,13 +3,11 @@ import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUserWorkspaces } from '../../store/workspaces'
 import OpenModalButton from "../OpenModalButton";
-import NewWorkspaceModal from "../New Workspace Modal"
+import NewWorkspaceModal from "../Workspace Components/New Workspace Modal"
 import './LoggedIn.css';
 
 const LoggedInUserHomePage = ({ sessionUser }) => {
     const dispatch = useDispatch()
-
-    console.log(`sessionuser:`, sessionUser)
 
     const [loaded, setLoaded] = useState(false);
 
@@ -21,8 +19,6 @@ const LoggedInUserHomePage = ({ sessionUser }) => {
     const workspaces = useSelector(state => {
         return state.workspaces?.userWorkspaces
     });
-
-    // console.log(`workspaces from logged in home page component`, workspaces)
 
     let workspacesArr = workspaces?.map((workspace, idx) => {
         return (
