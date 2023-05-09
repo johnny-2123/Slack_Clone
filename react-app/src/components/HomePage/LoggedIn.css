@@ -145,3 +145,17 @@ h2.workspacesHeaderDiv {
 .launchWorkSpaceLink:hover {
     background-color: #621f69e6;
 }
+
+
+.noWorkspacesSubDiv {
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.notMemberOfWorkspacesHeader {
+    text-align: center;
+    color: darkgray;
+
+}

@@ -37,7 +37,6 @@ const LoggedInUserHomePage = ({ sessionUser }) => {
         )
     })
 
-
     return (
         < div className='homePageLoggedInMainDiv'>
             <h1>Welcome Back {sessionUser?.username}</h1>
@@ -51,8 +50,19 @@ const LoggedInUserHomePage = ({ sessionUser }) => {
                 </div>
                 <div className='workspacesSubDiv'>
                     {workspacesArr}
+                </div>
+            </div>}
+            {loaded && (workspaces[0]?.name == undefined) && <div className='workspacesMainDiv '>
+                <div className='workspaceMainDivTopDiv'>
+                    <h2 className='workspacesHeaderDiv'>Workspaces for {sessionUser?.email}</h2>
+                    <OpenModalButton
+                        buttonText="Create Workspace"
+                        modalComponent={<NewWorkspaceModal />}
+                    />
+                </div>
+                <div className='workspacesSubDiv noWorkspacesSubDiv'>
                     {workspaces.length < 1 && <div>
-                        <h2>You are not a member of any workspaces yet</h2>
+                        <h2 className='notMemberOfWorkspacesHeader'>You are not a member of any workspaces yet</h2>
                     </div>}
                 </div>
             </div>}
