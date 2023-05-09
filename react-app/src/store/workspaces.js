@@ -5,6 +5,11 @@ const ADD_WORKSPACE_MEMBER = 'workspaces/ADD_WORKSPACE_MEMBER';
 const REMOVE_WORKSPACE_MEMBER = 'workspaces/REMOVE_WORKSPACE_MEMBER';
 const ADD_WORKSPACE = 'workspaces/CREATE_WORKSPACE';
 const UPDATE_WORKSPACE = 'workspaces/UPDATE_WORKSPACE';
+const CLEAR_WORKSPACE_STORE = 'workspace/CLEAR_WORKSPACE_STORE'
+
+export const clearWorkspaceStore = () => ({
+    type: CLEAR_WORKSPACE_STORE
+})
 
 const updateWorkspace = workspace => ({
     type: UPDATE_WORKSPACE,
@@ -241,6 +246,11 @@ const workspaces = (state = initialState, action) => {
             newState = { ...state };
             newState.currentWorkspaceMembers = [...newState.currentWorkspaceMembers, action.payload];
             return newState;
+        case CLEAR_WORKSPACE_STORE:
+            newState = { ...state }
+            newState.currentWorkspace = {}
+            newState.currentWorkspaceMembers = []
+            return newState
         default:
             return state
     }

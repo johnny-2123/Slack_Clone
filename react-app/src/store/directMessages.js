@@ -1,6 +1,11 @@
 const GET_DIRECT_MESSAGES = "direct_messages/GET_DIRECT_MESSAGES"
-const GET_INDIVIDUAL_DM = 'direct_message/GET_INDIViDUAL_DM'
-const ADD_DIRECT_MESSAGE = 'direct_message/ADD_DIRECT_MESSAGE'
+const GET_INDIVIDUAL_DM = 'direct_messages/GET_INDIViDUAL_DM'
+const ADD_DIRECT_MESSAGE = 'direct_messages/ADD_DIRECT_MESSAGE'
+const CLEAR_DIRECT_MESSAGES = 'direct_messages/CLEAR_DIRECT_MESSAGES'
+
+export const clearDirectMessages = () => ({
+    type: CLEAR_DIRECT_MESSAGES
+})
 
 const addDirectMessage = directMessage => ({
     type: ADD_DIRECT_MESSAGE,
@@ -80,6 +85,11 @@ const directMessages = (state = initialState, action) => {
         case ADD_DIRECT_MESSAGE:
             newState = { ...state };
             newState.currentDirectMessages = [...newState.currentDirectMessages, action.payload]
+            return newState
+        case CLEAR_DIRECT_MESSAGES:
+            newState = { ...state };
+            newState.currentDirectMessages = []
+            newState.currentIndividualDM = {}
             return newState
         default:
             return state

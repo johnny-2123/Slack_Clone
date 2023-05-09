@@ -1,23 +1,19 @@
-import React, { useEffect } from 'react';
-import { useParams, NavLink } from "react-router-dom";
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchWorkspaceMembers } from '../../../store/workspaces';
+import React, { useEffect, useState } from 'react';
+import { NavLink } from "react-router-dom";
+import { useSelector } from 'react-redux';
 import './WorkspaceSideBar.css'
 
-function WorkspaceSideBar({ channels, directMessages, url }) {
-    const { workspaceId } = useParams()
+function WorkspaceSideBar({ channels, directMessages, url, currentWorkspace }) {
+    const [userIsOrganizer, setUserIsOrganizer] = useState(false);
+    const [loaded, setLoaded] = useState(false)
 
-    const dispatch = useDispatch()
-
-    useEffect(() => {
-        dispatch(fetchWorkspaceMembers(workspaceId))
-    }, [dispatch, workspaceId]);
-
-    const currentWorkspace = useSelector(state => {
-        return state.workspaces.currentWorkspace
-    })
     const sessionUser = useSelector(state => state.session?.user);
-
+    useEffect(() => {
+        sessionUser?.id === currentWorkspace?.owner?.id ? setUserIsOrganizer(true) : setUserIsOrganizer(false)
+        if (sessionUser && currentWorkspace?.name) {
+            setLoaded(true);
+        }
+    }, [sessionUser, currentWorkspace])
 
     let channelsMapped = channels?.map((channel, idx) => {
         return (
@@ -42,19 +38,25 @@ function WorkspaceSideBar({ channels, directMessages, url }) {
     })
 
     return (
-        <div className='workspaceSideBarMainDiv'>
-            <h1 className='workspaceSidebarName' >{currentWorkspace?.name}</h1>
-            <div className='channelsListDiv'>
-                <NavLink to={`${url}/edit`}><i class="fa-solid fa-gear"></i> Edit Workspace</NavLink>
-                <NavLink to={`${url}/members`}>  <i className="fa-solid fa-users peopleIconWorkspaceSidebar" /> People</NavLink>
+        <>
+            {!loaded && <div className='workspaceSideBarMainDiv'>
             </div>
-            <div className='channelsListDiv'>
-                {channelsMapped}
+            }
+            {loaded && <div className='workspaceSideBarMainDiv'>
+                <h1 className='workspaceSidebarName' >{currentWorkspace?.name}</h1>
+                <div className='channelsListDiv'>
+                    {userIsOrganizer && <NavLink to={`${url}/edit`}><i class="fa-solid fa-gear"></i> Edit Workspace</NavLink>}
+                    <NavLink to={`${url}/members`}>  <i className="fa-solid fa-users peopleIconWorkspaceSidebar" /> People</NavLink>
+                </div>
+                <div className='channelsListDiv'>
+                    {channelsMapped}
+                </div>
+                <div className='channelsListDiv'>
+                    {directMessagesMapped}
+                </div>
             </div>
-            <div className='channelsListDiv'>
-                {directMessagesMapped}
-            </div>
-        </div>
+            }
+        </>
     )
 }
 

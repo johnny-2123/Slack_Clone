@@ -1,6 +1,11 @@
 const GET_CHANNELS = "channels/GET_CHANNELS"
 const GET_INDIVIDUAL_CHANNEL = "channels/GET_INDIVIDUAL_CHANNEL"
 const GET_CHANNEL_MESSAGES = "channels/GET_CHANNEL_MESSAGES"
+const CLEAR_CHANNELS = "channels/CLEAR_CHANNELS"
+
+export const clearChannels = () => ({
+    type: CLEAR_CHANNELS
+})
 
 const getChannelMessages = messages => ({
     type: GET_CHANNEL_MESSAGES,
@@ -56,6 +61,7 @@ const initialState = {
 }
 
 const channels = (state = initialState, action) => {
+    let newState;
     switch (action.type) {
         case GET_CHANNELS:
             return {
@@ -69,6 +75,12 @@ const channels = (state = initialState, action) => {
             return {
                 ...state, currentChannelMessages: action.payload
             }
+        case CLEAR_CHANNELS:
+            newState = { ...state }
+            newState.workspaceChannels = []
+            newState.currentChannel = {}
+            newState.currentChannelMessages = []
+            return newState
         default:
             return state
     }

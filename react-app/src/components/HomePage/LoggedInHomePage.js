@@ -51,6 +51,9 @@ const LoggedInUserHomePage = ({ sessionUser }) => {
                 </div>
                 <div className='workspacesSubDiv'>
                     {workspacesArr}
+                    {workspaces.length < 1 && <div>
+                        <h2>You are not a member of any workspaces yet</h2>
+                    </div>}
                 </div>
             </div>}
         </div >
