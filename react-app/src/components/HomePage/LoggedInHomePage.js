@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUserWorkspaces } from '../../store/workspaces'
+import OpenModalButton from "../OpenModalButton";
+import NewWorkspaceModal from "../New Workspace Modal"
 import './LoggedIn.css';
 
 const LoggedInUserHomePage = ({ sessionUser }) => {
@@ -20,8 +22,9 @@ const LoggedInUserHomePage = ({ sessionUser }) => {
         return state.workspaces?.userWorkspaces
     });
 
+    // console.log(`workspaces from logged in home page component`, workspaces)
+
     let workspacesArr = workspaces?.map((workspace, idx) => {
-        // let channelId = workspace?.channels[0]?.id
         return (
             <div key={workspace.id} className="individualWorkspaceDiv"  >
                 <div className="individualWorkspaceLeftDiv">
@@ -42,11 +45,17 @@ const LoggedInUserHomePage = ({ sessionUser }) => {
     return (
         < div className='homePageLoggedInMainDiv'>
             <h1>Welcome Back {sessionUser?.username}</h1>
-            {loaded && (workspaces[0]?.name !== undefined) && <div className='workspacesDiv'>
-                <div>
+            {loaded && (workspaces[0]?.name !== undefined) && <div className='workspacesMainDiv '>
+                <div className='workspaceMainDivTopDiv'>
                     <h2 className='workspacesHeaderDiv'>Workspaces for {sessionUser?.email}</h2>
+                    <OpenModalButton
+                        buttonText="Create Workspace"
+                        modalComponent={<NewWorkspaceModal />}
+                    />
                 </div>
-                {workspacesArr}
+                <div className='workspacesSubDiv'>
+                    {workspacesArr}
+                </div>
             </div>}
         </div >
 

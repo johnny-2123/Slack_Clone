@@ -34,14 +34,14 @@ function IndividualWorkspace() {
                 // set isChannelsLoaded to true when channels are loaded
                 setIsChannelsLoaded(true);
             });
-    }, [dispatch,workspaceId])
+    }, [dispatch, workspaceId])
 
     // const currentWorkspace = useSelector(state => {
     //     return state.workspaces?.currentWorkspace
     // })
     // console.log(`currentWorkspace*:`, currentWorkspace)
 
-    const channels = useSelector(state=>{
+    const channels = useSelector(state => {
         return state.channels?.workspaceChannels
     })
     // console.log(`channels**********:`, channels)
@@ -80,9 +80,7 @@ function IndividualWorkspace() {
     return (
 
         <div className='IndividualWorkspaceMainDiv'>
-            {/* {showWorkspaceSideBar && */}
-                <WorkspaceSideBar channels={channels} url={url} directMessages={directMessages} />
-            {/* } */}
+            <WorkspaceSideBar channels={channels} url={url} directMessages={directMessages} />
             <Switch>
                 <Route path={`${path}/channels/:channelId`} >
                     <IndividualChannel />
@@ -97,8 +95,7 @@ function IndividualWorkspace() {
                     <IndividualDirectMessage />
                 </Route>
                 <Route path={`${path}/`}>
-                    {/* only redirect if channels are loaded */}
-                    {isChannelsLoaded && <Redirect to={`${path}/channels/${channels[0]?.id}`} />}
+                    {<Redirect to={`${path}/members`} />}
                 </Route>
             </Switch>
         </div>

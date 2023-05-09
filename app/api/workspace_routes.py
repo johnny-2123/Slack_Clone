@@ -190,20 +190,21 @@ def create_workspace():
     form['csrf_token'].data = request.cookies['csrf_token']
 
     if form.validate_on_submit():
-        new_workspace = Workspace(
-            name=form.name.data,
-            description=form.description.data,
-            image_url=form.image_url.data,
-            owner_id=current_user.id
+        new_workspace = current_user.create_workspace(
+            form.name.data,
+            form.description.data,
+            form.image_url.data,
         )
         db.session.add(new_workspace)
         db.session.commit()
 
         created_workspace = Workspace.query.get(new_workspace.id)
-
+        # print('*************************************************************created workspace in workspace routes:')
+        # print(created_workspace.to_dict())
         return created_workspace.to_dict()
-
-    return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+    # print('**************************************errors in workspace routes create new workspace,')
+    # print((form.errors))
+    return {'errors': (form.errors)}, 400
 
 # Get all User workspaces
 @workspace_routes.route('/', methods=['GET'])

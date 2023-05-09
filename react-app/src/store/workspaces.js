@@ -3,6 +3,36 @@ const GET_INDIVIDUAL_WORKSPACE = 'workspaces/GET_INDIVIDUAL_WORKSPACE'
 const GET_WORKSPACE_MEMBERS = 'workspaces/GET_WORKSPACE_MEMBERS';
 const ADD_WORKSPACE_MEMBER = 'workspaces/ADD_WORKSPACE_MEMBER';
 const REMOVE_WORKSPACE_MEMBER = 'workspaces/REMOVE_WORKSPACE_MEMBER';
+const ADD_WORKSPACE = 'create/CREATE_WORKSPACE';
+
+const addWorkspace = workspace => ({
+    type: ADD_WORKSPACE,
+    payload: workspace
+})
+
+export const fetchAddWorkspace = (workspace) => async dispatch => {
+    // console.log(`workspace received from new Workspace Modal handleSubmit:`, workspace)
+    const response = await fetch(`api/workspaces`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(workspace)
+    })
+
+    console.log(`response from fetchAddWorkpace:`, response)
+
+    if (response.ok) {
+        const newWorkspace = await response.json();
+        // console.log(`new workspace data from fetchAddWorkspace:`, newWorkspace);
+        dispatch(addWorkspace(newWorkspace));
+        return newWorkspace
+    } else {
+        const data = await response.json()
+        // console.log(`caught errors in fetch addWorkspace`, data)
+        return data
+    }
+}
 
 const addWorkspaceMember = member => ({
     type: ADD_WORKSPACE_MEMBER,
@@ -27,6 +57,10 @@ export const fetchAddWorkspaceMember = (workspaceId, userEmail) => async dispatc
         // console.log(`member added`, newMember);
         dispatch(addWorkspaceMember(newMember));
         return newMember;
+    } else {
+        const data = await response.json()
+        console.log(`caught errors in fetch addWorkspace workspace member`, data)
+        return data
     }
 
 }
@@ -126,6 +160,10 @@ export const fetchUserWorkspaces = () => async dispatch => {
         dispatch(getUserWorkspaces(workspaces.workspaces));
 
         return workspaces
+    } else {
+        const data = await response.json()
+        console.log(`caught errors in fetch userworkspaces`, data)
+        return data
     }
 
 }
@@ -148,6 +186,10 @@ const workspaces = (state = initialState, action) => {
             return {
                 ...state, currentWorkspace: action.payload
             }
+        case ADD_WORKSPACE:
+            newState = { ...state }
+            newState.userWorkspaces = [...newState.userWorkspaces, action.payload]
+            return newState
         case GET_WORKSPACE_MEMBERS:
             return {
                 ...state, currentWorkspaceMembers: [...action.payload]

@@ -12,7 +12,7 @@ function WorkspaceSideBar({ channels, directMessages, url }) {
 
     useEffect(() => {
         dispatch(fetchWorkspaceMembers(workspaceId))
-      }, [dispatch, workspaceId]);
+    }, [dispatch, workspaceId]);
 
     const currentWorkspace = useSelector(state => {
         return state.workspaces.currentWorkspace

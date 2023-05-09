@@ -16,28 +16,68 @@ body {
     margin-bottom: 1rem;
 }
 
-.workspacesDiv {
+.workspacesMainDiv {
     border: #6E446F solid .3rem;
     border-radius: 5px;
-    margin-top: 2rem;
+    margin: 2rem;
     width: 85%;
     max-width: 700px;
 }
 
-.workspacesHeaderDiv {
+.workspaceMainDivTopDiv {
     display: flex;
-    background-color: #ECDEEC;
-    margin: 0;
-    padding: 1.5rem 1rem;
-    /* border-radius: 5px 5px 0 0; */
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex: 1;
+    padding: 1rem;
+}
+
+.workspaceMainDivTopDiv button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 0;
+    background-color: white;
+    color: #4A154B;
+    text-decoration: none;
+    border: #4A154B 2px solid;
+    border-radius: 0.2rem;
+    width: 12rem;
+    height: 3rem;
+    margin-right: 1.1rem;
+    font-size: 1.2rem;
+    transition: background-color 0.3s ease;
+}
+
+.workspaceMainDivTopDiv button:hover {
+    cursor: pointer;
+    color: white;
+    background-color: #4A154B;
+}
+
+.workspacesHeaderDiv {
+    padding: 1.5rem 0;
 }
 
 h2.workspacesHeaderDiv {
     margin: 0;
-    padding-left: 1rem;
     font-size: 1.35rem;
     font-weight: 200;
 }
+
+
+.workspacesSubDiv {
+    max-height: 600px;
+    border-top: #4A154B 2px solid;
+    overflow-y: scroll;
+}
+
+.workspacesDiv::-webkit-scrollbar-thumb {
+    background-color: #4A154B;
+}
+
+
 
 .individualWorkspaceDiv {
     display: flex;
