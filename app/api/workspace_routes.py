@@ -133,10 +133,10 @@ def delete_workspace(id):
     workspace = Workspace.query.get(id)
 
     if not workspace:
-        return {'error': 'Workspace not found.'}, 404
+        return {'errors': ['Workspace not found.']}, 404
 
     if workspace.owner_id != current_user.id:
-        return {'error': 'Must be workspace owner to delete a workspace'}, 403
+        return {'errors': ['Must be workspace owner to delete a workspace']}, 403
 
     db.session.delete(workspace)
     db.session.commit()
@@ -157,10 +157,10 @@ def update_workspace(id):
     print(workspace)
 
     if not workspace:
-        return {'error': 'Workspace not found.'}, 404
+        return {'errors': ['Workspace not found.']}, 404
 
     if workspace.owner_id != current_user.id:
-        return {'error': 'Must be workspace owner to update a workspace'}, 403
+        return {'errors': ['Must be workspace owner to update a workspace']}, 403
 
     form = WorkspaceForm()
 

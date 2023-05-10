@@ -5,7 +5,39 @@ const ADD_WORKSPACE_MEMBER = 'workspaces/ADD_WORKSPACE_MEMBER';
 const REMOVE_WORKSPACE_MEMBER = 'workspaces/REMOVE_WORKSPACE_MEMBER';
 const ADD_WORKSPACE = 'workspaces/CREATE_WORKSPACE';
 const UPDATE_WORKSPACE = 'workspaces/UPDATE_WORKSPACE';
-const CLEAR_WORKSPACE_STORE = 'workspace/CLEAR_WORKSPACE_STORE'
+const CLEAR_WORKSPACE_STORE = 'workspaces/CLEAR_WORKSPACE_STORE'
+const DELETE_WORKSPACE = 'workspaces/DELETE_WORKSPACE'
+
+const deleteWorkspace = (workspaceId) => ({
+    type: DELETE_WORKSPACE,
+    payload: workspaceId
+})
+
+export const fetchDeleteWorkspace = (workspaceId) => async dispatch => {
+    console.log(`fetch deleting workspace`)
+
+    const response = await fetch(`/api/workspaces/${workspaceId}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(workspaceId)
+    })
+
+    console.log(`response from fetchDeleteWorkspace:`, response)
+
+    if (response.ok) {
+        const deletedWorkspace = await response.json();
+        console.log(`deleted workspace data from fetch delete Workspace:`, deletedWorkspace);
+        // dispatch(deleteWorkspace(deletedWorkspace));
+        return deletedWorkspace
+    } else {
+        const data = await response.json()
+        console.log(`caught errors in fetch delete workspace`, data)
+        return data
+    }
+
+}
 
 export const clearWorkspaceStore = () => ({
     type: CLEAR_WORKSPACE_STORE

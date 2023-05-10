@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUpdateWorkspace } from '../../../store/workspaces';
+import OpenModalButton from "../../OpenModalButton"
+import DeleteWorkspace from '../Delete Workspace';
+import './EditWorkspace.css';
 
 function EditWorkspace() {
-    const dispatch = useDispatch()
-
+    const dispatch = useDispatch();
     const workspace = useSelector(state => {
         return state?.workspaces?.currentWorkspace
     })
@@ -39,50 +41,57 @@ function EditWorkspace() {
     }
 
     return (
-        <div className='WorkspaceMembersMainDiv'>
-            <h1 id='ChannelTitle'>Edit Workspace</h1>
-            <form onSubmit={handleSubmit} id='editWorkspaceForm'>
-                <ul className="lfform-errors">
-                    {errors.map((error, idx) => (
-                        <li key={idx} className="lfform-error">{error}</li>
-                    ))}
-                </ul>
-                <div className="lfform-input">
-                    <label htmlFor="workspaceName">name</label>
-                    <input
-                        type="text"
-                        name="workspaceName"
-                        id="workspaceName"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        required
-                    />
-                </div>
-                <div className="lfform-input">
-                    <label htmlFor="workspaceDescription">description</label>
-                    <input
-                        type="text"
-                        name="workspaceDescription"
-                        id="workspaceDescription"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        required
-                    />
-                </div>
-                <div className="lfform-input">
-                    <label htmlFor="workspaceImageUrl">image url</label>
-                    <input
-                        type="text"
-                        name="workspaceImageUrl"
-                        id="workspaceImageUrl"
-                        value={imageUrl}
-                        onChange={(e) => setImageUrl(e.target.value)}
+        <>
+            <div className='WorkspaceMembersMainDiv'>
+                <h1 id='ChannelTitle'>Edit Workspace</h1>
+                <form onSubmit={handleSubmit} id='editWorkspaceForm'>
+                    <ul className="lfform-errors">
+                        {errors.map((error, idx) => (
+                            <li key={idx} className="lfform-error">{error}</li>
+                        ))}
+                    </ul>
+                    <div className="lfform-input">
+                        <label htmlFor="workspaceName">name</label>
+                        <input
+                            type="text"
+                            name="workspaceName"
+                            id="workspaceName"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="lfform-input">
+                        <label htmlFor="workspaceDescription">description</label>
+                        <input
+                            type="text"
+                            name="workspaceDescription"
+                            id="workspaceDescription"
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="lfform-input">
+                        <label htmlFor="workspaceImageUrl">image url</label>
+                        <input
+                            type="text"
+                            name="workspaceImageUrl"
+                            id="workspaceImageUrl"
+                            value={imageUrl}
+                            onChange={(e) => setImageUrl(e.target.value)}
 
-                    />
+                        />
+                    </div>
+                    <button type="submit" className="lfform-button">Update Workspace</button>
+
+                </form>
+                <div className='DeleteWorkspaceButtonDiv'>
+                    <OpenModalButton className="DeleteWorkspaceOpenModalButton" buttonText={'Delete Workspace'} modalComponent={<DeleteWorkspace />} />
                 </div>
-                <button type="submit" className="lfform-button">Update Workspace</button>
-            </form>
-        </div>
+            </div>
+
+        </>
     )
 }
 
