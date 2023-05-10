@@ -8,6 +8,7 @@ const NotLoggedInUserHomePage = () => {
         <div className='homePageNotLoggedInMainDiv'>
             <div className='homePageTopDiv'>
                 <div className='homePageTopLeftDiv'>
+
                     <h1 className='homePageTitle'>One platform for your team and your work</h1>
                     <ul className='homePageFeatures'>
                         <li>Connect people to the information they need</li>
@@ -19,6 +20,7 @@ const NotLoggedInUserHomePage = () => {
                 <img className='homePageImage' src='https://res.cloudinary.com/dkul3ouvi/image/upload/v1682901409/vecteezy_people-user-team-png-transparent_9664234_909_oz8x4i.png' alt='home-page' />
             </div>
             <div>
+
                 <div className='homePageButtons'>
                     <NavLink to={'/login'} className='homePageLoginButton'>Log In</NavLink>
                     <NavLink to={'/signup'} className='homePageSignupButton'>Sign Up</NavLink>
@@ -26,6 +28,9 @@ const NotLoggedInUserHomePage = () => {
             </div>
             <div className='homePageBottomdiv'>
                 <NavLink to={'/about'} className='aboutPage'>About Us</NavLink>
+            </div>
+            <div className='video-container'>
+                <video className="video-slide" src="/video.mov" autoPlay muted loop></video>
             </div>
         </div>
     );
