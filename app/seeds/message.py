@@ -167,7 +167,7 @@ def seed_messages():
     channel=wayne_general,
     content="How about 7pm at that new bar on 5th street?",
     timestamp=datetime(2023, 4, 29, 17, 10, 0),
-    parent=message21
+    parent=message22
     )
 
     message24 = Message(
@@ -175,7 +175,7 @@ def seed_messages():
     channel=wayne_general,
     content="Sounds good to me! I'll see you guys there.",
     timestamp=datetime(2023, 4, 29, 17, 15, 0),
-    parent=message22
+    parent=message23
     )
 
     db.session.add(message1)
