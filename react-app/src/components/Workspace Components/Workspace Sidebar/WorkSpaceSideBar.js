@@ -22,7 +22,7 @@ function WorkspaceSideBar({ channels, directMessages, url }) {
     let channelsMapped = channels?.map((channel, idx) => {
         return (
             <div key={idx}>
-                <NavLink to={`${url}/channels/${channel.id}`} ><i class="fa-solid fa-hashtag"></i>  {channel.name}</NavLink>
+                <NavLink to={`${url}/channels/${channel.id}`} ><i className="fa-solid fa-hashtag"></i>  {channel.name}</NavLink>
             </div>
         )
     })
@@ -36,7 +36,7 @@ function WorkspaceSideBar({ channels, directMessages, url }) {
         }, []).join(', ');
         return (
             <div key={idx}>
-                <NavLink to={`${url}/direct_messages/${dm.id}`} ><i class="fa-solid fa-message"></i> {names}</NavLink>
+                <NavLink to={`${url}/direct_messages/${dm.id}`} ><i className="fa-solid fa-message"></i> {names}</NavLink>
             </div>
         )
     })
@@ -45,7 +45,7 @@ function WorkspaceSideBar({ channels, directMessages, url }) {
         <div className='workspaceSideBarMainDiv'>
             <h1 className='workspaceSidebarName' >{currentWorkspace?.name}</h1>
             <div className='channelsListDiv'>
-                <NavLink to={`${url}/edit`}><i class="fa-solid fa-gear"></i> Edit Workspace</NavLink>
+                <NavLink to={`${url}/edit`}><i className="fa-solid fa-gear"></i> Edit Workspace</NavLink>
                 <NavLink to={`${url}/members`}>  <i className="fa-solid fa-users peopleIconWorkspaceSidebar" /> People</NavLink>
             </div>
             <div className='channelsListDiv'>
