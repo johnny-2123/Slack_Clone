@@ -93,3 +93,12 @@ body {
     margin-top: 64px;
     color: #616161;
 }
+
+.aboutPage {
+    font-size: 24px;
+    font-weight: bold;
+    padding: 12px 32px;
+    border-radius: 4px;
+    text-decoration: none;
+    color: black;
+}

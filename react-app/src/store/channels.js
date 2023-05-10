@@ -2,6 +2,11 @@ const GET_CHANNELS = "channels/GET_CHANNELS";
 const GET_INDIVIDUAL_CHANNEL = "channels/GET_INDIVIDUAL_CHANNEL";
 const GET_CHANNEL_MESSAGES = "channels/GET_CHANNEL_MESSAGES";
 const ADD_CHANNEL_MESSAGE = "channels/ADD_CHANNEL_MESSAGE";
+const CLEAR_CHANNELS = "channels/CLEAR_CHANNELS"
+
+export const clearChannels = () => ({
+    type: CLEAR_CHANNELS
+})
 
 const getChannelMessages = (messages) => ({
     type: GET_CHANNEL_MESSAGES,
@@ -97,6 +102,12 @@ const channels = (state = initialState, action) => {
             return (newState.currentChannelMessages = [
                 [...newState.currentChannelMessages, action.payload],
             ]);
+        case CLEAR_CHANNELS:
+            newState = { ...state }
+            newState.workspaceChannels = []
+            newState.currentChannel = {}
+            newState.currentChannelMessages = []
+            return newState
         default:
             return state;
     }

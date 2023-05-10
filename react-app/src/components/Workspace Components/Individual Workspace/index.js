@@ -8,12 +8,12 @@ import ThreadSidebar from '../../Thread Components/ThreadSideBar';
 import IndividualDirectMessage from '../../DirectMessage Components/Individual Direct Message'
 import EditWorkspace from '../Edit Workspace'
 import { Route, Switch } from "react-router-dom";
-import { fetchIndividualWorkspace } from '../../../store/workspaces';
-import { fetchDirectMessages } from '../../../store/directMessages';
+import { fetchIndividualWorkspace, clearWorkspaceStore } from '../../../store/workspaces';
+import { fetchDirectMessages, clearDirectMessages } from '../../../store/directMessages';
+import { fetchChannels, clearChannels } from '../../../store/channels';
+import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
 import './IndividualWorkspace.css'
 import '../Workspace Sidebar/WorkSpaceSideBar'
-import { fetchChannels } from '../../../store/channels';
-import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
 
 function IndividualWorkspace() {
     const { workspaceId } = useParams()
@@ -22,37 +22,36 @@ function IndividualWorkspace() {
     const { url, path } = useRouteMatch(`/workspaces/${workspaceId}`)
 
     const dispatch = useDispatch()
-
+    const currentWorkspace = useSelector(state => {
+        return state.workspaces.currentWorkspace
+    })
     const [isChannelsLoaded, setIsChannelsLoaded] = useState(false);
 
     useEffect(() => {
         dispatch(fetchIndividualWorkspace(workspaceId))
         dispatch(fetchDirectMessages(workspaceId))
         dispatch(fetchChannels(workspaceId))
-            .then(() => {
-                // set isChannelsLoaded to true when channels are loaded
-                setIsChannelsLoaded(true);
-            });
+        setIsChannelsLoaded(true);
+
+        return () => {
+            dispatch(clearWorkspaceStore())
+            dispatch(clearDirectMessages())
+            dispatch(clearChannels())
+        }
     }, [dispatch, workspaceId])
 
-    // const currentWorkspace = useSelector(state => {
-    //     return state.workspaces?.currentWorkspace
-    // })
-    // console.log(`currentWorkspace*:`, currentWorkspace)
 
     const channels = useSelector(state => {
         return state.channels?.workspaceChannels
     })
-    // console.log(`channels**********:`, channels)
 
     const directMessages = useSelector(state => {
-        return state.directMessages.currentDirectMessages
+        return state.directMessages?.currentDirectMessages
     })
 
     return (
-
         <div className='IndividualWorkspaceMainDiv'>
-            <WorkspaceSideBar channels={channels} url={url} directMessages={directMessages} />
+            <WorkspaceSideBar channels={channels} url={url} directMessages={directMessages} currentWorkspace={currentWorkspace} />
             <Switch>
                 <Route path={`${path}/edit`}>
                     <EditWorkspace workspaceId={workspaceId} />
