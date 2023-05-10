@@ -20,7 +20,7 @@ function DeleteWorkspace() {
 
     useEffect(() => {
         // if (!workspace) {
-        //     Redirect or display deleted workspace information
+        //     Redirect or display deleted workspace informations
         // }
 
         return () => {
