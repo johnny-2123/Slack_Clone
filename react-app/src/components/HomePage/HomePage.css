@@ -101,13 +101,15 @@ body {
 }
 
 .aboutPage {
+    background-color: rgb(78, 74, 74);
+    color: white;
     font-size: 24px;
     font-weight: bold;
     padding: 12px 32px;
+    border: 2px solid #611F69;
     border-radius: 4px;
-    text-decoration: none;
-    color: white;
-}
+  }
+
 
 
 .homePageTopLeftDiv {
