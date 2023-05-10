@@ -1,0 +1,11 @@
+#DeleteWorkspaceModalMainDiv h1 {
+    text-align: center;
+}
+
+#DeleteWorkspaceButton {
+    background-color: #DC3545;
+}
+
+#DeleteWorkspaceButton:hover {
+    background-color: #dc3546da;
+}

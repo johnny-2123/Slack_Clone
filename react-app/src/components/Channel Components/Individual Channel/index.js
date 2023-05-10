@@ -1,56 +1,64 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useDispatch, useSelector } from 'react-redux';
-import './IndividualChannel.css'
-import { fetchChannelMessages, fetchIndividualChannel } from '../../../store/channels';
+import { useDispatch, useSelector } from "react-redux";
+// import './IndividualChannel.css'
+import {
+    fetchAddChannelMessage,
+    fetchChannelMessages,
+    fetchIndividualChannel,
+} from "../../../store/channels";
+import ChatComponent from "../../ChatComponent";
 
 function IndividualChannel() {
-    const { channelId } = useParams()
-    // console.log(`channelId in individual channel:`, channelId)
+    const { channelId } = useParams();
 
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+
+    const currentChannel = useSelector(
+        (state) => state.channels?.currentChannel
+    );
+    const channelMessages = useSelector(
+        (state) => state.channels?.currentChannelMessages?.Messages
+    );
+
+    const [messages, setMessages] = useState();
+    const [content, setContent] = useState("");
 
     useEffect(() => {
-        dispatch(fetchIndividualChannel(channelId))
-        dispatch(fetchChannelMessages(channelId))
-    }, [dispatch, channelId])
+        dispatch(fetchIndividualChannel(channelId));
+        dispatch(fetchChannelMessages(channelId));
+    }, [dispatch, channelId]);
 
-    const { channel } = useSelector(state => {
-        return state.channels?.currentChannel
-    })
-    // console.log(`channel in individual channel`, channel)
+    useEffect(() => {
+        setMessages(channelMessages);
+    }, [channelMessages]);
 
-    const { Messages } = useSelector(state => {
-        return state.channels?.currentChannelMessages
-    })
-    // console.log(`messages in individual channel`, Messages)
-
-    const messagesMapped = Messages?.map((message, idx) => {
-        const repliesMapped = message?.replies?.map((reply, idx) => {
-            return (<div key={idx} className='replyDiv'>
-                <p>{reply?.content}</p>
-            </div>)
-        })
-
-        return (
-            <div className='individualMessageDiv' key={idx} >
-                <p>{message?.content}</p>
-                <div className='repliesDiv'>
-                    {message?.replies?.length > 0 && repliesMapped}
-                </div>
-            </div>
-        )
-    })
+    const handleSendMessage = async (event) => {
+        event.preventDefault();
+        const data = await dispatch(
+            fetchAddChannelMessage(channelId, content)
+        ).catch((data) => console.log(data));
+        if (data.error) {
+            console.log(
+                `data above setErrors in handle submit for new message in IndividualDirectMessage`,
+                data.error
+            );
+        } else {
+            setContent("");
+            const newMessage = await data;
+            setMessages([...messages, newMessage]);
+        }
+    };
 
     return (
-        <div className='individualChannelMainDiv'>
-            <h1 id='ChannelTitle'>#{channel?.name} </h1>
-            <div className='messagesMainDiv'>
-                {messagesMapped}
-            </div>
-        </div>
-
-    )
+        <ChatComponent
+            messages={messages}
+            handleSendMessage={handleSendMessage}
+            setContent={setContent}
+            content={content}
+            name={currentChannel.name}
+        />
+    );
 }
 
-export default IndividualChannel
+export default IndividualChannel;
