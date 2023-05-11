@@ -21,8 +21,6 @@ const HomePage = () => {
         }
     }, [sessionUser])
 
-    console.log(`userLoggedin?:`, loggedIn)
-
     return (
         <>
             {loaded && loggedIn && <LoggedInUserHomePage sessionUser={sessionUser} />}

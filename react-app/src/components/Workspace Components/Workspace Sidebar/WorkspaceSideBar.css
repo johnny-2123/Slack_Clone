@@ -4,7 +4,8 @@
     padding: 1rem;
     border-right: 1px solid #d7d8d9;
     display: flex;
-    height: 90vh;
+    height: 92vh;
+    box-sizing: border-box;
     flex-direction: column;
     margin: 0;
     padding: 0;
@@ -16,12 +17,20 @@
     font-size: 1.2rem;
     font-weight: 600;
     padding: 1rem .5rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.workspaceSideBarMainDiv div {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .channelsListDiv {
     margin-top: 20px;
-    outline: purple thin dotted;
-    padding-left: 1rem;
+    /* outline: purple thin dotted; */
+    padding: 0 .5rem 0 1rem;
     display: flex;
     flex-direction: column;
 }
@@ -34,6 +43,7 @@
     margin-top: 0;
     font-size: 1rem;
     font-weight: 600;
+
 }
 
 .channelsListDiv ul {
@@ -51,4 +61,7 @@
     color: #454545;
     font-size: 0.9rem;
     margin: .1rem 0;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }

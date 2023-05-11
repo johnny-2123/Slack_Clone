@@ -7,9 +7,7 @@ function ThreadSidebar() {
         <div className='threadSidebarMainDiv'>
             <h1>Thread Sidebar</h1>
         </div>
-
     )
-
 }
 
 export default ThreadSidebar

@@ -52,7 +52,7 @@ const LoggedInUserHomePage = ({ sessionUser }) => {
                     {workspacesArr}
                 </div>
             </div>}
-            {loaded && (workspaces[0]?.name == undefined) && <div className='workspacesMainDiv '>
+            {loaded && (workspaces[0]?.name === undefined) && <div className='workspacesMainDiv '>
                 <div className='workspaceMainDivTopDiv'>
                     <h2 className='workspacesHeaderDiv'>Workspaces for {sessionUser?.email}</h2>
                     <OpenModalButton
