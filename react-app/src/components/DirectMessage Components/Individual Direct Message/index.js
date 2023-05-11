@@ -5,8 +5,8 @@ import {
     fetchIndividualDM,
     fetchAddDirectMessage,
 } from "../../../store/directMessages";
-// import "./IndividualdirectMessage.css";
 import ChatComponent from "../../ChatComponent";
+import socket from '../../../utils/socket'; // Import the socket instance
 
 function IndividualDirectMessage() {
     const { directMessageId } = useParams();
@@ -21,7 +21,7 @@ function IndividualDirectMessage() {
         (state) => state?.directMessages?.currentIndividualDM?.messages
     );
 
-    const [messages, setMessages] = useState();
+    const [messages, setMessages] = useState([]);
     const [content, setContent] = useState("");
 
     const handleSendMessage = async (event) => {
@@ -36,20 +36,40 @@ function IndividualDirectMessage() {
             );
         } else {
             setContent("");
-            const newMessage = await data;
-            setMessages([...messages, newMessage]);
         }
     };
 
     useEffect(() => {
+        // Fetch the individual direct message
         dispatch(fetchIndividualDM(directMessageId));
     }, [dispatch, directMessageId]);
 
     useEffect(() => {
+        // Update the local messages state when dmMessages changes
         setMessages(dmMessages);
     }, [dmMessages]);
 
-    // get an array of user first names, excluding the session user's name
+    useEffect(() => {
+        // Listen for 'message' event from the server and update messages state
+        socket.on('message', (newMessage) => {
+            setMessages((prevMessages) => [...prevMessages, newMessage]);
+        });
+
+        return () => {
+            socket.off('message'); // Clean up the event listener
+        };
+    }, []);
+
+    useEffect(() => {
+        // Emit 'joinDirectMessage' event to server when directMessageId changes
+        socket.emit('joinDirectMessage', directMessageId);
+
+        return () => {
+            // Emit 'leaveDirectMessage' event when component unmounts
+            socket.emit('leaveDirectMessage', directMessageId);
+        };
+    }, [directMessageId]);
+
     const names = currentDM?.users
         ?.reduce((x, user) => {
             if (user.first_name !== sessionUser.first_name) {
