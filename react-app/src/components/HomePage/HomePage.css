@@ -12,7 +12,7 @@
 
 
 .homePageTopDiv {
-    outline: red dotted thin;
+    /* outline: red dotted thin; */
     display: flex;
     flex-direction: row;
     justify-content: space-between;
