@@ -1,6 +1,7 @@
 .navigationUl {
   /* outline: red dotted thin; */
   height: 8vh;
+  min-height: fit-content;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -27,7 +28,7 @@
   /* outline: blue dotted thin; */
   position: absolute;
   right: 15px;
-  top: 70px;
+  top: 10vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -75,7 +76,7 @@
   border: 1px #4A154B;
   border-radius: 15px;
   padding: 0;
-  font-size: 35px;
+  font-size: 30px;
 }
 
 .logoutButton {
