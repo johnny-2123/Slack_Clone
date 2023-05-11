@@ -29,7 +29,7 @@ class DirectMessage(Chat):
         back_populates="dm_memberships",
     )
     workspace = db.relationship("Workspace", back_populates="direct_messages")
-    chat = db.relationship("Chat", primaryjoin="DirectMessage.id == Chat.id")
+    # chat = db.relationship("Chat", primaryjoin="DirectMessage.id == Chat.id")
 
     __mapper_args__ = {
         "polymorphic_identity": "direct_message",
