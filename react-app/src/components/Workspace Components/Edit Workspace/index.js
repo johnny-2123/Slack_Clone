@@ -7,23 +7,24 @@ import './EditWorkspace.css';
 
 function EditWorkspace() {
     const dispatch = useDispatch();
+
     const workspace = useSelector(state => {
         return state?.workspaces?.currentWorkspace
     })
+
 
     const [name, setName] = useState(workspace?.name)
     const [description, setDescription] = useState(workspace?.description)
     const [imageUrl, setImageUrl] = useState('');
     const [errors, setErrors] = useState([]);
 
-
     useEffect(() => {
 
     }, [dispatch, workspace])
 
     const handleSubmit = async (e) => {
-
         e.preventDefault();
+
         const updatedWorkspace = {
             name,
             description,
@@ -33,10 +34,7 @@ function EditWorkspace() {
         const data = await dispatch(fetchUpdateWorkspace(updatedWorkspace, workspace.id))
             .catch(data => setErrors(Object.values(data.errors)))
         if (data.errors) {
-            // console.log(`data above setErrors in handle submit for new workspace modal`, Object.values(data.errors))
             setErrors(Object.values(data.errors))
-        } else {
-            // history.push(`/workspaces/${data.id}`)
         }
     }
 

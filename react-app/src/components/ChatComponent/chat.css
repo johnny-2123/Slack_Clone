@@ -16,9 +16,10 @@
     font-size: 24px;
     font-weight: bold;
     margin: 0 0 1rem 0;
-    padding-top: 1rem;
+    padding: 1rem 0 .5rem 0;
     position: sticky;
     background-color: white;
+    border-bottom: 1px solid darkgray;
     top: 0;
 }
 
@@ -27,7 +28,8 @@
     /* outline: purple dotted thin; */
     display: flex;
     flex-direction: column;
-    height: fit-content;
+    justify-items: flex-start;
+    height: 100%;
     overflow-y: scroll;
     margin-right: -1rem;
 }
