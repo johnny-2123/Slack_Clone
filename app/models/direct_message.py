@@ -6,7 +6,7 @@ class DirectMessage(db.Model):
         __table_args__ = {'schema': SCHEMA}
     id = db.Column(db.Integer, primary_key=True)
     topic = db.Column(db.String(255))
-    workspace_id = db.Column(db.Integer, db.ForeignKey('workspaces.id'),nullable=False)
+    workspace_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('workspaces.id')),nullable=False)
     last_sent_message_timestamp = db.Column(db.Date)
     #relationship
     messages = db.relationship('Message', back_populates='direct_message')
