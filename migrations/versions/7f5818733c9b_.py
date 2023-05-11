@@ -58,9 +58,6 @@ def upgrade():
     if environment == "production":
         op.execute(f"ALTER TABLE workspace_members SET SCHEMA {SCHEMA};")
 
-    if environment == "production":
-        op.execute(f"ALTER TABLE workspaces SET SCHEMA {SCHEMA};")
-
     op.create_table('channels',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=40), nullable=False),
