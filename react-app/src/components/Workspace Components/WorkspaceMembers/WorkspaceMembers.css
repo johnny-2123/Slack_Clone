@@ -1,22 +1,13 @@
-html {
-    margin: 0;
-    padding: 0;
-}
-
-
 .WorkspaceMembersMainDiv {
     /* outline: pink dotted thin; */
-    flex: 1;
-    overflow-y: scroll;
-    /* background-color: white; */
-    overflow-y: scroll;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
+    width: 100%;
+    overflow: auto;
+    position: relative;
+    box-sizing: border-box;
+    padding: 0 1rem;
 }
 
 .addWorkspaceMemberForm {
-    margin-left: 1.5rem;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -62,7 +53,6 @@ html {
     flex-wrap: wrap;
     justify-content: space-between;
     margin-top: 19.5px;
-    padding: 0 25px;
 }
 
 .WorkspaceMemberIndividualDiv {

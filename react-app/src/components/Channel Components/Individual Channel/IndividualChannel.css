@@ -21,12 +21,12 @@ html {
 }
 
 .messagesMainDiv {
-    /* outline: purple dotted thin; */
+    outline: purple dotted thin;
     display: flex;
     flex-direction: column;
     margin-top: 20px;
     padding: 0 25px;
-    height: 82%;
+    height: fit-content;
     overflow-y: scroll;
 }
 
