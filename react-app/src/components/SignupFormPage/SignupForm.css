@@ -1,9 +1,12 @@
 .signup-page {
   background-color: #f5f5f5;
+  display: relative;
   display: flex;
-  height: 92vh;
+  min-height: 92vh;
+  height: fit-content;
   justify-content: center;
   align-items: center;
+  overflow-y: scroll;
 }
 
 .signup-form-container {
@@ -11,9 +14,8 @@
   border-radius: 8px;
   padding: 50px;
   max-width: 400px;
-  margin: 0 auto;
+  margin: 1rem auto;
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
-  margin-top: -500px;
   /* adjust this value as needed to center the container higher */
 }
 
