@@ -1,19 +1,21 @@
 """empty message
 
-Revision ID: 7f5818733c9b
+Revision ID: 6aad7f97ec37
 Revises:
-Create Date: 2023-05-10 22:15:08.259818
+Create Date: 2023-05-11 08:26:43.893437
 
 """
 from alembic import op
 import sqlalchemy as sa
+
+
 
 import os
 environment = os.getenv("FLASK_ENV")
 SCHEMA = os.environ.get("SCHEMA")
 
 # revision identifiers, used by Alembic.
-revision = '7f5818733c9b'
+revision = '6aad7f97ec37'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -36,7 +38,6 @@ def upgrade():
     if environment == "production":
         op.execute(f"ALTER TABLE users SET SCHEMA {SCHEMA};")
 
-
     op.create_table('workspaces',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=50), nullable=False),
@@ -47,6 +48,9 @@ def upgrade():
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('name')
     )
+
+    if environment == "production":
+        op.execute(f"ALTER TABLE workspaces SET SCHEMA {SCHEMA};")
 
     op.create_table('workspace_members',
     sa.Column('workspace_id', sa.Integer(), nullable=True),
@@ -68,6 +72,7 @@ def upgrade():
     sa.Column('workspace_id', sa.Integer(), nullable=True),
     sa.Column('private', sa.Boolean(), nullable=True),
     sa.Column('last_sent_message_timestamp', sa.Date(), nullable=True),
+    sa.ForeignKeyConstraint(['id'], ['chats.id'], ),
     sa.ForeignKeyConstraint(['owner_id'], ['users.id'], ),
     sa.ForeignKeyConstraint(['workspace_id'], ['workspaces.id'], ),
     sa.PrimaryKeyConstraint('id'),
@@ -77,11 +82,13 @@ def upgrade():
     if environment == "production":
         op.execute(f"ALTER TABLE channels SET SCHEMA {SCHEMA};")
 
+
     op.create_table('direct_messages',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('topic', sa.String(length=255), nullable=True),
     sa.Column('workspace_id', sa.Integer(), nullable=False),
     sa.Column('last_sent_message_timestamp', sa.Date(), nullable=True),
+    sa.ForeignKeyConstraint(['id'], ['chats.id'], ),
     sa.ForeignKeyConstraint(['workspace_id'], ['workspaces.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
@@ -113,16 +120,23 @@ def upgrade():
     if environment == "production":
         op.execute(f"ALTER TABLE direct_message_member SET SCHEMA {SCHEMA};")
 
+    op.create_table('chats',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('type', sa.String(), nullable=True),
+    sa.PrimaryKeyConstraint('id')
+    )
+
+    if environment == "production":
+        op.execute(f"ALTER TABLE chats SET SCHEMA {SCHEMA};")
+
     op.create_table('messages',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('content', sa.String(length=4000), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
-    sa.Column('channel_id', sa.Integer(), nullable=True),
-    sa.Column('direct_message_id', sa.Integer(), nullable=True),
+    sa.Column('chat_id', sa.Integer(), nullable=True),
     sa.Column('parent_id', sa.Integer(), nullable=True),
     sa.Column('timestamp', sa.DateTime(), nullable=False),
-    sa.ForeignKeyConstraint(['channel_id'], ['channels.id'], ),
-    sa.ForeignKeyConstraint(['direct_message_id'], ['direct_messages.id'], ),
+    sa.ForeignKeyConstraint(['chat_id'], ['chats.id'], ),
     sa.ForeignKeyConstraint(['parent_id'], ['messages.id'], ),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
@@ -130,6 +144,20 @@ def upgrade():
 
     if environment == "production":
         op.execute(f"ALTER TABLE messages SET SCHEMA {SCHEMA};")
+
+    op.create_table('message_reaction',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('message_id', sa.Integer(), nullable=False),
+    sa.Column('user_id', sa.Integer(), nullable=False),
+    sa.Column('reaction_id', sa.Integer(), nullable=False),
+    sa.ForeignKeyConstraint(['message_id'], ['messages.id'], ),
+    sa.ForeignKeyConstraint(['reaction_id'], ['reactions.id'], ),
+    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+
+    if environment == "production":
+        op.execute(f"ALTER TABLE message_reaction SET SCHEMA {SCHEMA};")
 
     op.create_table('user_channels_read',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -154,35 +182,21 @@ def upgrade():
     if environment == "production":
         op.execute(f"ALTER TABLE reactions SET SCHEMA {SCHEMA};")
 
-    op.create_table('message_reaction',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('message_id', sa.Integer(), nullable=False),
-    sa.Column('user_id', sa.Integer(), nullable=False),
-    sa.Column('reaction_id', sa.Integer(), nullable=False),
-    sa.ForeignKeyConstraint(['message_id'], ['messages.id'], ),
-    sa.ForeignKeyConstraint(['reaction_id'], ['reactions.id'], ),
-    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
-    sa.PrimaryKeyConstraint('id')
-    )
-
-    if environment == "production":
-        op.execute(f"ALTER TABLE message_reaction SET SCHEMA {SCHEMA};")
-
-
     # ### end Alembic commands ###
 
 
 def downgrade():
     # ### commands auto generated by Alembic - please adjust! ###
-    op.drop_table('message_reaction')
-    op.drop_table('reactions')
     op.drop_table('user_channels_read')
-    op.drop_table('messages')
     op.drop_table('direct_message_member')
     op.drop_table('channel_members')
+    op.drop_table('workspace_members')
+    op.drop_table('message_reaction')
     op.drop_table('direct_messages')
     op.drop_table('channels')
-    op.drop_table('workspace_members')
     op.drop_table('workspaces')
+    op.drop_table('messages')
     op.drop_table('users')
+    op.drop_table('reactions')
+    op.drop_table('chats')
     # ### end Alembic commands ###
