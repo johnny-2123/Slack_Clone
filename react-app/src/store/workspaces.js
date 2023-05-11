@@ -6,12 +6,12 @@ const REMOVE_WORKSPACE_MEMBER = 'workspaces/REMOVE_WORKSPACE_MEMBER';
 const ADD_WORKSPACE = 'workspaces/CREATE_WORKSPACE';
 const UPDATE_WORKSPACE = 'workspaces/UPDATE_WORKSPACE';
 const CLEAR_WORKSPACE_STORE = 'workspaces/CLEAR_WORKSPACE_STORE'
-const DELETE_WORKSPACE = 'workspaces/DELETE_WORKSPACE'
+// const DELETE_WORKSPACE = 'workspaces/DELETE_WORKSPACE'
 
-const deleteWorkspace = (workspaceId) => ({
-    type: DELETE_WORKSPACE,
-    payload: workspaceId
-})
+// const deleteWorkspace = (workspaceId) => ({
+//     type: DELETE_WORKSPACE,
+//     payload: workspaceId
+// })
 
 export const fetchDeleteWorkspace = (workspaceId) => async dispatch => {
     console.log(`fetch deleting workspace`)

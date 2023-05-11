@@ -1,6 +1,6 @@
 .navigationUl {
-  outline: red dotted thin;
-  height: 5vh;
+  /* outline: red dotted thin; */
+  height: 8vh;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -9,6 +9,7 @@
   padding: 1rem 1rem;
   background-color: #4A154B;
   margin: 0;
+  box-sizing: border-box;
 }
 
 .navigationUl li {
@@ -53,7 +54,7 @@
 /* end */
 
 
-.profile-dropdown > *:not(:last-child) {
+.profile-dropdown>*:not(:last-child) {
   margin-bottom: 10px;
 }
 

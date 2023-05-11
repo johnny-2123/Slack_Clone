@@ -5,7 +5,6 @@ import {
     fetchIndividualDM,
     fetchAddDirectMessage,
 } from "../../../store/directMessages";
-// import "./IndividualdirectMessage.css";
 import ChatComponent from "../../ChatComponent";
 
 function IndividualDirectMessage() {

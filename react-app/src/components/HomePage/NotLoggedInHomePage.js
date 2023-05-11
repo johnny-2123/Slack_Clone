@@ -5,7 +5,7 @@ import './HomePage.css';
 const NotLoggedInUserHomePage = () => {
 
     return (
-        <div className='homePageNotLoggedInMainDiv'>
+        <div id='homePageNotLoggedInMainDiv'>
             <div className='homePageTopDiv'>
                 <div className='homePageTopLeftDiv'>
 
@@ -19,16 +19,14 @@ const NotLoggedInUserHomePage = () => {
                 </div>
                 <img className='homePageImage' src='https://res.cloudinary.com/dkul3ouvi/image/upload/v1682901409/vecteezy_people-user-team-png-transparent_9664234_909_oz8x4i.png' alt='home-page' />
             </div>
-            <div>
-
-                <div className='homePageButtons'>
+            <div className='homePageButtons'>
+                <div className='homePageSignupLoginButtons'>
                     <NavLink to={'/login'} className='homePageLoginButton'>Log In</NavLink>
                     <NavLink to={'/signup'} className='homePageSignupButton'>Sign Up</NavLink>
                 </div>
-            </div>
-            <div className='homePageBottomdiv'>
                 <NavLink to={'/about'} className='aboutPage'>About Us</NavLink>
             </div>
+
             <div className='video-container'>
                 <video className="video-slide" src="/video.mov" autoPlay muted loop></video>
             </div>

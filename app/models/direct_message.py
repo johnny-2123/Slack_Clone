@@ -1,4 +1,4 @@
-from .db import db, environment, SCHEMA
+from .db import db, environment, SCHEMA, add_prefix_for_prod
 from .direct_message_member import direct_message_member
 class DirectMessage(db.Model):
     __tablename__ = 'direct_messages'
