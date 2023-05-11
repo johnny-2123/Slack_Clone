@@ -11,6 +11,10 @@ class DirectMessage(Chat):
         db.Integer, db.ForeignKey(add_prefix_for_prod("chats.id")), primary_key=True
     )
 
+    chat = db.relationship(
+        "Chat", back_populates="direct_message"
+    )
+
     topic = db.Column(db.String(255))
     workspace_id = db.Column(
         db.Integer, db.ForeignKey(add_prefix_for_prod("workspaces.id")), nullable=False
