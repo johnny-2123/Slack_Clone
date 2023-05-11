@@ -1,5 +1,5 @@
 .navigationUl {
-  outline: red dotted thin;
+  /* outline: red dotted thin; */
   height: 8vh;
   display: flex;
   flex-direction: row;
