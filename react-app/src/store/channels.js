@@ -61,6 +61,7 @@ const addChannelMessage = (channelMessage) => ({
 // add a message to a channel conversation
 export const fetchAddChannelMessage =
     (channelId, content) => async (dispatch) => {
+        console.log('******************************** made it here')
         const response = await fetch(`/api/channels/${channelId}/messages`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },

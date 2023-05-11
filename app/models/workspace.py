@@ -19,6 +19,7 @@ class Workspace(db.Model):
         "User", secondary=workspace_member, back_populates="workspace_memberships"
     )
     channels = db.relationship("Channel", back_populates="workspace")
+    direct_messages = db.relationship("DirectMessage", back_populates="workspace")
 
     def to_dict(self):
         return {

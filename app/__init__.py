@@ -10,6 +10,7 @@ from .api.auth_routes import auth_routes
 from .api.channel_routes import channel_routes
 from .api.workspace_routes import workspace_routes
 from .api.direct_message_routes import direct_message_routes
+from .api.message_routes import chat_messages
 from .seeds import seed_commands
 from .config import Config
 from .socket import socketio

@@ -1,14 +1,18 @@
 from functools import wraps
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, g, jsonify, request
 from flask_login import login_required, current_user
 from app.api.auth_routes import validation_errors_to_error_messages
 from app.forms.channel_form import ChannelForm
 from app.models import Workspace, User, Channel, Message, db
 from sqlalchemy import or_
 from sqlalchemy.exc import IntegrityError
+from .message_routes import chat_messages
 
 channel_routes = Blueprint("channels", __name__)
 workspace_channels = Blueprint("workspace_channels", __name__)
+
+# Routes 'api/channels/:channelId/messages' to message_routes.py
+channel_routes.register_blueprint(chat_messages, url_prefix="/messages")
 
 #
 # HELPER FUNCTIONS
@@ -34,6 +38,7 @@ def check_workspace():
 @channel_routes.before_request
 @login_required
 def check_channel():
+    print("channel_routes.before_request")
     channel_id = request.view_args.get("channel_id")
     channel = Channel.query.get(channel_id)
     if not channel:
@@ -85,13 +90,6 @@ def get_channels(workspace_id):
 def get_channel_by_id(channel_id):
     channel = request.channel
     return {"channel": channel.to_dict()}
-
-
-# Get all the messages in a channel
-@channel_routes.route("/messages")
-def get_channel_messages(channel_id):
-    channel = Channel.query.get(channel_id)
-    return {"Messages": [message.to_dict() for message in channel.messages]}
 
 
 # Create a channel
