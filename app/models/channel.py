@@ -29,6 +29,8 @@ class Channel(Chat):
     private_members = db.relationship(
         "User", secondary=channel_member, back_populates="channel_memberships"
     )
+    chat = db.relationship("Chat", primaryjoin="Channel.id == Chat.id")
+
 
     __table_args__ = (
         # A constraint that says each channel
@@ -39,7 +41,6 @@ class Channel(Chat):
 
     __mapper_args__ = {
         "polymorphic_identity": "channel",
-        "inherit_condition": (id == Chat.id),
     }
 
     def to_dict(self):
