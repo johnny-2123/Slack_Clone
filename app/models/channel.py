@@ -6,7 +6,9 @@ from .chat import Chat
 class Channel(Chat):
     __tablename__ = "channels"
 
-    id = db.Column(db.Integer, db.ForeignKey("chats.id"), primary_key=True)
+    id = db.Column(
+        db.Integer, db.ForeignKey(add_prefix_for_prod("chats.id")), primary_key=True
+    )
 
     name = db.Column(db.String(40), nullable=False)
     description = db.Column(db.String(255))

@@ -7,7 +7,9 @@ class DirectMessage(Chat):
     __tablename__ = "direct_messages"
     if environment == "production":
         __table_args__ = {"schema": SCHEMA}
-    id = db.Column(db.Integer, db.ForeignKey("chats.id"), primary_key=True)
+    id = db.Column(
+        db.Integer, db.ForeignKey(add_prefix_for_prod("chats.id")), primary_key=True
+    )
 
     topic = db.Column(db.String(255))
     workspace_id = db.Column(
