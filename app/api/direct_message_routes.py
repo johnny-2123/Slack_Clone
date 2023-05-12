@@ -263,4 +263,4 @@ def handle_message(data):
     message_data = message.to_dict()
 
     # Emit the message to all clients in the direct message room
-    socketio.emit('message', message_data, room=str(direct_message_id))
+    emit('message', message_data, room=str(direct_message_id))

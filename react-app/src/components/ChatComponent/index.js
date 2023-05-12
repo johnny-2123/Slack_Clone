@@ -1,6 +1,9 @@
 import React from "react";
 import "./chat.css";
 
+import { io } from 'socket.io-client';
+let socket;
+
 function ChatComponent({
     messages,
     handleSendMessage,
