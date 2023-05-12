@@ -37,7 +37,10 @@ class Channel(Chat):
         {"schema": SCHEMA} if (environment == "production") else {},
     )
 
-    __mapper_args__ = {"polymorphic_identity": "channel"}
+    __mapper_args__ = {
+        "polymorphic_identity": "channel",
+        "inherit_condition": (id == Chat.id),
+    }
 
     def to_dict(self):
         return {

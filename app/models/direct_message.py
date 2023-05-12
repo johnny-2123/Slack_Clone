@@ -26,7 +26,10 @@ class DirectMessage(Chat):
     )
     workspace = db.relationship("Workspace", back_populates="direct_messages")
 
-    __mapper_args__ = {"polymorphic_identity": "direct_message"}
+    __mapper_args__ = {
+        "polymorphic_identity": "direct_message",
+        "inherit_condition": (id == Chat.id),
+    }
 
     def to_dict(self):
         return {
