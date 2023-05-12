@@ -2,9 +2,10 @@
     position: relative;
     display: flex;
     flex-direction: row;
-    height: 90vh;
+    height: 92vh;
     background-color: white;
     margin: 0;
     padding: 0;
     overflow-y: hidden;
+    box-sizing: border-box;
 }

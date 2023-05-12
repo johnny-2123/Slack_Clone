@@ -2,11 +2,11 @@ const GET_CHANNELS = "channels/GET_CHANNELS";
 const GET_INDIVIDUAL_CHANNEL = "channels/GET_INDIVIDUAL_CHANNEL";
 const GET_CHANNEL_MESSAGES = "channels/GET_CHANNEL_MESSAGES";
 const ADD_CHANNEL_MESSAGE = "channels/ADD_CHANNEL_MESSAGE";
-const CLEAR_CHANNELS = "channels/CLEAR_CHANNELS"
+const CLEAR_CHANNELS = "channels/CLEAR_CHANNELS";
 
 export const clearChannels = () => ({
-    type: CLEAR_CHANNELS
-})
+    type: CLEAR_CHANNELS,
+});
 
 const getChannelMessages = (messages) => ({
     type: GET_CHANNEL_MESSAGES,
@@ -61,6 +61,7 @@ const addChannelMessage = (channelMessage) => ({
 // add a message to a channel conversation
 export const fetchAddChannelMessage =
     (channelId, content) => async (dispatch) => {
+        console.log("******************************** made it here");
         const response = await fetch(`/api/channels/${channelId}/messages`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -103,11 +104,11 @@ const channels = (state = initialState, action) => {
                 [...newState.currentChannelMessages, action.payload],
             ]);
         case CLEAR_CHANNELS:
-            newState = { ...state }
-            newState.workspaceChannels = []
-            newState.currentChannel = {}
-            newState.currentChannelMessages = []
-            return newState
+            newState = { ...state };
+            newState.workspaceChannels = [];
+            newState.currentChannel = {};
+            newState.currentChannelMessages = [];
+            return newState;
         default:
             return state;
     }
