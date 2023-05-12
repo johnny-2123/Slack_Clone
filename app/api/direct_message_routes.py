@@ -167,7 +167,7 @@ def update_direct_message(direct_message_id):
     return jsonify(dm.to_dict()), 200
 
 
-# DELETE MESSAGE
+# DELETE DIRECT MESSAGE
 @direct_message_routes.route("/<int:direct_message_id>", methods=["DELETE"])
 @login_required
 def delete_direct_message(direct_message_id):
@@ -200,42 +200,6 @@ def delete_direct_message(direct_message_id):
         200,
     )
 
-
-# ADD MESSAGE TO DM
-# @socketio.on("direct_message")
-# @direct_message_routes.route("/<int:direct_message_id>/messages", methods=["POST"])
-# @login_required
-# def add_message_to_direct_message(direct_message_id):
-#     data = request.json
-#     content = data.get("content")
-#     if not content:
-#         return jsonify({"error": "message content required"}), 404
-
-#     direct_message = DirectMessage.query.get(direct_message_id)
-#     if not direct_message:
-#         return jsonify({"error": "direct message not found"}), 404
-
-#     now = datetime.now()
-#     message = Message(
-#         content=content, user=current_user, timestamp=now, direct_message=direct_message
-#     )
-#     direct_message.last_sent_message_timestamp = now
-#     db.session.commit()
-
-#     return (
-#         jsonify(
-#             {
-#                 "id": message.id,
-#                 "content": message.content,
-#                 "user": message.user.to_dict(),
-#                 "channel_id": message.channel_id,
-#                 "parent_id": message.parent_id,
-#                 "timestamp": message.timestamp.isoformat(),
-#                 "direct_message_id": direct_message.id,
-#             }
-#         ),
-#         201,
-#     )
 
 dm_with_id = Blueprint("dm_with_id", __name__, url_prefix="/<int:direct_message_id>")
 direct_message_routes.register_blueprint(dm_with_id)

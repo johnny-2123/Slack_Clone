@@ -19,8 +19,6 @@ def get_chat():
         return request.channel
     elif hasattr(request, "direct_message"):
         return request.direct_message
-    else:
-        return {"error": "No chat type specified"}
 
 
 #
@@ -55,18 +53,4 @@ def send_message(**kwargs):
     chat.last_sent_message_timestamp = now
     db.session.commit()
 
-    return (
-        jsonify(
-            {
-                "id": message.id,
-                "content": message.content,
-                "user": message.user.to_dict(),
-                # "channel_id": message.channel_id,
-                "parent_id": message.parent_id,
-                "timestamp": message.timestamp.isoformat(),
-                "chat_id": message.chat_id,
-                "chat_type": message.chat.type,
-            }
-        ),
-        201,
-    )
+    return message.to_dict(), 201
