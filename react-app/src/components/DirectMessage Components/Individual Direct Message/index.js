@@ -6,7 +6,8 @@ import {
     fetchAddDirectMessage,
 } from "../../../store/directMessages";
 import ChatComponent from "../../ChatComponent";
-import socket from '../../../utils/socket'; // Import the socket instance
+import socket from '../../utils/socket'; // Import the socket instance
+
 
 function IndividualDirectMessage() {
     const { directMessageId } = useParams();
