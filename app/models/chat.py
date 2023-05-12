@@ -11,10 +11,6 @@ class Chat(db.Model):
     type = db.Column(db.String)
     messages = db.relationship("Message", back_populates="chat")
 
-    direct_message = db.relationship(
-        "DirectMessage", back_populates="chat"
-    )
-
     __mapper_args__ = {
         "polymorphic_identity": "chat",
         "polymorphic_on": type,

@@ -11,10 +11,6 @@ class DirectMessage(Chat):
         db.Integer, db.ForeignKey(add_prefix_for_prod("chats.id")), primary_key=True
     )
 
-    chat = db.relationship(
-        "Chat", back_populates="direct_message"
-    )
-
     topic = db.Column(db.String(255))
     workspace_id = db.Column(
         db.Integer, db.ForeignKey(add_prefix_for_prod("workspaces.id")), nullable=False
@@ -29,11 +25,9 @@ class DirectMessage(Chat):
         back_populates="dm_memberships",
     )
     workspace = db.relationship("Workspace", back_populates="direct_messages")
-    # chat = db.relationship("Chat", primaryjoin=("DirectMessage.id == Chat.id"))
 
     __mapper_args__ = {
         "polymorphic_identity": "direct_message",
-        "inherit_condition": id == add_prefix_for_prod("chats.id"),
     }
 
     def to_dict(self):
