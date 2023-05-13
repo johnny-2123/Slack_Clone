@@ -14,6 +14,9 @@ from .api.message_routes import chat_messages
 from .seeds import seed_commands
 from .config import Config
 from .socket import socketio
+import eventlet
+
+eventlet.monkey_patch()
 
 app = Flask(__name__, static_folder="../react-app/build", static_url_path="/")
 
@@ -108,5 +111,6 @@ def react_root(path):
 def not_found(e):
     return app.send_static_file("index.html")
 
-if __name__ == '__main__':
-    socketio.run(app)
+
+if __name__ == "__main__":
+    socketio.run(app, async_mode="eventlet")

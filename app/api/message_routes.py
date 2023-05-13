@@ -3,6 +3,7 @@ from flask import Blueprint, g, jsonify, request
 from flask_login import current_user
 from app.models import db
 
+from app.socket import socketio
 from app.models.channel import Channel
 from app.models.message import Message
 
@@ -52,5 +53,7 @@ def send_message(**kwargs):
     message = Message(content=content, user=current_user, timestamp=now, chat=chat)
     chat.last_sent_message_timestamp = now
     db.session.commit()
+
+    socketio.emit("chat", message.to_dict(), room=f"chat-{chat.id}")
 
     return message.to_dict(), 201
