@@ -7,14 +7,16 @@ import {
     fetchDeleteDirectMessage
 } from "../../../store/directMessages";
 import ChatComponent from "../../ChatComponent";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
-function IndividualDirectMessage() {
+function IndividualDirectMessage({ workspaceId }) {
     const { directMessageId } = useParams();
-    console.log(`directMessageId in individual direct message component`, directMessageId)
+
     const [deletedDirectMessage, setDeletedDirectMessage] = useState(false);
     const [errors, setErrors] = useState([]);
 
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const sessionUser = useSelector((state) => state.session?.user);
     const currentDM = useSelector(
@@ -62,6 +64,7 @@ function IndividualDirectMessage() {
         } else {
             setDeletedDirectMessage(data.deleted_chat);
             console.log(`deletedDirectMessage`, data.deleted_chat)
+            history.push(`/workspaces/${workspaceId}/members`);
         }
     };
 

@@ -2,9 +2,11 @@ import { useState } from "react";
 import { Modal, useModal } from "../../../context/Modal";
 import "./chatInfo.css";
 
-function ChatInfoModal({ chat, name, handleDeleteChat }) {
+function ChatInfoModal({ chat, name, handleDeleteChat, deletedChat }) {
     const { closeModal } = useModal();
     const [activeTab, setActiveTab] = useState("about");
+
+    console.log('deletedChat in chat info model', deletedChat)
 
     const handleTabChange = (tab) => {
         setActiveTab(tab);
@@ -51,9 +53,14 @@ function ChatInfoModal({ chat, name, handleDeleteChat }) {
 
     const renderSettingsTab = () => {
         return (
-            <div className="chat-settings-tab">
-                <button onClick={handleDelete}>Delete Chat</button>
-            </div>
+            <>
+                {!deletedChat && <div className="chat-settings-tab">
+                    <button onClick={handleDelete}>Delete Chat</button>
+                </div>}
+                {deletedChat && <div className="chat-about-tab">
+                    <p className="chat-topic">Succesfuly deleted chat: {deletedChat}</p>
+                </div>}
+            </>
         );
     };
 

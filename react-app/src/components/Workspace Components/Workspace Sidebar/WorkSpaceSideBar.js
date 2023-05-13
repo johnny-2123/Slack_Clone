@@ -15,7 +15,7 @@ function WorkspaceSideBar({ channels, directMessages, url, currentWorkspace }) {
         if (sessionUser && currentWorkspace?.name) {
             setLoaded(true);
         }
-    }, [sessionUser, currentWorkspace]);
+    }, [sessionUser, currentWorkspace, directMessages]);
 
     let channelsMapped = Object.values(channels)?.map((channel, idx) => {
         return (
