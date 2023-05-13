@@ -27,23 +27,6 @@ function IndividualDirectMessage() {
     const [messages, setMessages] = useState([]);
     const [content, setContent] = useState("");
 
-    const handleSendMessage = async (event) => {
-        event.preventDefault();
-        const data = await dispatch(
-            fetchAddDirectMessage(directMessageId, content)
-        ).catch((data) => console.log(data));
-        if (data.error) {
-            console.log(
-                `data above setErrors in handle submit for new message in IndividualDirectMessage`,
-                data.error
-            );
-        } else {
-            setContent("");
-            const newMessage = await data;
-            setMessages((prevMessages) => [...prevMessages, newMessage]);
-        }
-    };
-
     useEffect(() => {
         // Fetch the individual direct message
         dispatch(fetchIndividualDM(directMessageId));
@@ -86,7 +69,8 @@ function IndividualDirectMessage() {
         <ChatComponent
             messages={messages}
             setMessages={setMessages}
-            handleSendMessage={handleSendMessage}
+            // handleSendMessage={handleSendMessage}
+            sendMessageType="direct"
             setContent={setContent}
             content={content}
             name={names}

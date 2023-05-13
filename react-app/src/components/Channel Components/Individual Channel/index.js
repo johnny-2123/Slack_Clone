@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 // import './IndividualChannel.css'
 import {
-    fetchAddChannelMessage,
+    // fetchAddChannelMessage,
     fetchChannelMessages,
     fetchDeleteChannel,
     fetchIndividualChannel,
@@ -36,23 +36,6 @@ function IndividualChannel({ workspaceId }) {
         setMessages(channelMessages);
     }, [channelMessages]);
 
-    const handleSendMessage = async (event) => {
-        event.preventDefault();
-        const data = await dispatch(
-            fetchAddChannelMessage(channelId, content)
-        ).catch((data) => console.log(data));
-        if (data.error) {
-            console.log(
-                `data above setErrors in handle submit for new message in IndividualDirectMessage`,
-                data.error
-            );
-        } else {
-            setContent("");
-            const newMessage = await data;
-            setMessages((prevMessages) => [...prevMessages, newMessage]);
-        }
-    };
-
     const handleDeleteChannel = async () => {
         await dispatch(fetchDeleteChannel(channelId));
         history.push(`/workspaces/${workspaceId}/members`);
@@ -62,7 +45,8 @@ function IndividualChannel({ workspaceId }) {
         <ChatComponent
             messages={messages}
             setMessages={setMessages}
-            handleSendMessage={handleSendMessage}
+            // handleSendMessage={handleSendMessage}
+            sendMessageType="channel"
             setContent={setContent}
             content={content}
             name={currentChannel.name}
