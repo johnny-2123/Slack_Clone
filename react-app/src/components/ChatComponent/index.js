@@ -83,7 +83,7 @@ function ChatComponent({
                 socket.emit("leave", { room: `chat-${chat.id}` });
             }
         };
-    }, [chat]);
+    }, [chat?.id]);
 
     const messagesMapped = messages?.map((message, idx) => {
         const messageLoaded = message?.content;
