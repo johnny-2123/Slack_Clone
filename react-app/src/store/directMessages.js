@@ -2,6 +2,32 @@ const GET_DIRECT_MESSAGES = "direct_messages/GET_DIRECT_MESSAGES";
 const GET_INDIVIDUAL_DM = "direct_messages/GET_INDIViDUAL_DM";
 const ADD_DIRECT_MESSAGE = "direct_messages/ADD_DIRECT_MESSAGE";
 const CLEAR_DIRECT_MESSAGES = "direct_messages/CLEAR_DIRECT_MESSAGES";
+const DELETE_DIRECT_MESSAGE = "direct_messages/DELETE_DIRECT_MESSAGE";
+
+
+const deleteDirectMessage = (directMessageId) => ({
+    type: DELETE_DIRECT_MESSAGE,
+    payload: directMessageId,
+});
+
+
+export const fetchDeleteDirectMessage = (directMessageId) => async (dispatch) => {
+
+    const response = await fetch(`/api/direct_messages/${directMessageId}`, {
+        method: "DELETE",
+    });
+
+    console.log(`response from fetchDeleteDirectMessage`, response)
+
+    if (response.ok) {
+        const deletedDirectMessage = await response.json();
+        dispatch(deleteDirectMessage(directMessageId));
+        return deletedDirectMessage;
+    }
+
+
+}
+
 
 export const clearDirectMessages = () => ({
     type: CLEAR_DIRECT_MESSAGES,
