@@ -3,11 +3,14 @@ import "./chat.css";
 import ChatInfoModal from "./ChatInfoModal";
 import OpenModalButton from "../OpenModalButton";
 import io from "socket.io-client";
+import { fetchAddDirectMessage } from "../../store/directMessages";
+import { useDispatch } from "react-redux";
+import { fetchAddChannelMessage } from "../../store/channels";
 
 function ChatComponent({
     messages,
     setMessages,
-    handleSendMessage,
+    sendMessageType,
     content,
     setContent,
     name,
@@ -15,6 +18,35 @@ function ChatComponent({
     handleDeleteChat,
 }) {
     const [socket, setSocket] = useState(null);
+    const dispatch = useDispatch();
+
+    const handleSendMessage = async (event) => {
+        event.preventDefault();
+        let data;
+
+        if (sendMessageType === "direct") {
+            // Handle sending direct message
+            data = await dispatch(
+                fetchAddDirectMessage(chat.id, content)
+            ).catch((data) => console.log(data));
+        } else if (sendMessageType === "channel") {
+            // Handle sending channel message
+            data = await dispatch(
+                fetchAddChannelMessage(chat.id, content)
+            ).catch((data) => console.log(data));
+        }
+
+        if (data.error) {
+            console.log(
+                `data above setErrors in handle submit for new message in IndividualDirectMessage`,
+                data.error
+            );
+        } else {
+            setContent("");
+            const newMessage = await data;
+            setMessages((prevMessages) => [...prevMessages, newMessage]);
+        }
+    };
 
     const repliesMapped = (replies) => {
         return replies?.map((reply, idx) => {
@@ -85,7 +117,7 @@ function ChatComponent({
                 socket.emit("leave", { room: `chat-${chat.id}` });
             }
         };
-    }, [chat?.id, socket]);
+    }, [chat?.id, socket, chat]);
 
     const messagesMapped = messages?.map((message, idx) => {
         const messageLoaded = message?.content;
