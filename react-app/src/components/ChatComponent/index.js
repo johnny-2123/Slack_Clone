@@ -18,8 +18,6 @@ function ChatComponent({
     handleDeleteChat,
 }) {
     const [socket, setSocket] = useState(null);
-    const socketRef = useRef(null);
-    console.log("chat in chat component", chat)
 
     const repliesMapped = (replies) => {
         return replies?.map((reply, idx) => {
@@ -59,7 +57,6 @@ function ChatComponent({
             pingTimeout: null,
         });
         setSocket(newSocket);
-        socketRef.current = newSocket;
 
         // listen for chat events
         newSocket.on("chat", (chat) => {
@@ -79,17 +76,6 @@ function ChatComponent({
             newSocket.disconnect();
         };
     }, [messages, setMessages]);
-
-    const chatId = chat.id;
-
-    useEffect(() => {
-        setMessages((prevMessages) => {
-            const updatedMessages = prevMessages
-                ? [...prevMessages, chat]
-                : [chat];
-            return updatedMessages;
-        });
-    }, [chat, setMessages]);
 
     useEffect(() => {
         if (chat && chat.id && socket) {
