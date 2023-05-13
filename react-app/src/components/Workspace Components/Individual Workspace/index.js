@@ -65,7 +65,7 @@ function IndividualWorkspace() {
                     <EditWorkspace workspaceId={workspaceId} />
                 </Route>
                 <Route path={`${path}/channels/:channelId`}>
-                    <IndividualChannel />
+                    <IndividualChannel workspaceId={workspaceId} />
                 </Route>
                 <Route path={`/channels/:channelId/threads/:threadId`}>
                     <ThreadSidebar />
@@ -74,7 +74,7 @@ function IndividualWorkspace() {
                     <WorkspaceMembers workspaceId={workspaceId} />
                 </Route>
                 <Route path={`${url}/direct_messages/:directMessageId`}>
-                    <IndividualDirectMessage />
+                    <IndividualDirectMessage workspaceId={workspaceId} />
                 </Route>
                 <Route path={`${path}/`}>
                     <Redirect to={`${path}/members`} />

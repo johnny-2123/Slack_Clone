@@ -26,11 +26,9 @@ class Channel(Chat):
 
     owner = db.relationship("User", back_populates="channels")
     workspace = db.relationship("Workspace", back_populates="channels")
-    private_members = db.relationship(
+    members = db.relationship(
         "User", secondary=channel_member, back_populates="channel_memberships"
     )
-    chat = db.relationship("Chat", primaryjoin="Channel.id == Chat.id")
-
 
     __table_args__ = (
         # A constraint that says each channel
@@ -53,5 +51,6 @@ class Channel(Chat):
             "date_created": self.date_created,
             "workspace_id": self.workspace_id,
             "private": self.private,
+            "members": [member.to_dict() for member in self.members],
             "last_sent_message_timestamp": self.last_sent_message_timestamp,
         }

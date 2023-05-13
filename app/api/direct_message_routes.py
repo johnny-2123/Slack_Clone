@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request, abort
 from flask_login import login_required, current_user
 from app.models import Message, User, DirectMessage, db
 from .message_routes import chat_messages
+import os
 
 # from app.models import direct_message
 from app.models.direct_message import direct_message_member
@@ -11,9 +12,10 @@ direct_message_routes = Blueprint("direct_messages", __name__)
 
 
 from sqlalchemy import and_
-from flask_socketio import SocketIO, emit
+# from ..socket import socketio, emit
 
-socketio = SocketIO()
+
+# configure cors_allowed_origins
 
 
 # GET DIRECT MESSAGES
@@ -78,7 +80,7 @@ def get_direct_message(direct_message_id):
                 "topic": direct_message.topic,
                 "workspace_id": direct_message.workspace_id,
                 "messages": [message.to_dict() for message in direct_message.messages],
-                "users": [member.to_dict() for member in direct_message.members],
+                "members": [member.to_dict() for member in direct_message.members],
                 "last_sent_message_timestamp": direct_message.last_sent_message_timestamp.isoformat(),
             }
         ),
@@ -225,42 +227,44 @@ def check_direct_message():
     request.workspace = direct_message.workspace
 
 
-@socketio.on('joinDirectMessage')
-def handle_join_direct_message(direct_message_id):
-    socketio.join_room(str(direct_message_id))
+# @socketio.on("joinDirectMessage")
+# def handle_join_direct_message(direct_message_id):
+#     socketio.join_room(str(direct_message_id))
 
-@socketio.on('leaveDirectMessage')
-def handle_leave_direct_message(direct_message_id):
-    socketio.leave_room(str(direct_message_id))
 
-@socketio.on('message')
-def handle_message(data):
-    direct_message_id = data['direct_message_id']
-    content = data['content']
-    user_id = current_user.id
-    now = datetime.now()
+# @socketio.on("leaveDirectMessage")
+# def handle_leave_direct_message(direct_message_id):
+#     socketio.leave_room(str(direct_message_id))
 
-    direct_message = DirectMessage.query.get(direct_message_id)
-    if not direct_message:
-        emit('errorMessage', {'error': 'Direct message not found'})
-        return
 
-    if user_id not in [member.id for member in direct_message.members]:
-        emit('errorMessage', {'error': 'User is not a member of this direct message'})
-        return
+# @socketio.on("message")
+# def handle_message(data):
+#     direct_message_id = data["direct_message_id"]
+#     content = data["content"]
+#     user_id = current_user.id
+#     now = datetime.now()
 
-    message = Message(
-        content=content,
-        user_id=user_id,
-        channel_id=None,
-        parent_id=None,
-        timestamp=now,
-        direct_message_id=direct_message_id
-    )
-    db.session.add(message)
-    db.session.commit()
+#     direct_message = DirectMessage.query.get(direct_message_id)
+#     if not direct_message:
+#         emit("errorMessage", {"error": "Direct message not found"})
+#         return
 
-    message_data = message.to_dict()
+#     if user_id not in [member.id for member in direct_message.members]:
+#         emit("errorMessage", {"error": "User is not a member of this direct message"})
+#         return
 
-    # Emit the message to all clients in the direct message room
-    emit('message', message_data, room=str(direct_message_id))
+#     message = Message(
+#         content=content,
+#         user_id=user_id,
+#         channel_id=None,
+#         parent_id=None,
+#         timestamp=now,
+#         direct_message_id=direct_message_id,
+#     )
+#     db.session.add(message)
+#     db.session.commit()
+
+#     message_data = message.to_dict()
+
+#     # Emit the message to all clients in the direct message room
+#     socketio.emit("message", message_data, room=str(direct_message_id))

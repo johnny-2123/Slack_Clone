@@ -6,7 +6,6 @@ from app.forms.workspace_form import WorkspaceForm
 from sqlalchemy.orm import joinedload
 from .auth_routes import validation_errors_to_error_messages
 from .channel_routes import workspace_channels
-from ..socket import socketio
 from sqlalchemy import and_
 
 workspace_routes = Blueprint("workspaces", __name__)
