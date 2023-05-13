@@ -49,14 +49,22 @@ function IndividualDirectMessage() {
     }, [dmMessages]);
 
     // get an array of user first names, excluding the session user's name
-    const names = currentDM?.users
-        ?.reduce((x, user) => {
-            if (user.first_name !== sessionUser.first_name) {
-                x.push(user.first_name);
-            }
-            return x;
-        }, [])
-        .join(", ");
+
+    const [names, setNames] = useState("");
+
+    useEffect(() => {
+        // get an array of user first names, excluding the session user's name
+        const userNames = currentDM?.members
+            ?.reduce((x, user) => {
+                if (user.first_name !== sessionUser.first_name) {
+                    x.push(user.first_name);
+                }
+                return x;
+            }, [])
+            .join(", ");
+
+        setNames(userNames);
+    }, [currentDM, sessionUser]);
 
     return (
         <ChatComponent
@@ -65,6 +73,7 @@ function IndividualDirectMessage() {
             setContent={setContent}
             content={content}
             name={names}
+            chat={currentDM}
         />
     );
 }

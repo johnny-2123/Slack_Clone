@@ -28,11 +28,11 @@ class User(db.Model, UserMixin):
     )
     messages = db.relationship("Message", back_populates="user")
     # channel_reads = db.relationship("UserChannelRead", back_populates="user")
-    message_reactions = db.relationship("MessageReaction", back_populates="user")
+    # message_reactions = db.relationship("MessageReaction", back_populates="user")
     channels = db.relationship("Channel", back_populates="owner")
 
     channel_memberships = db.relationship(
-        "Channel", secondary=channel_member, back_populates="private_members"
+        "Channel", secondary=channel_member, back_populates="members"
     )
 
     # direct_messages = db.relationship(

@@ -17,7 +17,7 @@ function WorkspaceSideBar({ channels, directMessages, url, currentWorkspace }) {
         }
     }, [sessionUser, currentWorkspace]);
 
-    let channelsMapped = channels?.map((channel, idx) => {
+    let channelsMapped = Object.values(channels)?.map((channel, idx) => {
         return (
             <div key={idx}>
                 <NavLink to={`${url}/channels/${channel.id}`}>
@@ -28,7 +28,7 @@ function WorkspaceSideBar({ channels, directMessages, url, currentWorkspace }) {
     });
 
     let directMessagesMapped = directMessages?.map((dm, idx) => {
-        const names = dm?.users
+        const names = dm?.members
             ?.reduce((x, user) => {
                 if (user.first_name !== sessionUser.first_name) {
                     x.push(user.first_name);

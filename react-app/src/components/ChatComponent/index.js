@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import "./chat.css";
+import ChatInfoModal from "./ChatInfoModal";
+import OpenModalButton from "../OpenModalButton";
 
 function ChatComponent({
     messages,
@@ -7,6 +9,8 @@ function ChatComponent({
     content,
     setContent,
     name,
+    chat,
+    handleDeleteChat,
 }) {
     const repliesMapped = (replies) => {
         return replies?.map((reply, idx) => {
@@ -78,10 +82,33 @@ function ChatComponent({
         );
     });
 
+    const messagesEndRef = useRef(null);
+
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "instant" });
+    };
+
+    useEffect(() => {
+        scrollToBottom();
+    }, [messages]);
+
     return (
         <div className="chatComponentDiv">
-            <h1 id="ChannelTitle"> {name}</h1>
-            <div className="messagesMainDiv">{messagesMapped}</div>
+            <OpenModalButton
+                id="ChatTitle"
+                modalComponent={
+                    <ChatInfoModal
+                        chat={chat}
+                        name={name}
+                        handleDeleteChat={handleDeleteChat}
+                    />
+                }
+                buttonText={name}
+            />
+            <div className="messagesMainDiv">
+                {messagesMapped}
+                <div ref={messagesEndRef} />
+            </div>
             <form className="sendMessageForm" onSubmit={handleSendMessage}>
                 <input
                     className="sendMessageInput"

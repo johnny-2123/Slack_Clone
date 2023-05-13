@@ -5,14 +5,17 @@ import { useDispatch, useSelector } from "react-redux";
 import {
     fetchAddChannelMessage,
     fetchChannelMessages,
+    fetchDeleteChannel,
     fetchIndividualChannel,
 } from "../../../store/channels";
 import ChatComponent from "../../ChatComponent";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
-function IndividualChannel() {
+function IndividualChannel({ workspaceId }) {
     const { channelId } = useParams();
 
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const currentChannel = useSelector(
         (state) => state.channels?.currentChannel
@@ -50,6 +53,11 @@ function IndividualChannel() {
         }
     };
 
+    const handleDeleteChannel = async () => {
+        await dispatch(fetchDeleteChannel(channelId));
+        history.push(`/workspaces/${workspaceId}/members`);
+    };
+
     return (
         <ChatComponent
             messages={messages}
@@ -57,6 +65,8 @@ function IndividualChannel() {
             setContent={setContent}
             content={content}
             name={currentChannel.name}
+            chat={currentChannel}
+            handleDeleteChat={handleDeleteChannel}
         />
     );
 }

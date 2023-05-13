@@ -3,6 +3,12 @@ const GET_INDIVIDUAL_CHANNEL = "channels/GET_INDIVIDUAL_CHANNEL";
 const GET_CHANNEL_MESSAGES = "channels/GET_CHANNEL_MESSAGES";
 const ADD_CHANNEL_MESSAGE = "channels/ADD_CHANNEL_MESSAGE";
 const CLEAR_CHANNELS = "channels/CLEAR_CHANNELS";
+const DELETE_CHANNEL = "channels/DELETE_CHANNEL";
+
+const deleteChannel = (channelId) => ({
+    type: DELETE_CHANNEL,
+    payload: channelId,
+});
 
 export const clearChannels = () => ({
     type: CLEAR_CHANNELS,
@@ -61,7 +67,6 @@ const addChannelMessage = (channelMessage) => ({
 // add a message to a channel conversation
 export const fetchAddChannelMessage =
     (channelId, content) => async (dispatch) => {
-        console.log("******************************** made it here");
         const response = await fetch(`/api/channels/${channelId}/messages`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -73,6 +78,17 @@ export const fetchAddChannelMessage =
             return directMessage;
         }
     };
+
+export const fetchDeleteChannel = (channelId) => async (dispatch) => {
+    const response = await fetch(`/api/channels/${channelId}`, {
+        method: "DELETE",
+    });
+    if (response.ok) {
+        const deletedChannel = await response.json();
+        dispatch(deleteChannel(channelId));
+        return deletedChannel;
+    }
+};
 
 const initialState = {
     workspaceChannels: [],
@@ -86,7 +102,7 @@ const channels = (state = initialState, action) => {
         case GET_CHANNELS:
             return {
                 ...state,
-                workspaceChannels: [...action.payload.Channels],
+                workspaceChannels: { ...action.payload.Channels },
             };
         case GET_INDIVIDUAL_CHANNEL:
             return {
@@ -105,9 +121,14 @@ const channels = (state = initialState, action) => {
             ]);
         case CLEAR_CHANNELS:
             newState = { ...state };
-            newState.workspaceChannels = [];
+            newState.workspaceChannels = {};
             newState.currentChannel = {};
             newState.currentChannelMessages = [];
+            return newState;
+        case DELETE_CHANNEL:
+            newState = { ...state };
+            newState.currentChannel = {};
+            delete newState.workspaceChannels[action.payload];
             return newState;
         default:
             return state;

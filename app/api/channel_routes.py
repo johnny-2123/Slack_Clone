@@ -45,7 +45,7 @@ def check_channel():
         return {"error": "channel not found"}, 404
     if not current_user in channel.workspace.members:
         return {"error": "User is not a member of this workspace"}, 403
-    if channel.private and (not current_user in channel.private_members):
+    if channel.private and (not current_user in channel.members):
         return {"error": "User does not have access to this channel"}, 403
     request.channel = channel
     request.workspace = channel.workspace
@@ -77,19 +77,21 @@ def get_channels(workspace_id):
         .filter(
             or_(
                 Channel.private == False,
-                (Channel.private_members.contains(current_user)),
+                (Channel.members.contains(current_user)),
             )
         )
         .all()
     )
-    return {"Channels": [channel.to_dict() for channel in channels]}
+    return {"Channels": {channel.id: channel.to_dict() for channel in channels}}
 
 
 # Get a single channel
 @channel_routes.route("/")
 def get_channel_by_id(channel_id):
     channel = request.channel
-    return {"channel": channel.to_dict()}
+    channel_dict = channel.to_dict()
+    channel_dict["owner"] = channel.owner.to_dict()
+    return channel_dict
 
 
 # Create a channel
@@ -109,7 +111,7 @@ def create_channel(workspace_id):
             workspace=workspace,
         )
         if form.data["private"]:
-            new_channel.private_members.append(current_user)
+            new_channel.members.append(current_user)
         db.session.add(new_channel)
         try:
             db.session.commit()
@@ -134,9 +136,9 @@ def update_channel(channel_id):
         channel.topic = form.data["topic"]
         if channel.private != form.data["private"]:
             channel.private = form.data["private"]
-            channel.private_members.clear()
+            channel.members.clear()
             if form.data["private"]:
-                channel.private_members.append(current_user)
+                channel.members.append(current_user)
         db.session.add(channel)
         try:
             db.session.commit()
