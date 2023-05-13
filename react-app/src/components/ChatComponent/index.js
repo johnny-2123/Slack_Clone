@@ -55,35 +55,54 @@ function ChatComponent({
 
     useEffect(() => {
         // create websocket connection
-        const newSocket = io();
+        const newSocket = io({
+            pingTimeout: null,
+        });
         setSocket(newSocket);
         socketRef.current = newSocket;
 
         // listen for chat events
         newSocket.on("chat", (chat) => {
-            // when we receive a chat, add it into our messages array in state
-            setMessages((messages) => [...messages, chat]);
+            // check if the chat message already exists in the messages array
+            const exists = messages.some((message) => message.id === chat.id);
+            if (exists) {
+                return; // message already exists, no need to update state
+            }
+
+            // when we receive a new chat, add it to the messages array in state
+            setMessages((prevMessages) => [...prevMessages, chat]);
         });
 
         // when component unmounts, disconnect
         return () => {
+            console.log("manually disconnecting");
             newSocket.disconnect();
         };
-    }, [setMessages]);
+    }, [messages, setMessages]);
 
     const chatId = chat.id;
 
     useEffect(() => {
-        if (chat && chat.id) {
+        setMessages((prevMessages) => {
+            const updatedMessages = prevMessages
+                ? [...prevMessages, chat]
+                : [chat];
+            return updatedMessages;
+        });
+    }, [chat, setMessages]);
+
+    useEffect(() => {
+        if (chat && chat.id && socket) {
             socket.emit("join", { room: `chat-${chat.id}` });
         }
 
         return () => {
-            if (chat && chat.id) {
+            if (chat && chat.id && socket) {
+                console.log(`manually leaving room chat-${chat.id}`);
                 socket.emit("leave", { room: `chat-${chat.id}` });
             }
         };
-    }, [chat?.id]);
+    }, [chat?.id, socket]);
 
     const messagesMapped = messages?.map((message, idx) => {
         const messageLoaded = message?.content;

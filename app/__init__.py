@@ -113,4 +113,4 @@ def not_found(e):
 
 
 if __name__ == "__main__":
-    socketio.run(app, async_mode="eventlet")
+    socketio.run(app, async_mode="eventlet", ping_timeout=None)
