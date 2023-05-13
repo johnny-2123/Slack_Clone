@@ -6,11 +6,12 @@ import {
     fetchAddDirectMessage,
 } from "../../../store/directMessages";
 import ChatComponent from "../../ChatComponent";
-import socket from '../../utils/socket'; // Import the socket instance
-
+import { io } from "socket.io-client";
+let socket;
 
 function IndividualDirectMessage() {
     const { directMessageId } = useParams();
+    socket = io();
 
     const dispatch = useDispatch();
 
@@ -52,25 +53,24 @@ function IndividualDirectMessage() {
 
     useEffect(() => {
         // Listen for 'message' event from the server and update messages state
-        socket.on('message', (newMessage) => {
+        socket.on("message", (newMessage) => {
             setMessages((prevMessages) => [...prevMessages, newMessage]);
         });
 
         return () => {
-            socket.off('message'); // Clean up the event listener
+            socket.off("message"); // Clean up the event listener
         };
     }, []);
 
     useEffect(() => {
         // Emit 'joinDirectMessage' event to server when directMessageId changes
-        socket.emit('joinDirectMessage', directMessageId);
+        socket.emit("joinDirectMessage", directMessageId);
 
         return () => {
             // Emit 'leaveDirectMessage' event when component unmounts
-            socket.emit('leaveDirectMessage', directMessageId);
+            socket.emit("leaveDirectMessage", directMessageId);
         };
     }, [directMessageId]);
-
 
     const [names, setNames] = useState("");
 
