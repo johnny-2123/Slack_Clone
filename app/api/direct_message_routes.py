@@ -223,3 +223,44 @@ def check_direct_message():
         return {"error": "User is not a member of this direct message"}, 403
     request.direct_message = direct_message
     request.workspace = direct_message.workspace
+
+
+@socketio.on('joinDirectMessage')
+def handle_join_direct_message(direct_message_id):
+    socketio.join_room(str(direct_message_id))
+
+@socketio.on('leaveDirectMessage')
+def handle_leave_direct_message(direct_message_id):
+    socketio.leave_room(str(direct_message_id))
+
+@socketio.on('message')
+def handle_message(data):
+    direct_message_id = data['direct_message_id']
+    content = data['content']
+    user_id = current_user.id
+    now = datetime.now()
+
+    direct_message = DirectMessage.query.get(direct_message_id)
+    if not direct_message:
+        emit('errorMessage', {'error': 'Direct message not found'})
+        return
+
+    if user_id not in [member.id for member in direct_message.members]:
+        emit('errorMessage', {'error': 'User is not a member of this direct message'})
+        return
+
+    message = Message(
+        content=content,
+        user_id=user_id,
+        channel_id=None,
+        parent_id=None,
+        timestamp=now,
+        direct_message_id=direct_message_id
+    )
+    db.session.add(message)
+    db.session.commit()
+
+    message_data = message.to_dict()
+
+    # Emit the message to all clients in the direct message room
+    socketio.emit('message', message_data, room=str(direct_message_id))

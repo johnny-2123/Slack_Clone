@@ -154,8 +154,6 @@
 
 @media only screen and (max-width: 861px) {
 
-    #homePageNotLoggedInMainDiv {}
-
     .homePageTopDiv {
         max-height: none;
         margin-bottom: 3rem;
