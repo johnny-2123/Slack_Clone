@@ -5,7 +5,10 @@ import OpenModalButton from "../OpenModalButton";
 import io from "socket.io-client";
 import { fetchAddDirectMessage } from "../../store/directMessages";
 import { useDispatch } from "react-redux";
-import { fetchAddChannelMessage } from "../../store/channels";
+import {
+    fetchAddChannelMessage,
+    fetchUpdateChannelMessage,
+} from "../../store/channels";
 
 // import { io } from 'socket.io-client';
 // let socket;
@@ -48,6 +51,28 @@ function ChatComponent({
             setContent("");
             const newMessage = await data;
             setMessages((prevMessages) => [...prevMessages, newMessage]);
+        }
+    };
+
+    const [editingMessage, setEditingMessage] = useState(null);
+    const [editContent, setEditContent] = useState("");
+
+    const handleEditMessage = async (newContent, messageId) => {
+        try {
+            const updatedMessage = await dispatch(
+                fetchUpdateChannelMessage(messageId, newContent)
+            );
+
+            // Update the messages state with the updated message
+            setMessages((prevMessages) =>
+                prevMessages.map((message) =>
+                    message.id === updatedMessage.id ? updatedMessage : message
+                )
+            );
+        } catch (error) {
+            // Handle the error later
+        } finally {
+            setEditingMessage(null);
         }
     };
 
@@ -102,6 +127,16 @@ function ChatComponent({
             setMessages((prevMessages) => [...prevMessages, chat]);
         });
 
+        // Listen for the message_update event
+        newSocket.on("message_update", (updatedMessage) => {
+            // Update the corresponding message in the state
+            setMessages((prevMessages) =>
+                prevMessages.map((message) =>
+                    message.id === updatedMessage.id ? updatedMessage : message
+                )
+            );
+        });
+
         // when component unmounts, disconnect
         return () => {
             console.log("manually disconnecting");
@@ -129,6 +164,18 @@ function ChatComponent({
             return null;
         }
 
+        const isEditing = editingMessage === message.id;
+
+        const handleEditSubmit = (e) => {
+            e.preventDefault();
+            handleEditMessage(editContent, message.id);
+        };
+
+        const handleEditButtonClick = (message) => {
+            setEditingMessage(message.id);
+            setEditContent(message.content);
+        };
+
         return (
             messageLoaded && (
                 <div className="individualMessageDiv" key={idx}>
@@ -149,11 +196,41 @@ function ChatComponent({
                                 {message?.timestamp}
                             </h5>
                         </div>
-                        <p>{message?.content}</p>
+                        {isEditing ? (
+                            <form
+                                className="editMessageForm"
+                                onSubmit={handleEditSubmit}
+                            >
+                                <input
+                                    type="text"
+                                    value={editContent}
+                                    onChange={(e) =>
+                                        setEditContent(e.target.value)
+                                    }
+                                    required
+                                />
+                                <button
+                                    type="submit"
+                                    className="saveEditButton"
+                                >
+                                    Save
+                                </button>
+                            </form>
+                        ) : (
+                            <p>{message?.content}</p>
+                        )}
                         <div className="repliesDiv">
                             {message?.replies?.length > 0 &&
                                 repliesMapped(message.replies)}
                         </div>
+                        {!isEditing && (
+                            <button
+                                className="editButton"
+                                onClick={() => handleEditButtonClick(message)}
+                            >
+                                Edit
+                            </button>
+                        )}
                     </div>
                 </div>
             )

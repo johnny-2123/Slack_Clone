@@ -2,8 +2,14 @@ const GET_CHANNELS = "channels/GET_CHANNELS";
 const GET_INDIVIDUAL_CHANNEL = "channels/GET_INDIVIDUAL_CHANNEL";
 const GET_CHANNEL_MESSAGES = "channels/GET_CHANNEL_MESSAGES";
 const ADD_CHANNEL_MESSAGE = "channels/ADD_CHANNEL_MESSAGE";
+const UPDATE_CHANNEL_MESSAGE = "channels/UPDATE_CHANNEL_MESSAGE";
 const CLEAR_CHANNELS = "channels/CLEAR_CHANNELS";
 const DELETE_CHANNEL = "channels/DELETE_CHANNEL";
+
+const updateChannelMessage = (message) => ({
+    type: UPDATE_CHANNEL_MESSAGE,
+    payload: message,
+});
 
 const deleteChannel = (channelId) => ({
     type: DELETE_CHANNEL,
@@ -18,6 +24,20 @@ const getChannelMessages = (messages) => ({
     type: GET_CHANNEL_MESSAGES,
     payload: messages,
 });
+
+export const fetchUpdateChannelMessage =
+    (messageId, content) => async (dispatch) => {
+        const response = await fetch(`/api/messages/${messageId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ content }),
+        });
+        if (response.ok) {
+            const updatedMessage = await response.json();
+            dispatch(updateChannelMessage(updatedMessage));
+            return updatedMessage;
+        }
+    };
 
 export const fetchChannelMessages = (channelId) => async (dispatch) => {
     const response = await fetch(`/api/channels/${channelId}/messages`);
