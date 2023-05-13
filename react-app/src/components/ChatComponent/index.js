@@ -51,7 +51,9 @@ function ChatComponent({
 
     useEffect(() => {
         // create websocket connection
-        const newSocket = io();
+        const newSocket = io({
+            pingTimeout: null,
+        });
         setSocket(newSocket);
         socketRef.current = newSocket;
 

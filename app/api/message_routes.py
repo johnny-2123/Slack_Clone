@@ -38,7 +38,6 @@ def get_messages(**kwargs):
 # Send a message in the current chat
 @chat_messages.route("/", methods=["POST"])
 def send_message(**kwargs):
-    print("sending message")
     data = request.json
     content = data.get("content")
     if not content:
@@ -47,7 +46,7 @@ def send_message(**kwargs):
     # direct_message = DirectMessage.query.get(direct_message_id)
     chat = get_chat()
     if not chat:
-        return jsonify({"error": "direct message not found"}), 404
+        return jsonify({"error": "chat not found"}), 404
 
     now = datetime.now()
     message = Message(content=content, user=current_user, timestamp=now, chat=chat)
@@ -55,5 +54,6 @@ def send_message(**kwargs):
     db.session.commit()
 
     socketio.emit("chat", message.to_dict(), room=f"chat-{chat.id}")
+    print(f"sending message to room chat-{chat.id}")
 
     return message.to_dict(), 201
