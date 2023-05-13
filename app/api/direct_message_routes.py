@@ -174,6 +174,7 @@ def update_direct_message(direct_message_id):
 @login_required
 def delete_direct_message(direct_message_id):
     # Attempt to get the direct message with the specified ID
+    print("direct_message_id in delete direct message route", direct_message_id)
     direct_message = DirectMessage.query.get(direct_message_id)
     # If the direct message does not exist, return a 404 error
     if not direct_message:
@@ -195,8 +196,8 @@ def delete_direct_message(direct_message_id):
         jsonify(
             {
                 "message": "Direct message deleted successfully",
-                "statusCode": 200,
-                "errors": [],
+                "deleted_chat": direct_message.to_dict(),
+                "statusCode": 200
             }
         ),
         200,

@@ -4,11 +4,15 @@ import { useDispatch, useSelector } from "react-redux";
 import {
     fetchIndividualDM,
     fetchAddDirectMessage,
+    fetchDeleteDirectMessage
 } from "../../../store/directMessages";
 import ChatComponent from "../../ChatComponent";
 
 function IndividualDirectMessage() {
     const { directMessageId } = useParams();
+    console.log(`directMessageId in individual direct message component`, directMessageId)
+    const [deletedDirectMessage, setDeletedDirectMessage] = useState(false);
+    const [errors, setErrors] = useState([]);
 
     const dispatch = useDispatch();
 
@@ -66,6 +70,18 @@ function IndividualDirectMessage() {
         setNames(userNames);
     }, [currentDM, sessionUser]);
 
+    const handleDeleteDirectMessage = async () => {
+        const data = await dispatch(fetchDeleteDirectMessage(directMessageId))
+            .catch((data) => console.log(data));
+        if (data.errors) {
+            console.log(`data.errors`, data)
+            setErrors(data.errors)
+        } else {
+            setDeletedDirectMessage(data.deleted_chat);
+            console.log(`deletedDirectMessage`, data.deleted_chat)
+        }
+    };
+
     return (
         <ChatComponent
             messages={messages}
@@ -75,6 +91,8 @@ function IndividualDirectMessage() {
             content={content}
             name={names}
             chat={currentDM}
+            handleDeleteChat={handleDeleteDirectMessage}
+            deletedChat={deletedDirectMessage}
         />
     );
 }

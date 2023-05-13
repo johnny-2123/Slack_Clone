@@ -12,7 +12,7 @@ const deleteDirectMessage = (directMessageId) => ({
 
 
 export const fetchDeleteDirectMessage = (directMessageId) => async (dispatch) => {
-
+    console.log(`directMessageId in fetchDeleteDirectMessage`, directMessageId)
     const response = await fetch(`/api/direct_messages/${directMessageId}`, {
         method: "DELETE",
     });
@@ -21,6 +21,7 @@ export const fetchDeleteDirectMessage = (directMessageId) => async (dispatch) =>
 
     if (response.ok) {
         const deletedDirectMessage = await response.json();
+        console.log(`deletedDirectMessage data`, deletedDirectMessage)
         dispatch(deleteDirectMessage(directMessageId));
         return deletedDirectMessage;
     }
@@ -132,6 +133,11 @@ const directMessages = (state = initialState, action) => {
             newState.currentDirectMessages = [];
             newState.currentIndividualDM = {};
             return newState;
+        case DELETE_DIRECT_MESSAGE:
+            newState = { ...state };
+            newState.currentDirectMessages = newState.currentDirectMessages.filter(
+                (directMessage) => directMessage.id !== action.payload
+            );
         default:
             return state;
     }
