@@ -49,7 +49,7 @@ function IndividualChannel({ workspaceId }) {
         } else {
             setContent("");
             const newMessage = await data;
-            setMessages([...messages, newMessage]);
+            setMessages((prevMessages) => [...prevMessages, newMessage]);
         }
     };
 
