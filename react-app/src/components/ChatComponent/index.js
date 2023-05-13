@@ -4,8 +4,8 @@ import ChatInfoModal from "./ChatInfoModal";
 import OpenModalButton from "../OpenModalButton";
 import io from "socket.io-client";
 
-import { io } from 'socket.io-client';
-let socket;
+// import { io } from 'socket.io-client';
+// let socket;
 
 function ChatComponent({
     messages,
@@ -19,6 +19,7 @@ function ChatComponent({
 }) {
     const [socket, setSocket] = useState(null);
     const socketRef = useRef(null);
+    console.log("chat in chat component", chat)
 
     const repliesMapped = (replies) => {
         return replies?.map((reply, idx) => {
