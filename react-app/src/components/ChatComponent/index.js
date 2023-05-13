@@ -19,7 +19,10 @@ function ChatComponent({
     name,
     chat,
     handleDeleteChat,
+    deletedChat
 }) {
+    console.log('deletedChat in ChatComponent ', deletedChat)
+
     const [socket, setSocket] = useState(null);
     const dispatch = useDispatch();
 

@@ -5,30 +5,26 @@ const CLEAR_DIRECT_MESSAGES = "direct_messages/CLEAR_DIRECT_MESSAGES";
 const DELETE_DIRECT_MESSAGE = "direct_messages/DELETE_DIRECT_MESSAGE";
 
 
-const deleteDirectMessage = (directMessageId) => ({
+const deleteDirectMessage = (deletedDirectMessage) => ({
     type: DELETE_DIRECT_MESSAGE,
-    payload: directMessageId,
+    payload: deletedDirectMessage,
 });
 
 
 export const fetchDeleteDirectMessage = (directMessageId) => async (dispatch) => {
-    console.log(`directMessageId in fetchDeleteDirectMessage`, directMessageId)
+    // console.log(`directMessageId in fetchDeleteDirectMessage`, directMessageId)
     const response = await fetch(`/api/direct_messages/${directMessageId}`, {
         method: "DELETE",
     });
 
-    console.log(`response from fetchDeleteDirectMessage`, response)
-
     if (response.ok) {
         const deletedDirectMessage = await response.json();
-        console.log(`deletedDirectMessage data`, deletedDirectMessage)
-        dispatch(deleteDirectMessage(directMessageId));
+        // console.log(`deletedDirectMessage in fetchDeleteDirectMessage`, deletedDirectMessage)
+        dispatch(deleteDirectMessage(deletedDirectMessage));
         return deletedDirectMessage;
     }
 
-
 }
-
 
 export const clearDirectMessages = () => ({
     type: CLEAR_DIRECT_MESSAGES,
@@ -42,11 +38,11 @@ const addDirectMessage = (directMessage) => ({
 // add a message to a conversation between workspace users
 export const fetchAddDirectMessage =
     (directMessageId, content) => async (dispatch) => {
-        console.log(
-            `messsage in fetchAddDirectMessage`,
-            directMessageId,
-            content
-        );
+        // console.log(
+        //     `messsage in fetchAddDirectMessage`,
+        //     directMessageId,
+        //     content
+        // );
 
         const response = await fetch(
             `/api/direct_messages/${directMessageId}/messages`,
@@ -56,14 +52,14 @@ export const fetchAddDirectMessage =
                 body: JSON.stringify({ content }),
             }
         );
-        console.log(`response from fetchAddDirectMessage`, response);
+        // console.log(`response from fetchAddDirectMessage`, response);
 
         if (response.ok) {
             const directMessage = await response.json();
-            console.log(
-                `data from fetchAddDirectMessage response`,
-                directMessage
-            );
+            // console.log(
+            //     `data from fetchAddDirectMessage response`,
+            //     directMessage
+            // );
             dispatch(addDirectMessage);
             return directMessage;
         }
@@ -134,10 +130,15 @@ const directMessages = (state = initialState, action) => {
             newState.currentIndividualDM = {};
             return newState;
         case DELETE_DIRECT_MESSAGE:
+            console.log(`action.payload in delete direct message action from store`, action.payload)
             newState = { ...state };
-            newState.currentDirectMessages = newState.currentDirectMessages.filter(
-                (directMessage) => directMessage.id !== action.payload
-            );
+
+            newState.currentDirectMessages = newState.currentDirectMessages.filter((directMessage) =>
+                directMessage.id !== action.payload.deleted_chat.id);
+
+            newState.currentIndividualDM = {};
+
+            return newState;
         default:
             return state;
     }
