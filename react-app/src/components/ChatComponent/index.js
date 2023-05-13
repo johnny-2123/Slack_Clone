@@ -1,10 +1,12 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./chat.css";
 import ChatInfoModal from "./ChatInfoModal";
 import OpenModalButton from "../OpenModalButton";
+import io from "socket.io-client";
 
 function ChatComponent({
     messages,
+    setMessages,
     handleSendMessage,
     content,
     setContent,
@@ -12,6 +14,9 @@ function ChatComponent({
     chat,
     handleDeleteChat,
 }) {
+    const [socket, setSocket] = useState(null);
+    const socketRef = useRef(null);
+
     const repliesMapped = (replies) => {
         return replies?.map((reply, idx) => {
             return (
@@ -43,6 +48,38 @@ function ChatComponent({
             );
         });
     };
+
+    useEffect(() => {
+        // create websocket connection
+        const newSocket = io();
+        setSocket(newSocket);
+        socketRef.current = newSocket;
+
+        // listen for chat events
+        newSocket.on("chat", (chat) => {
+            // when we receive a chat, add it into our messages array in state
+            setMessages((messages) => [...messages, chat]);
+        });
+
+        // when component unmounts, disconnect
+        return () => {
+            newSocket.disconnect();
+        };
+    }, [setMessages]);
+
+    const chatId = chat.id;
+
+    useEffect(() => {
+        if (chat && chat.id) {
+            socket.emit("join", { room: `chat-${chat.id}` });
+        }
+
+        return () => {
+            if (chat && chat.id) {
+                socket.emit("leave", { room: `chat-${chat.id}` });
+            }
+        };
+    }, [chat]);
 
     const messagesMapped = messages?.map((message, idx) => {
         const messageLoaded = message?.content;

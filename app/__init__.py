@@ -13,7 +13,7 @@ from .api.direct_message_routes import direct_message_routes
 from .api.message_routes import chat_messages
 from .seeds import seed_commands
 from .config import Config
-# from .socket import socketio
+from .socket import socketio
 
 app = Flask(__name__, static_folder="../react-app/build", static_url_path="/")
 
@@ -41,7 +41,7 @@ app.register_blueprint(direct_message_routes, url_prefix="/api/direct_messages")
 app.register_blueprint(workspace_routes, url_prefix="/api/workspaces")
 db.init_app(app)
 Migrate(app, db)
-# socketio.init_app(app)
+socketio.init_app(app)
 
 
 # Application Security
@@ -108,5 +108,5 @@ def react_root(path):
 def not_found(e):
     return app.send_static_file("index.html")
 
-# if __name__ == '__main__':
-#     socketio.run(app)
+if __name__ == '__main__':
+    socketio.run(app)

@@ -61,6 +61,7 @@ function IndividualChannel({ workspaceId }) {
     return (
         <ChatComponent
             messages={messages}
+            setMessages={setMessages}
             handleSendMessage={handleSendMessage}
             setContent={setContent}
             content={content}
