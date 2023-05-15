@@ -2,56 +2,52 @@
 
 
 #createNewDMChatDiv {
-    outline: pink dotted thin;
+    /* outline: pink dotted thin; */
     margin-bottom: 20px;
     display: flex;
     flex-direction: column;
 }
 
-.newDMMembersDiv {
-    outline: red dotted thin;
-    margin-bottom: 10px;
-    display: flex;
-    flex-direction: row;
-}
-
-.newDMMembersDiv h4 {
-    margin: 0;
-}
-
-.newDMMembersDiv ul {
-    outline: yellowgreen dotted thin;
-    list-style-type: none;
-    padding: 0;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-}
-
-.newDMMembersDiv li {
-    padding: .2rem .5rem;
-}
-
 .searchWorkspaceMembersForm {
-    outline: orange dotted thin;
+    /* outline: orange dotted thin; */
     display: flex;
     flex-direction: column;
     align-items: center;
+    min-width: 400px;
 }
 
 .memberSearchDiv {
-    outline: black dotted thin;
+    /* outline: black dotted thin; */
     width: 100%;
 }
 
-.searchWorkspaceMembersForm input[type="search"] {
+
+.searchBardiv {
+    /* outline: pink dotted thin; */
+    display: flex;
+    flex-direction: row;
+}
+
+.searchBardiv input button {
+    margin: 0;
+    padding: 0;
+}
+
+.memberSearchDiv h3 {
+    /* outline: black dotted thin; */
+    margin: 0;
+    padding: 0 1rem;
+    width: fit-content;
+}
+
+.searchWorkspaceMembersForm input {
     flex: 1;
     padding: 8px;
     border-radius: 4px;
     border: 1px solid #ccc;
 }
 
-.searchWorkspaceMembersForm button[type="submit"] {
+.searchWorkspaceMembersForm button {
     padding: 8px 16px;
     margin-left: 10px;
     background-color: rgb(128, 0, 128);
@@ -62,14 +58,18 @@
 }
 
 .searchWorkspaceMembersResultsUl {
-    outline: blue thin dotted;
+    /* outline: blue thin dotted; */
     width: 100;
+    padding: 0;
 }
 
 .searchWorkspaceMembersResultsUl li {
-    outline: red thin dotted;
+    /* outline: red thin dotted; */
     display: flex;
-    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-left: 0;
+    padding-left: 0;
     margin-bottom: 5px;
 }
 
@@ -86,6 +86,34 @@
     border-radius: 4px;
     cursor: pointer;
 }
+
+
+.newDMMembersDiv {
+    /* outline: red dotted thin; */
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+}
+
+.newDMMembersDiv h4 {
+    margin: 0;
+    /* outline: blue dotted thin; */
+
+}
+
+.newDMMembersDiv ul {
+    /* outline: yellowgreen dotted thin; */
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.newDMMembersDiv li {
+    padding: .2rem .5rem;
+}
+
 
 .lfform-errors {
     color: red;

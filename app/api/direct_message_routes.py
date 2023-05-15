@@ -96,10 +96,14 @@ def create_direct_message():
     print("*********************************************************************************************************************request data to create direct message backend route handler")
 
     topic = data.get("topic")
+    print('topic')
     print(data.get('topic'))
     users = data.get("users")
+    print('users')
     print(data.get('users'))
     workspace_id = data.get("workspace_id")
+    print('workspace_id')
+    print(data.get('workspace_id'))
     if not topic or not users:
         return jsonify({"errors": "topic and users are required"}), 400
     # Retrieve the workspace ID from the current user object
