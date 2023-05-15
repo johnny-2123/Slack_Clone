@@ -4,6 +4,31 @@ const ADD_DIRECT_MESSAGE = "direct_messages/ADD_DIRECT_MESSAGE";
 const CLEAR_DIRECT_MESSAGES = "direct_messages/CLEAR_DIRECT_MESSAGES";
 const DELETE_DIRECT_MESSAGE = "direct_messages/DELETE_DIRECT_MESSAGE";
 
+const CREATE_INDIVIDUAL_DM_CHAT = "direct_messages/CREATE_INDIVIDUAL_DM_CHAT";
+
+const createIndividualDMChat = (newDirectMessageChat) => ({
+    type: CREATE_INDIVIDUAL_DM_CHAT,
+    payload: newDirectMessageChat,
+});
+
+
+export const fetchCreateIndividualDMChat = (directMessageChat) => async (dispatch) => {
+    console.log('directMessageChat data from frontend CreateIndidualDMChatModal react component, directMessageChat', directMessageChat)
+
+    // const response = await fetch(`/api/direct_messages`, {
+    //     method: "POST",
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify({ directMessageChat }),
+    // });
+
+
+    // if (response.ok) {
+    //     const newDirectMessageChat = await response.json();
+    //     dispatch(createIndividualDMChat(newDirectMessageChat));
+    //     return newDirectMessageChat;
+    // }
+
+};
 
 const deleteDirectMessage = (deletedDirectMessage) => ({
     type: DELETE_DIRECT_MESSAGE,
@@ -38,11 +63,11 @@ const addDirectMessage = (directMessage) => ({
 // add a message to a conversation between workspace users
 export const fetchAddDirectMessage =
     (directMessageId, content) => async (dispatch) => {
-        // console.log(
-        //     `messsage in fetchAddDirectMessage`,
-        //     directMessageId,
-        //     content
-        // );
+        console.log(
+            `messsage in fetchAddDirectMessage`,
+            directMessageId,
+            content
+        );
 
         const response = await fetch(
             `/api/direct_messages/${directMessageId}/messages`,
@@ -52,15 +77,14 @@ export const fetchAddDirectMessage =
                 body: JSON.stringify({ content }),
             }
         );
-        // console.log(`response from fetchAddDirectMessage`, response);
+        console.log(`response from fetchAddDirectMessage`, response);
 
         if (response.ok) {
             const directMessage = await response.json();
-            // console.log(
-            //     `data from fetchAddDirectMessage response`,
-            //     directMessage
-            // );
-            dispatch(addDirectMessage);
+            console.log(
+                `data from fetchAddDirectMessage response`,
+                directMessage
+            );
             return directMessage;
         }
     };

@@ -93,6 +93,8 @@ def get_direct_message(direct_message_id):
 @login_required
 def create_direct_message():
     data = request.json
+    print("*********************************************************************************************************************request data to create direct message backend route handler")
+    print(data.keys())
     topic = data.get("topic")
     users = data.get("users")
     workspace_id = data.get("workspace_id")
@@ -119,7 +121,7 @@ def create_direct_message():
         message = Message(
             content=f"{topic} started",
             user_id=users[0],
-            channel_id=None,
+            chat_id=direct_message.id,
             parent_id=None,
             timestamp=now,
         )

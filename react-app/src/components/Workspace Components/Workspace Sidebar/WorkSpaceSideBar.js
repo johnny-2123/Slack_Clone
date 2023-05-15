@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
+import CreateIndidualDMChatModal from "../../DirectMessage Components/Create Direct Message Modal";
+import OpenModalButton from "../../OpenModalButton"
 import "./WorkspaceSideBar.css";
 
 function WorkspaceSideBar({ channels, directMessages, url, currentWorkspace }) {
@@ -68,6 +70,11 @@ function WorkspaceSideBar({ channels, directMessages, url, currentWorkspace }) {
                     </div>
                     <div className="channelsListDiv">{channelsMapped}</div>
                     <div className="channelsListDiv">
+                        <OpenModalButton
+                            modalComponent={<CreateIndidualDMChatModal />}
+                            buttonText="New DM"
+                            currentWorkspace={currentWorkspace}
+                        />
                         {directMessagesMapped}
                     </div>
                 </div>

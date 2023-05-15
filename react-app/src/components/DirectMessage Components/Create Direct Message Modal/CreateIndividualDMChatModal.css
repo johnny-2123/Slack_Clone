@@ -1,0 +1,91 @@
+/* CreateIndividualDMChatModal.css */
+
+
+#createNewDMChatDiv {
+    outline: pink dotted thin;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.newDMMembersDiv {
+    outline: red dotted thin;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+}
+
+.newDMMembersDiv h4 {
+    margin: 0;
+}
+
+.newDMMembersDiv ul {
+    outline: yellowgreen dotted thin;
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.newDMMembersDiv li {
+    padding: .2rem .5rem;
+}
+
+.searchWorkspaceMembersForm {
+    outline: orange dotted thin;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.searchWorkspaceMembersForm input[type="search"] {
+    flex: 1;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.searchWorkspaceMembersForm button[type="submit"] {
+    padding: 8px 16px;
+    margin-left: 10px;
+    background-color: purple;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.searchWorkspaceMembersResultsUl {
+    outline: blue thin dotted;
+}
+
+.searchWorkspaceMembersResultsUl li {
+    outline: red thin dotted;
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.searchWorkspaceMembersResultsUl p {
+    flex: 1;
+    margin: 0;
+}
+
+.searchWorkspaceMembersResultsUl button {
+    padding: 4px 8px;
+    background-color: purple;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.lfform-errors {
+    color: red;
+    margin-bottom: 10px;
+}
+
+.lfform-error {
+    margin-bottom: 5px;
+}
