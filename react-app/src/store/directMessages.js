@@ -57,6 +57,28 @@ export const fetchDeleteDirectMessage = (directMessageId) => async (dispatch) =>
 
 }
 
+export const fetchEditDirectMessage = (messageId, editedContent) => async (dispatch) => {
+    try {
+      const response = await fetch(`/api/direct_messages/messages/${messageId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ content: editedContent }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to edit direct message.");
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+
 export const clearDirectMessages = () => ({
     type: CLEAR_DIRECT_MESSAGES,
 });
