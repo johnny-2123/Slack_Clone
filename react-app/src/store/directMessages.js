@@ -5,6 +5,7 @@ const CLEAR_DIRECT_MESSAGES = "direct_messages/CLEAR_DIRECT_MESSAGES";
 const DELETE_DIRECT_MESSAGE = "direct_messages/DELETE_DIRECT_MESSAGE";
 
 const CREATE_INDIVIDUAL_DM_CHAT = "direct_messages/CREATE_INDIVIDUAL_DM_CHAT";
+const EDIT_INDIVIDUAL_DM_CHAT = "direct_messages/EDIT_INDIVIDUAL_DM_CHAT";
 
 const createIndividualDMChat = (newDirectMessageChat) => ({
     type: CREATE_INDIVIDUAL_DM_CHAT,
@@ -57,21 +58,32 @@ export const fetchDeleteDirectMessage = (directMessageId) => async (dispatch) =>
 
 }
 
-export const fetchEditDirectMessage = (messageId, editedContent) => async (dispatch) => {
+const editDirectMessage = (directMessage) => ({
+    type: EDIT_INDIVIDUAL_DM_CHAT,
+    payload: directMessage,
+});
+
+
+export const fetchEditDirectMessage = (dmId, topic) => async (dispatch) => {
+    console.log(`dmId in fetchEditDirectMessage`, dmId)
+    console.log(`topic in fetchEditDirectMessage`, topic)
     try {
-        const response = await fetch(`/api/direct_messages/messages/${messageId}`, {
+        const response = await fetch(`/api/direct_messages/${dmId}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ content: editedContent }),
+            body: JSON.stringify({ topic }),
         });
 
-        if (!response.ok) {
-            throw new Error("Failed to edit direct message.");
-        }
+        console.log(`response in fetchEditDirectMessage`, response)
 
+        if (!response.ok) {
+            return new Error("Failed to edit direct message.");
+        }
         const data = await response.json();
+        dispatch(editDirectMessage(data));
+        console.log(`data from fetchEditDirectMessage `, data)
         return data;
     } catch (error) {
         console.error(error);
@@ -197,6 +209,10 @@ const directMessages = (state = initialState, action) => {
                 action.payload,
             ];
             return newState;
+        // case EDIT_INDIVIDUAL_DM_CHAT:
+        //     newState = { ...state };
+        //     newState.currentIndividualDM = action.payload;
+        //     return newState;
         default:
             return state;
     }

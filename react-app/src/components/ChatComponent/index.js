@@ -25,7 +25,8 @@ function ChatComponent({
     handleDeleteChat,
     deletedChat
 }) {
-    console.log('deletedChat in ChatComponent ', deletedChat)
+    // console.log('deletedChat in ChatComponent ', deletedChat)
+    console.log('chat in ChatComponent ', chat)
 
     const [socket, setSocket] = useState(null);
     const dispatch = useDispatch();
@@ -46,12 +47,11 @@ function ChatComponent({
                 fetchAddChannelMessage(chat.id, content)
             ).catch((data) => console.log(data));
         }
-
         if (data.error) {
-            console.log(
-                `data above setErrors in handle submit for new message in IndividualDirectMessage`,
-                data.error
-            );
+            // console.log(
+            //     `data above setErrors in handle submit for new message in IndividualDirectMessage`,
+            //     data.error
+            // );
         } else {
             setContent("");
             const newMessage = await data;

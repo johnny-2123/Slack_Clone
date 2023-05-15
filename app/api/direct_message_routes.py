@@ -162,6 +162,8 @@ def update_direct_message(direct_message_id):
     # Query the database for the direct message with the given ID
     dm = DirectMessage.query.get(direct_message_id)
     # If no direct message is found with the given ID, return a 404 error
+    print("direct_message_id in update direct message route", direct_message_id)
+    print("dm in update direct message route", dm)
     if dm is None:
         return (
             jsonify(
@@ -174,8 +176,9 @@ def update_direct_message(direct_message_id):
             404,
         )
     # Extract the updated fields from the request body
-    req_data = request.get_json()
-    topic = req_data["topic"]
+    req_data = request.json
+    topic = req_data.get("topic")
+    print("topic in update direct message route", topic)
     # Update the direct message with the new topic
     dm.topic = topic
     db.session.commit()
