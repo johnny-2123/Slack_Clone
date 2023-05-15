@@ -60,15 +60,9 @@ function CreateIndividualDMChatModal() {
         };
         const newChat = await dispatch(fetchCreateIndividualDMChat(directMessageChat))
             .then((data) => console.log('direct message chat created', data))
-            .catch((data) => console.log('data ', data));
-
-        if (newChat) {
-            setErrors(Object.values(newChat));
-        } else {
-            console.log('new chat created in create new chat react component', newChat);
-        }
-    };
-
+            .then(data => history.push(`/workspaces/${workspace_id}/direct_messages/${data?.id}`))
+            .catch((data) => console.log('data ', data))
+    }
     return (
         <div className="lfform-container" id="createNewDMChatDiv">
             <h3>Create New Direct Message</h3>

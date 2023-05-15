@@ -113,15 +113,20 @@ def create_direct_message():
         direct_message = DirectMessage(
             topic=topic, workspace_id=workspace_id, last_sent_message_timestamp=now
         )
-        db.session.add(direct_message)
-        # add users as members of the new direct message
-        # for user_id in users:
-        #     member = direct_message_member(user_id=user_id, direct_message_id=direct_message.id)
-        #     db.session.add(member)
 
+        # add users as members of the new direct message
         for user_id in users:
             user = User.query.get(user_id)
             direct_message.members.append(user)
+        direct_message.members.append(current_user)
+
+        print('created direct message')
+        print(direct_message.to_dict())
+        db.session.add(direct_message)
+
+        for user_id in users:
+            user = User.query.get(user_id)
+            user.dm_memberships.append(direct_message)
 
         # create initial message for the direct message
         message = Message(

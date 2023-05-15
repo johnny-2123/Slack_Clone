@@ -165,9 +165,14 @@ const directMessages = (state = initialState, action) => {
 
             newState.currentDirectMessages = newState.currentDirectMessages.filter((directMessage) =>
                 directMessage.id !== action.payload.deleted_chat.id);
-
             newState.currentIndividualDM = {};
-
+            return newState;
+        case CREATE_INDIVIDUAL_DM_CHAT:
+            newState = { ...state };
+            newState.currentDirectMessages = [
+                ...newState.currentDirectMessages,
+                action.payload,
+            ];
             return newState;
         default:
             return state;
