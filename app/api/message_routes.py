@@ -113,9 +113,9 @@ def edit_message(**kwargs):
 @needs_permission
 def delete_message(**kwargs):
     message = request.message
-    db.session.delete(message)
-    db.session.commit()
     socketio.emit("message_delete", message.to_dict(), room=f"chat-{message.chat.id}")
     print(f"deleting message in room chat-{message.chat.id}")
+    db.session.delete(message)
+    db.session.commit()
 
     return {"message": "Message deleted successfully"}

@@ -8,6 +8,7 @@ import { fetchAddDirectMessage } from "../../store/directMessages";
 import { useDispatch } from "react-redux";
 import {
     fetchAddChannelMessage,
+    fetchDeleteChannelMessage,
     fetchUpdateChannelMessage,
 } from "../../store/channels";
 
@@ -23,10 +24,10 @@ function ChatComponent({
     name,
     chat,
     handleDeleteChat,
-    deletedChat
+    deletedChat,
 }) {
     // console.log('deletedChat in ChatComponent ', deletedChat)
-    console.log('chat in ChatComponent ', chat)
+    console.log("chat in ChatComponent ", chat);
 
     const [socket, setSocket] = useState(null);
     const dispatch = useDispatch();
@@ -71,13 +72,30 @@ function ChatComponent({
             // Update the messages state with the updated message
             setMessages((prevMessages) =>
                 prevMessages.map((message) =>
-                    message?.id === updatedMessage?.id ? updatedMessage : message
+                    message?.id === updatedMessage?.id
+                        ? updatedMessage
+                        : message
                 )
             );
         } catch (error) {
             // Handle the error later
         } finally {
             setEditingMessage(null);
+        }
+    };
+
+    const handleDeleteMessage = async (messageId) => {
+        try {
+            const deletedMessage = await dispatch(
+                fetchDeleteChannelMessage(messageId)
+            );
+            setMessages((prevMessages) =>
+                prevMessages.filter(
+                    (message) => message.id !== deletedMessage.id
+                )
+            );
+        } catch (error) {
+            // Handle the error later
         }
     };
 
@@ -142,6 +160,16 @@ function ChatComponent({
             );
         });
 
+        // Listen for the message_update event
+        newSocket.on("message_delete", (deletedMessage) => {
+            // Delete the corresponding message in the state
+            setMessages((prevMessages) =>
+                prevMessages.filter(
+                    (message) => message.id !== deletedMessage.id
+                )
+            );
+        });
+
         // when component unmounts, disconnect
         return () => {
             console.log("manually disconnecting");
@@ -169,7 +197,7 @@ function ChatComponent({
             userIsMessageSender = true;
         } else {
             userIsMessageSender = false;
-        };
+        }
 
         if (message.parent_id) {
             return null;
@@ -235,12 +263,24 @@ function ChatComponent({
                                 repliesMapped(message.replies)}
                         </div>
                         {userIsMessageSender && !isEditing && (
-                            <button
-                                className="editButton"
-                                onClick={() => handleEditButtonClick(message)}
-                            >
-                                Edit
-                            </button>
+                            <>
+                                <button
+                                    className="editButton"
+                                    onClick={() =>
+                                        handleEditButtonClick(message)
+                                    }
+                                >
+                                    Edit
+                                </button>
+                                <button
+                                    className="DeleteButton"
+                                    onClick={() =>
+                                        handleDeleteMessage(message.id)
+                                    }
+                                >
+                                    Delete
+                                </button>
+                            </>
                         )}
                     </div>
                 </div>

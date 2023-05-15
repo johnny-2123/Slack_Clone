@@ -39,6 +39,18 @@ export const fetchUpdateChannelMessage =
         }
     };
 
+export const fetchDeleteChannelMessage = (messageId) => async (dispatch) => {
+    const response = await fetch(`/api/messages/${messageId}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+    });
+    if (response.ok) {
+        const deletedMessage = await response.json();
+        dispatch(updateChannelMessage(deletedMessage));
+        return deletedMessage;
+    }
+};
+
 export const fetchChannelMessages = (channelId) => async (dispatch) => {
     const response = await fetch(`/api/channels/${channelId}/messages`);
 
