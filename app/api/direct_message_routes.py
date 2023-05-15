@@ -145,6 +145,7 @@ def create_direct_message():
                     "topic": direct_message.topic,
                     "workspace_id": direct_message.workspace_id,
                     "last_sent_message_timestamp": direct_message.last_sent_message_timestamp,
+                    "members": [member.to_dict() for member in direct_message.members],
                 }
             ),
             201,

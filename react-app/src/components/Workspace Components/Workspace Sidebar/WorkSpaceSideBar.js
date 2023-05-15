@@ -32,7 +32,7 @@ function WorkspaceSideBar({ channels, directMessages, url, currentWorkspace }) {
     let directMessagesMapped = directMessages?.map((dm, idx) => {
         const names = dm?.members
             ?.reduce((x, user) => {
-                if (user.first_name !== sessionUser.first_name) {
+                if (user?.first_name !== sessionUser?.first_name) {
                     x.push(user.first_name);
                 }
                 return x;
@@ -40,7 +40,7 @@ function WorkspaceSideBar({ channels, directMessages, url, currentWorkspace }) {
             .join(", ");
         return (
             <div key={idx}>
-                <NavLink to={`${url}/direct_messages/${dm.id}`}>
+                <NavLink to={`${url}/direct_messages/${dm?.id}`}>
                     <i className="fa-solid fa-message"></i> {names}
                 </NavLink>
             </div>

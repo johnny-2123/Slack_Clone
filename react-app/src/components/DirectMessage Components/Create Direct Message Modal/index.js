@@ -59,8 +59,8 @@ function CreateIndividualDMChatModal() {
             users,
         };
         const newChat = await dispatch(fetchCreateIndividualDMChat(directMessageChat))
-            .then((data) => console.log('direct message chat created', data))
-            .then(data => history.push(`/workspaces/${workspace_id}/direct_messages/${data?.id}`))
+            .then((data) => history.push(`/workspaces/${workspace_id}/direct_messages/${data.id}`))
+            .then(() => closeModal())
             .catch((data) => console.log('data ', data))
     }
     return (

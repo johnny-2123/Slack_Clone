@@ -59,24 +59,24 @@ export const fetchDeleteDirectMessage = (directMessageId) => async (dispatch) =>
 
 export const fetchEditDirectMessage = (messageId, editedContent) => async (dispatch) => {
     try {
-      const response = await fetch(`/api/direct_messages/messages/${messageId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ content: editedContent }),
-      });
+        const response = await fetch(`/api/direct_messages/messages/${messageId}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ content: editedContent }),
+        });
 
-      if (!response.ok) {
-        throw new Error("Failed to edit direct message.");
-      }
+        if (!response.ok) {
+            throw new Error("Failed to edit direct message.");
+        }
 
-      const data = await response.json();
-      return data;
+        const data = await response.json();
+        return data;
     } catch (error) {
-      console.error(error);
+        console.error(error);
     }
-  };
+};
 
 
 export const clearDirectMessages = () => ({
@@ -191,6 +191,7 @@ const directMessages = (state = initialState, action) => {
             return newState;
         case CREATE_INDIVIDUAL_DM_CHAT:
             newState = { ...state };
+            console.log('action.payload in CREATE_INDIVIDUAL_DM_CHAT action in reducer', action.payload)
             newState.currentDirectMessages = [
                 ...newState.currentDirectMessages,
                 action.payload,
