@@ -67,7 +67,7 @@ function ChatInfoModal({ chat, name, handleDeleteChat, deletedChat }) {
                             onChange={(e) => setNewTopic(e.target.value)}
                         />
                     </div>
-                    <button onClick={handleEdit}>Submit Edit</button>
+                    <button className="edit-button" onClick={handleEdit}>Submit Edit</button>
                 </form>
             </div>
         );

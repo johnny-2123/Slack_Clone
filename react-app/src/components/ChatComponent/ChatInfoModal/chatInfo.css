@@ -171,3 +171,20 @@
 .chat-settings-tab button:hover {
     background-color: #d32f2f;
 }
+
+.edit-button {
+    background-color: purple;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .edit-button:hover {
+    background-color: darkpurple;
+  }
+
+  .edit-button:focus {
+    outline: none;
+  }
