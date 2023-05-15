@@ -126,7 +126,7 @@ import "./CreateIndividualDMChatModal.css";
 
 // }
 
-function CreateIndividualDMChatModal({ currentWorkspace }) {
+function CreateIndividualDMChatModal() {
     const history = useHistory();
     const dispatch = useDispatch();
     const [topic, setTopic] = useState("");
@@ -139,7 +139,10 @@ function CreateIndividualDMChatModal({ currentWorkspace }) {
     const [errors, setErrors] = useState([]);
     const { closeModal } = useModal();
 
-    const workspace_id = currentWorkspace?.id;
+    const workspace_id = useSelector(
+        (state) => state.workspaces?.currentWorkspace?.id
+    );
+    console.log('workspace id in new dm chat modal ', workspace_id)
     const currentWorkspaceMembers = useSelector(
         (state) => state.workspaces?.currentWorkspace?.members
     );
@@ -175,17 +178,32 @@ function CreateIndividualDMChatModal({ currentWorkspace }) {
         }
     };
 
+    const handleSubmitNewChatForm = async (e) => {
+        e.preventDefault();
+        const users = newChatMembers.map((member) => member.id);
+        console.log('users ', users)
+        const directMessageChat = {
+            topic,
+            workspace_id,
+            users,
+        };
+        const newChat = await dispatch(fetchCreateIndividualDMChat(directMessageChat))
+            .then(console.log('direct message chat created', newChat))
+            .catch(
+                (newChat) => (console.log('data ', newChat))
+            );
+        if (newChat) {
+            // console.log(`data above setErrors in handle submit for new workspace modal`, Object.values(data.errors))
+            setErrors(Object.values(newChat));
+        } else {
+            closeModal();
+            history.push(`/workspaces/${workspace_id}/direct_messages/${newChat.id}`);
+        }
+    }
+
     return (
         <div className="lfform-container" id="createNewDMChatDiv">
             <h3>Create New Direct Message</h3>
-            <div className="newDMMembersDiv">
-                <h4>To:</h4>
-                <ul>
-                    {newChatMembers.map((member) => (
-                        <li key={member.id}>{member.username}</li>
-                    ))}
-                </ul>
-            </div>
             <form className="searchWorkspaceMembersForm">
                 <ul className="lfform-errors">
                     {searchErrors.map((error, idx) => (
@@ -194,33 +212,69 @@ function CreateIndividualDMChatModal({ currentWorkspace }) {
                         </li>
                     ))}
                 </ul>
-                <input
-                    type='search'
-                    name='searchWorkspaceMembers'
-                    id='searchWorkspaceMembers'
-                    value={searchText}
-                    onChange={(e) => setSearchText(e.target.value)}
-                    required
-                />
-                <button
-                    type='submit'
-                    onClick={(e) => handleSearchSubmit(e)}
-                >
-                    Search
-                </button>
-                {filteredMembers.length > 0 && (
-                    <ul className="searchWorkspaceMembersResultsUl">
-                        {filteredMembers.map((member) => (
-                            <li key={member.id}>
-                                <p>{member.username}</p>
-                                <button
-                                    onClick={(e) => handleAddMember(e, member)}
-                                >Add to DM </button>
-                            </li>
-                        ))}
-                    </ul>
-                )}
+                <div className="memberSearchDiv">
+                    <h3>To: </h3>
+                    <input
+                        type='search'
+                        name='searchWorkspaceMembers'
+                        id='searchWorkspaceMembers'
+                        value={searchText}
+                        onChange={(e) => setSearchText(e.target.value)}
+                        required
+                    />
+                    <button
+                        type='submit'
+                        onClick={(e) => handleSearchSubmit(e)}
+                    >
+                        Search
+                    </button>
+                    {filteredMembers.length > 0 && (
+                        <ul className="searchWorkspaceMembersResultsUl">
+                            {filteredMembers.map((member) => (
+                                <li key={member.id}>
+                                    <p>{member.username}</p>
+                                    <button
+                                        onClick={(e) => handleAddMember(e, member)}
+                                    >Add to DM </button>
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                </div>
             </form>
+            <div className="newDMMembersDiv">
+                <h3>New DM Members: </h3>
+                <ul>
+                    {newChatMembers.map((member) => (
+                        <li key={member.id}>{member.username}</li>
+                    ))}
+                </ul>
+            </div>
+            <form>
+                <ul className="lfform-errors">
+                    {errors.map((error, idx) => (
+                        <li key={idx} className="lfform-error">
+                            {error}
+                        </li>
+                    ))}
+                </ul>
+                <div className="lfform-input">
+                    <label htmlFor="topic">topic</label>
+                    <input
+                        type="text"
+                        name="topic"
+                        id="topic"
+                        value={topic}
+                        onChange={(e) => setTopic(e.target.value)}
+                        required
+                    />
+                </div>
+                <button
+                    type="submit"
+                    onClick={(e) => handleSubmitNewChatForm(e)}
+                >Create New DM</button>
+            </form>
+
         </div>
     );
 }

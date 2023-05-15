@@ -15,18 +15,24 @@ const createIndividualDMChat = (newDirectMessageChat) => ({
 export const fetchCreateIndividualDMChat = (directMessageChat) => async (dispatch) => {
     console.log('directMessageChat data from frontend CreateIndidualDMChatModal react component, directMessageChat', directMessageChat)
 
-    // const response = await fetch(`/api/direct_messages`, {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify({ directMessageChat }),
-    // });
+    const response = await fetch(`/api/direct_messages`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(directMessageChat),
+    });
 
+    console.log('response from fetchCreateIndividualDMChatn in redux reducer', response)
 
-    // if (response.ok) {
-    //     const newDirectMessageChat = await response.json();
-    //     dispatch(createIndividualDMChat(newDirectMessageChat));
-    //     return newDirectMessageChat;
-    // }
+    if (response.ok) {
+        const newDirectMessageChat = await response.json();
+        console.log('newDirectMessageChat succesful response in fetchCreateIndividualDMChat in redux reducer', newDirectMessageChat)
+        dispatch(createIndividualDMChat(newDirectMessageChat));
+        return newDirectMessageChat;
+    } else {
+        const data = await response.json();
+        console.log('data error response from fetchCreateIndividualDMChat in redux reducer', data)
+        return data;
+    }
 
 };
 

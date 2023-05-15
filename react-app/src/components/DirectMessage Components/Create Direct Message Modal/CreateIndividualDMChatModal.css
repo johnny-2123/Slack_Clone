@@ -39,6 +39,11 @@
     align-items: center;
 }
 
+.memberSearchDiv {
+    outline: black dotted thin;
+    width: 100%;
+}
+
 .searchWorkspaceMembersForm input[type="search"] {
     flex: 1;
     padding: 8px;
@@ -49,7 +54,7 @@
 .searchWorkspaceMembersForm button[type="submit"] {
     padding: 8px 16px;
     margin-left: 10px;
-    background-color: purple;
+    background-color: rgb(128, 0, 128);
     color: #fff;
     border: none;
     border-radius: 4px;
@@ -58,6 +63,7 @@
 
 .searchWorkspaceMembersResultsUl {
     outline: blue thin dotted;
+    width: 100;
 }
 
 .searchWorkspaceMembersResultsUl li {
