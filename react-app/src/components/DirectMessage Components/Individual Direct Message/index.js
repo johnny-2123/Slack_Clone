@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import {
     fetchIndividualDM,
     fetchAddDirectMessage,
-    fetchDeleteDirectMessage
+    fetchDeleteDirectMessage,
+    fetchEditDirectMessage
 } from "../../../store/directMessages";
 import ChatComponent from "../../ChatComponent";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
@@ -28,6 +29,8 @@ function IndividualDirectMessage({ workspaceId }) {
 
     const [messages, setMessages] = useState([]);
     const [content, setContent] = useState("");
+    const [editedContent, setEditedContent] = useState("");
+
 
     useEffect(() => {
         // Fetch the individual direct message
@@ -68,6 +71,29 @@ function IndividualDirectMessage({ workspaceId }) {
         }
     };
 
+
+    const handleEditMessage = async (messageId) => {
+        // Call the API to edit the message
+        const data = await dispatch(fetchEditDirectMessage(messageId, editedContent)).catch(
+          (error) => console.log(error)
+        );
+
+        if (data.errors) {
+          // Handle errors, e.g., display an error message
+          setErrors(data.errors);
+        } else {
+          // Update the messages state with the edited message
+          setMessages((prevMessages) =>
+            prevMessages.map((message) =>
+              message.id === messageId ? { ...message, content: editedContent } : message
+            )
+          );
+          // Reset the editedContent state variable
+          setEditedContent("");
+        }
+      };
+
+
     return (
         <ChatComponent
             messages={messages}
@@ -80,6 +106,7 @@ function IndividualDirectMessage({ workspaceId }) {
             chat={currentDM}
             handleDeleteChat={handleDeleteDirectMessage}
             deletedChat={deletedDirectMessage}
+            handleEditChat={handleEditMessage}
         />
     );
 }
