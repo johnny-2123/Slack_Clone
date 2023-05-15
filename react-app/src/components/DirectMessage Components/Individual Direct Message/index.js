@@ -107,6 +107,7 @@ function IndividualDirectMessage({ workspaceId }) {
             handleDeleteChat={handleDeleteDirectMessage}
             deletedChat={deletedDirectMessage}
             handleEditChat={handleEditMessage}
+            editedChat={editedContent}
         />
     );
 }
