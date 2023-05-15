@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
 import "./chat.css";
 import ChatInfoModal from "./ChatInfoModal";
 import OpenModalButton from "../OpenModalButton";
@@ -28,6 +29,7 @@ function ChatComponent({
 
     const [socket, setSocket] = useState(null);
     const dispatch = useDispatch();
+    const sessionUser = useSelector((state) => state.session?.user);
 
     const handleSendMessage = async (event) => {
         event.preventDefault();
@@ -69,7 +71,7 @@ function ChatComponent({
             // Update the messages state with the updated message
             setMessages((prevMessages) =>
                 prevMessages.map((message) =>
-                    message.id === updatedMessage.id ? updatedMessage : message
+                    message?.id === updatedMessage?.id ? updatedMessage : message
                 )
             );
         } catch (error) {
@@ -162,6 +164,12 @@ function ChatComponent({
 
     const messagesMapped = messages?.map((message, idx) => {
         const messageLoaded = message?.content;
+        let userIsMessageSender;
+        if (message?.user?.id === sessionUser?.id) {
+            userIsMessageSender = true;
+        } else {
+            userIsMessageSender = false;
+        };
 
         if (message.parent_id) {
             return null;
@@ -226,7 +234,7 @@ function ChatComponent({
                             {message?.replies?.length > 0 &&
                                 repliesMapped(message.replies)}
                         </div>
-                        {!isEditing && (
+                        {userIsMessageSender && !isEditing && (
                             <button
                                 className="editButton"
                                 onClick={() => handleEditButtonClick(message)}
