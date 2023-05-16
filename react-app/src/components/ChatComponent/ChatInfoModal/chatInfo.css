@@ -1,0 +1,190 @@
+/* .chat-info {
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 16px;
+    width: 400px;
+}
+
+.chat-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.chat-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.close-button {
+    background-color: transparent;
+    border: none;
+    color: #888;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.tab-navigation {
+    display: flex;
+    margin-bottom: 16px;
+}
+
+.tab-navigation button {
+    background-color: transparent;
+    border: none;
+    color: #888;
+    cursor: pointer;
+    font-size: 16px;
+    margin-right: 16px;
+    padding: 8px;
+}
+
+.tab-navigation button.active {
+    color: #333;
+    font-weight: bold;
+}
+
+.tab-content {
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.tab-content p {
+    margin: 0;
+}
+
+.tab-content button {
+    background-color: #dc3545;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 8px 16px;
+}
+
+.tab-content button:hover {
+    background-color: #c82333;
+} */
+
+/* chatInfo.css */
+
+/* chatInfo.css */
+
+.chat-info {
+    font-family: Arial, sans-serif;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 20px;
+    width: 400px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.chat-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.chat-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.close-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #999;
+}
+
+.close-button:hover {
+    color: #555;
+}
+
+.tab-navigation {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.tab-navigation button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #999;
+    padding: 10px;
+    margin-right: 10px;
+}
+
+.tab-navigation button.active {
+    color: #333;
+    font-weight: bold;
+}
+
+.tab-content {
+    border-top: 1px solid #ccc;
+    padding-top: 20px;
+}
+
+.tab-content .active {
+    display: block;
+}
+
+.chat-about-tab p,
+.chat-members-tab p,
+.chat-settings-tab button {
+    margin: 0;
+    padding: 0;
+}
+
+.chat-topic {
+    font-weight: bold;
+}
+
+.chat-description,
+.chat-owner {
+    margin-top: 10px;
+}
+
+.chat-member {
+    margin-bottom: 5px;
+}
+
+.chat-settings-tab button {
+    background-color: #f44336;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.chat-settings-tab button:hover {
+    background-color: #d32f2f;
+}
+
+.edit-button {
+    background-color: purple;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .edit-button:hover {
+    background-color: darkpurple;
+  }
+
+  .edit-button:focus {
+    outline: none;
+  }

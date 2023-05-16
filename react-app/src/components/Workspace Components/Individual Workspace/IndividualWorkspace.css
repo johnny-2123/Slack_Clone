@@ -1,4 +1,11 @@
 .IndividualWorkspaceMainDiv {
-    flex-direction: column;
-    height: 89vh;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    height: 92vh;
+    background-color: white;
+    margin: 0;
+    padding: 0;
+    overflow-y: hidden;
+    box-sizing: border-box;
 }

@@ -87,7 +87,7 @@ def seed_channels():
     )
     db.session.add(wayne_batcave)
 
-    wayne_batcave.private_members.append(bruce)
+    wayne_batcave.members.append(bruce)
 
     db.session.commit()
 

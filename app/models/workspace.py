@@ -1,4 +1,5 @@
-from .db import db, environment, SCHEMA
+from .db import db, environment, SCHEMA, add_prefix_for_prod
+from .workspace_members import workspace_member
 
 
 class Workspace(db.Model):
@@ -11,11 +12,14 @@ class Workspace(db.Model):
     name = db.Column(db.String(50), nullable=False, unique=True)
     description = db.Column(db.String(300), nullable=False)
     image_url = db.Column(db.String)
-    owner_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    owner_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")))
 
-    owner = db.relationship("User",back_populates="workspaces")
-    members = db.relationship("WorkspaceMember", back_populates="workspace", cascade="all, delete-orphan")
-    channels = db.relationship("Channel", back_populates='workspace')
+    owner = db.relationship("User", back_populates="workspaces")
+    members = db.relationship(
+        "User", secondary=workspace_member, back_populates="workspace_memberships"
+    )
+    channels = db.relationship("Channel", back_populates="workspace")
+    direct_messages = db.relationship("DirectMessage", back_populates="workspace")
 
     def to_dict(self):
         return {
@@ -24,5 +28,4 @@ class Workspace(db.Model):
             "description": self.description,
             "owner": self.owner.to_dict(),
             "members": [member.to_dict() for member in self.members],
-            "channels": [channel.to_dict() for channel in self.channels]
         }

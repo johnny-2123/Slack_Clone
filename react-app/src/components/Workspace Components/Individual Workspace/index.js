@@ -1,85 +1,87 @@
-import React, { useEffect, useState } from 'react';
-import { useHistory, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from 'react-redux';
-import WorkspaceSideBar from './WorkSpaceSideBar';
-import IndividualChannel from '../../Channel Components/Individual Channel';
-import ThreadSidebar from '../../Thread Components/ThreadSideBar';
-import { Route, Switch } from 'react-router-dom/cjs/react-router-dom.min';
-import { fetchIndividualWorkspace } from '../../../store/workspaces';
-import './IndividualWorkspace.css'
-import channels, { fetchChannels } from '../../../store/channels';
-
+import React, { useEffect } from "react";
+import { useParams, useRouteMatch } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import WorkspaceSideBar from "../Workspace Sidebar/WorkSpaceSideBar";
+import WorkspaceMembers from "../WorkspaceMembers";
+import IndividualChannel from "../../Channel Components/Individual Channel";
+import ThreadSidebar from "../../Thread Components/ThreadSideBar";
+import IndividualDirectMessage from "../../DirectMessage Components/Individual Direct Message";
+import EditWorkspace from "../Edit Workspace";
+import { Route, Switch } from "react-router-dom";
+import {
+    fetchIndividualWorkspace,
+    clearWorkspaceStore,
+} from "../../../store/workspaces";
+import {
+    fetchDirectMessages,
+    clearDirectMessages,
+} from "../../../store/directMessages";
+import { fetchChannels, clearChannels } from "../../../store/channels";
+import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
+import "./IndividualWorkspace.css";
+import "../Workspace Sidebar/WorkSpaceSideBar";
 
 function IndividualWorkspace() {
-    const { workspaceId } = useParams()
-    console.log(`workspaceId:::::::::`, workspaceId)
+    const { workspaceId } = useParams();
+    console.log(`workspaceId:`, workspaceId);
 
-    const dispatch = useDispatch()
+    const { url, path } = useRouteMatch(`/workspaces/${workspaceId}`);
+
+    const dispatch = useDispatch();
+    const currentWorkspace = useSelector((state) => {
+        return state.workspaces.currentWorkspace;
+    });
 
     useEffect(() => {
-        // dispatch(fetchChannels(workspaceId))
-        dispatch(fetchIndividualWorkspace(workspaceId))
-    }, [dispatch, workspaceId])
+        dispatch(fetchIndividualWorkspace(workspaceId));
+        dispatch(fetchDirectMessages(workspaceId));
+        dispatch(fetchChannels(workspaceId));
 
-    const currentWorkspace = useSelector(state => {
-        return state.workspaces.currentWorkspace
-    })
+        return () => {
+            dispatch(clearWorkspaceStore());
+            dispatch(clearDirectMessages());
+            dispatch(clearChannels());
+        };
+    }, [dispatch, workspaceId]);
 
-    // const channels = useSelector(state => {
-    //     return state.channels.workspaceChannels
-    // })
-    // console.log(`channels**********:`, channels)
+    const channels = useSelector((state) => {
+        return state.channels?.workspaceChannels;
+    });
 
-    console.log(`currentWorkspace*********************************:`, currentWorkspace)
-
-
-
-    const [workspaceWidth, setWorkspaceWidth] = useState(20);
-    const [threadWidth, setThreadWidth] = useState(20);
-    const [showWorkspace, setShowWorkspace] = useState(true);
-    const [showThread, setShowThread] = useState(false);
-
-    const handleWorkspaceResize = (newWidth) => {
-        if (newWidth < 10) {
-            setShowWorkspace(false);
-        } else {
-            setShowWorkspace(true);
-            setWorkspaceWidth(newWidth);
-        }
-    };
-
-    const handleThreadResize = (newWidth) => {
-        if (newWidth < 10) {
-            setShowThread(false);
-        } else {
-            setShowThread(true);
-            setThreadWidth(newWidth);
-        }
-    };
+    const directMessages = useSelector((state) => {
+        return state.directMessages?.currentDirectMessages;
+    });
 
     return (
-        <div className='IndividualWorkspaceMainDiv'>
-            {showWorkspace &&
-                <div className='WorkspaceSidebar' style={{ width: `${workspaceWidth}vw` }}                >
-                    <WorkspaceSideBar />
-                </div>
-            }
-            <Switch >
-                <Route path={'/channels/:channelId'} >
-                    <div style={{ width: `${100 - workspaceWidth - threadWidth}vw`, height: `89vw` }}>
-                        <IndividualChannel />
-                    </div>
+        <div className="IndividualWorkspaceMainDiv">
+            <WorkspaceSideBar
+                channels={channels}
+                url={url}
+                directMessages={directMessages}
+                currentWorkspace={currentWorkspace}
+            />
+            <Switch>
+                <Route path={`${path}/edit`}>
+                    <EditWorkspace workspaceId={workspaceId} />
                 </Route>
-                <Route path={`/channels/:channelId/threads?threadId`}>
-                    <div style={{ width: `${threadWidth}vw` }}>
-                        <ThreadSidebar />
-                    </div>
+                <Route path={`${path}/channels/:channelId`}>
+                    <IndividualChannel workspaceId={workspaceId} />
+                </Route>
+                <Route path={`/channels/:channelId/threads/:threadId`}>
+                    <ThreadSidebar />
+                </Route>
+                <Route path={`${path}/members`}>
+                    <WorkspaceMembers workspaceId={workspaceId} />
+                </Route>
+                <Route path={`${url}/direct_messages/:directMessageId`}>
+                    <IndividualDirectMessage workspaceId={workspaceId} />
+                </Route>
+                <Route path={`${path}/`}>
+                    <Redirect to={`${path}/members`} />
                 </Route>
             </Switch>
         </div>
-
-    )
-
+    );
 }
 
-export default IndividualWorkspace
+export default IndividualWorkspace;

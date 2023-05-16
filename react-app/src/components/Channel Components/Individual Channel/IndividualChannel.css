@@ -1,1 +1,54 @@
-.individualChannelMainDiv {}
+html {
+    margin: 0;
+    padding: 0;
+}
+
+.individualChannelMainDiv {
+    flex: 1;
+    overflow-y: hidden;
+    background-color: white;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#ChannelTitle {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    margin-left: 1.5rem;
+
+}
+
+.messagesMainDiv {
+    outline: purple dotted thin;
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    padding: 0 25px;
+    height: fit-content;
+    overflow-y: scroll;
+}
+
+.messagesMainDiv p {
+    /* outline: pink dotted thin; */
+
+    margin: 0;
+}
+
+.individualMessageDiv {
+    background-color: #FFFFFF;
+    padding: 10px 0px;
+}
+
+.repliesDiv {
+    margin-top: 10px;
+    margin-left: 1.2rem;
+}
+
+.replyDiv {
+    background-color: #F0F0F0;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    padding: 5px;
+}
