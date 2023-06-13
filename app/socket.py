@@ -1,14 +1,15 @@
 from flask import request
 from flask_socketio import SocketIO, join_room, leave_room
 import os
+import eventlet
 
 if os.environ.get("FLASK_ENV") == "production":
     origins = ["http://renderUrl", "https://renderUrl"]
 else:
     origins = "*"
 
-socketio = SocketIO(cors_allowed_origins=origins)
-
+socketio = SocketIO(cors_allowed_origins=origins, async_mode="eventlet")
+eventlet.monkey_patch()
 
 @socketio.on("join")
 def on_join(data):
@@ -17,7 +18,6 @@ def on_join(data):
     join_room(room)
     print(f"Client {client_id} joined room: {room}")
 
-
 @socketio.on("leave")
 def on_leave(data):
     client_id = request.sid
@@ -25,12 +25,10 @@ def on_leave(data):
     leave_room(room)
     print(f"Client {client_id} left room: {room}")
 
-
 @socketio.on("connect")
 def on_connect():
     client_id = request.sid
     print(f"Client {client_id} connected")
-
 
 @socketio.on("disconnect")
 def on_disconnect():
