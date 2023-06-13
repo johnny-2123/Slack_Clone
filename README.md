@@ -1,152 +1,68 @@
-<<<<<<< HEAD
-# Project2_Group
+# Slack Clone
 =======
-# Flask React Project
 
-This is the starter for the Flask React project.
+This is a clone of the popular communication platform Slack. It provides a comprehensive set of features to facilitate seamless communication and collaboration within workspaces.The project's backend is built on Flask and SQLAlchemy. The project's frontend is built on React and Redux. Realtime chat message functionality is handled with SocketIO. 
 
-## Getting started
-1. Clone this repository (only this branch)
+## Technologies
+      - Python
+      - Flask
+      - SQLALchemy
+      - SocketIO
+      - Javascript
+      - React
+      - Redux
+      - Render
+      - HTML
+      - CSS
 
-2. Install dependencies
+## Features
 
-      ```bash
-      pipenv install -r requirements.txt
-      ```
+### Authentication
 
-3. Create a **.env** file based on the example with proper settings for your
-   development environment
+- **Get the Current User**: Retrieve the details of the currently logged-in user, requiring authentication.
+- **Log In a User**: Allow users to log in with their email and password, without requiring authentication.
+- **Sign Up a User**: Register new users with their details, without requiring authentication.
+- **Get a Single User**: Retrieve the details of a specific user by their ID, requiring authentication.
 
-4. Make sure the SQLite3 database connection URL is in the **.env** file
+### Workspaces
 
-5. This starter organizes all tables inside the `flask_schema` schema, defined
-   by the `SCHEMA` environment variable.  Replace the value for
-   `SCHEMA` with a unique name, **making sure you use the snake_case
-   convention**.
+- **Get All User Workspaces**: Retrieve all workspaces associated with the current user, requiring authentication.
+- **Get Details of a Single Workspace from an ID**: Retrieve the details of a specific workspace by its ID, requiring proper authorization.
+- **Create a Workspace**: Create a new workspace with a name, description, and image URL, requiring authentication.
+- **Edit a Workspace**: Update the name, description, and image URL of a workspace, requiring authentication and proper authorization.
+- **Delete a Workspace**: Delete a workspace by its ID, requiring authentication.
+- **Add Workspace Member**: Add a user as a member to a workspace, requiring authentication.
+- **Remove Workspace Member**: Remove a user from a workspace, requiring authentication.
 
-6. Get into your pipenv, migrate your database, seed your database, and run your Flask app
+### Channels
 
-   ```bash
-   pipenv shell
-   ```
+- **Get All Channels**: Retrieve all channels within a workspace, requiring authentication.
+- **Get a Channel**: Retrieve details of a specific channel by its ID, requiring authentication.
+- **Create a Channel**: Create a new channel within a workspace, requiring authentication.
+- **Update a Channel**: Update the details of a channel, such as name, description, topic, or privacy, requiring authentication.
+- **Delete a Channel**: Delete a channel by its ID, requiring authentication.
+- **Add User to Channel**: Add a user as a member to a channel, requiring authentication.
+- **Remove a User from a Channel**: Remove a user from a channel, requiring authentication.
 
-   ```bash
-   flask db upgrade
-   ```
+### Direct Messages
 
-   ```bash
-   flask seed all
-   ```
+- **Get All Current User's Direct Messages**: Retrieve all direct messages associated with the current user, requiring authentication.
+- **Get Direct Message by ID**: Retrieve details of a specific direct message by its ID, requiring authentication.
+- **Create Direct Message**: Create a new direct message, requiring authentication.
+- **Update Direct Message**: Update the details of a direct message, such as the topic, requiring authentication.
+- **Delete Direct Message**: Delete a direct message by its ID, requiring authentication.
 
-   ```bash
-   flask run
-   ```
+### Messages in Channels
 
-7. To run the React App in development, checkout the [README](./react-app/README.md) inside the `react-app` directory.
+- **Send Message in Channel**: Send a message in a channel, requiring authentication.
+- **Send a Threaded Reply to a Message in a Channel**: Send a threaded reply to a message in a channel, requiring authentication.
+- **Update Message In a Channel**: Update a message by ID in a channel, requiring authentication.
+- **Delete Message In a Channel**: Delete a message by ID in a channel, requiring authentication.
 
+### Messages In Direct Messages
 
-## Deployment through Render.com
+- **Send Message in Direct Message**: Send a message in a direct message, requiring authentication.
+- **Send a Threaded Reply to a Message in a Direct Message**: Send a threaded reply to a message in a direct message, requiring authentication.
+- **Update Message In a Direct Message**: Update a message by ID in a direct message, requiring authentication.
+- **Delete Message In a Direct Message**: Delete a message by ID in a direct message, requiring authentication.
 
-First, refer to your Render.com deployment articles for more detailed
-instructions about getting started with [Render.com], creating a production
-database, and deployment debugging tips.
-
-From the [Dashboard], click on the "New +" button in the navigation bar, and
-click on "Web Service" to create the application that will be deployed.
-
-Look for the name of the application you want to deploy, and click the "Connect"
-button to the right of the name.
-
-Now, fill out the form to configure the build and start commands, as well as add
-the environment variables to properly deploy the application.
-
-### Part A: Configure the Start and Build Commands
-
-Start by giving your application a name.
-
-Leave the root directory field blank. By default, Render will run commands from
-the root directory.
-
-Make sure the Environment field is set set to "Python 3", the Region is set to
-the location closest to you, and the Branch is set to "main".
-
-Next, add your Build command. This is a script that should include everything
-that needs to happen _before_ starting the server.
-
-For your Flask project, enter the following command into the Build field, all in
-one line:
-
-```shell
-# build command - enter all in one line
-npm install --prefix react-app &&
-npm run build --prefix react-app &&
-pip install -r requirements.txt &&
-pip install psycopg2 &&
-flask db upgrade &&
-flask seed all
-```
-
-This script will install dependencies for the frontend, and run the build
-command in the __package.json__ file for the frontend, which builds the React
-application. Then, it will install the dependencies needed for the Python
-backend, and run the migration and seed files.
-
-Now, add your start command in the Start field:
-
-```shell
-# start script
-gunicorn app:app
-```
-
-_If you are using websockets, use the following start command instead for increased performance:_
-
-`gunicorn --worker-class eventlet -w 1 app:app`
-
-### Part B: Add the Environment Variables
-
-Click on the "Advanced" button at the bottom of the form to configure the
-environment variables your application needs to access to run properly. In the
-development environment, you have been securing these variables in the __.env__
-file, which has been removed from source control. In this step, you will need to
-input the keys and values for the environment variables you need for production
-into the Render GUI.
-
-Click on "Add Environment Variable" to start adding all of the variables you
-need for the production environment.
-
-Add the following keys and values in the Render GUI form:
-
-- SECRET_KEY (click "Generate" to generate a secure secret for production)
-- FLASK_ENV production
-- FLASK_APP app
-- SCHEMA (your unique schema name, in snake_case)
-- REACT_APP_BASE_URL (use render.com url, located at top of page, similar to
-  https://this-application-name.onrender.com)
-
-In a new tab, navigate to your dashboard and click on your Postgres database
-instance.
-
-Add the following keys and values:
-
-- DATABASE_URL (copy value from Internal Database URL field)
-
-_Note: Add any other keys and values that may be present in your local __.env__
-file. As you work to further develop your project, you may need to add more
-environment variables to your local __.env__ file. Make sure you add these
-environment variables to the Render GUI as well for the next deployment._
-
-Next, choose "Yes" for the Auto-Deploy field. This will re-deploy your
-application every time you push to main.
-
-Now, you are finally ready to deploy! Click "Create Web Service" to deploy your
-project. The deployment process will likely take about 10-15 minutes if
-everything works as expected. You can monitor the logs to see your build and
-start commands being executed, and see any errors in the build process.
-
-When deployment is complete, open your deployed site and check to see if you
-successfully deployed your Flask application to Render! You can find the URL for
-your site just below the name of the Web Service at the top of the page.
-
-[Render.com]: https://render.com/
-[Dashboard]: https://dashboard.render.com/
->>>>>>> master
