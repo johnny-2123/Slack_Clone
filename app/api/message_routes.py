@@ -56,14 +56,20 @@ def needs_permission(f):
 # Get all messages in the current chat
 @chat_messages.route("/")
 def get_messages(**kwargs):
+    start_time = datetime.now()
     print("chat_messages.route")
     chat = get_chat()
-    return {"Messages": [message.to_dict() for message in chat.messages]}
+    response = {"Messages": [message.to_dict() for message in chat.messages]}
+    end_time = datetime.now()
+    elapsed_time = end_time - start_time
+    print(f"Elapsed time: {elapsed_time}")
+    return response
 
 
 # Send a message in the current chat
 @chat_messages.route("/", methods=["POST"])
 def send_message(**kwargs):
+    start_time = datetime.now()
     data = request.json
     content = data.get("content")
     if not content:
@@ -82,20 +88,30 @@ def send_message(**kwargs):
     socketio.emit("chat", message.to_dict(), room=f"chat-{chat.id}")
     print(f"sending message to room chat-{chat.id}")
 
+    end_time = datetime.now()
+    elapsed_time = end_time - start_time
+    print(f"Elapsed time: {elapsed_time}")
+
     return message.to_dict(), 201
 
 
 # Get a single message
 @message_routes.route("/")
 def get_message(**kwargs):
+    start_time = datetime.now()
     message = request.message
-    return message.to_dict()
+    response = message.to_dict()
+    end_time = datetime.now()
+    elapsed_time = end_time - start_time
+    print(f"Elapsed time: {elapsed_time}")
+    return response
 
 
 # Update a message
 @message_routes.route("/", methods=["PUT"])
 @needs_permission
 def edit_message(**kwargs):
+    start_time = datetime.now()
     message = request.message
     data = request.json
     content = data.get("content")
@@ -105,6 +121,9 @@ def edit_message(**kwargs):
     db.session.commit()
     socketio.emit("message_update", message.to_dict(), room=f"chat-{message.chat.id}")
     print(f"editing message in room chat-{message.chat.id}")
+    end_time = datetime.now()
+    elapsed_time = end_time - start_time
+    print(f"Elapsed time: {elapsed_time}")
     return message.to_dict()
 
 
@@ -112,10 +131,15 @@ def edit_message(**kwargs):
 @message_routes.route("/", methods=["DELETE"])
 @needs_permission
 def delete_message(**kwargs):
+    start_time = datetime.now()
     message = request.message
     db.session.delete(message)
     db.session.commit()
     socketio.emit("message_delete", message.to_dict(), room=f"chat-{message.chat.id}")
     print(f"deleting message in room chat-{message.chat.id}")
+
+    end_time = datetime.now()
+    elapsed_time = end_time - start_time
+    print(f"Elapsed time: {elapsed_time}")
 
     return {"message": "Message deleted successfully"}
