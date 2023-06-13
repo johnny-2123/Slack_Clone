@@ -117,6 +117,7 @@ function ChatComponent({
         // create websocket connection
         const newSocket = io({
             pingTimeout: null,
+            timeout: 10000,
         });
         setSocket(newSocket);
 

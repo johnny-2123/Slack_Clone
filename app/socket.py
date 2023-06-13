@@ -7,7 +7,7 @@ if os.environ.get("FLASK_ENV") == "production":
 else:
     origins = "*"
 
-socketio = SocketIO(cors_allowed_origins=origins, engineio_logger=True, wsEngine="ws")
+socketio = SocketIO(cors_allowed_origins=origins, async_mode="eventlet")
 
 
 @socketio.on("join")
