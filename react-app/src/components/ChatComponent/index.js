@@ -48,10 +48,7 @@ function ChatComponent({
             ).catch((data) => console.log(data));
         }
         if (data.error) {
-            // console.log(
-            //     `data above setErrors in handle submit for new message in IndividualDirectMessage`,
-            //     data.error
-            // );
+
         } else {
             setContent("");
             const newMessage = await data;
