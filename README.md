@@ -8,16 +8,16 @@ This is a clone of the popular communication platform Slack. It provides a compr
 ## [API Docs](https://github.com/johnny-2123/Project2_Group/blob/main/Backend_API_Docs.md)
 
 ## Technologies
-      - Python
-      - Flask
-      - SQLALchemy
-      - SocketIO
-      - Javascript
-      - React
-      - Redux
-      - Render
-      - HTML
-      - CSS
+- **Python**
+- **Flask**
+- **SQLALchemy**
+- **SocketIO**
+- **Javascript**
+- **React**
+- **Redux**
+- **HTML**
+- **CSS**
+- **Render**
 
 ## Features
 
