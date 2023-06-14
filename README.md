@@ -3,9 +3,9 @@
 
 This is a clone of the popular communication platform Slack. It provides a comprehensive set of features to facilitate seamless communication and collaboration within workspaces.The project's backend is built on Flask and SQLAlchemy. The project's frontend is built on React and Redux. Realtime chat message functionality is handled with SocketIO. 
 
-## [Live Link to Portfolio Project](https://aaslackcloneproject.onrender.com)
-## [Link to Database Schema](https://res.cloudinary.com/dkul3ouvi/image/upload/v1686701574/Slack_Clone_Schema_hpkh68.png)
-## [API Docs](https://github.com/johnny-2123/Project2_Group/blob/main/Backend_API_Docs.md)
+### [Live Link to Portfolio Project](https://aaslackcloneproject.onrender.com)
+### [Link to Database Schema](https://res.cloudinary.com/dkul3ouvi/image/upload/v1686701574/Slack_Clone_Schema_hpkh68.png)
+### [API Docs](https://github.com/johnny-2123/Project2_Group/blob/main/Backend_API_Docs.md)
 
 ## Technologies
 - **Python**
