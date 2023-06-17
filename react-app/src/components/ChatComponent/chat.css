@@ -105,6 +105,25 @@
     margin: 0;
 }
 
+button.editButton {
+    margin-top: 0;
+    margin-left: 0.25rem;
+    background-color: transparent;
+    border: none;
+    color: gray;
+
+}
+
+button.editButton:hover {
+    color: #621f69;
+    cursor: pointer;
+}
+
+
+.messageDetailsDiv p {
+    margin-top: 0
+}
+
 .repliesDiv {
     margin: 0;
 }

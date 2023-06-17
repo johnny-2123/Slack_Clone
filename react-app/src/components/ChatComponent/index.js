@@ -203,6 +203,14 @@ function ChatComponent({
                             <h5 className="messageTimestamp">
                                 {message?.timestamp}
                             </h5>
+                            {userIsMessageSender && !isEditing && (
+                                <button
+                                    className="editButton"
+                                    onClick={() => handleEditButtonClick(message)}
+                                >
+                                    Edit
+                                </button>
+                            )}
                         </div>
                         {isEditing ? (
                             <form
@@ -231,14 +239,7 @@ function ChatComponent({
                             {message?.replies?.length > 0 &&
                                 repliesMapped(message.replies)}
                         </div>
-                        {userIsMessageSender && !isEditing && (
-                            <button
-                                className="editButton"
-                                onClick={() => handleEditButtonClick(message)}
-                            >
-                                Edit
-                            </button>
-                        )}
+
                     </div>
                 </div>
             )
