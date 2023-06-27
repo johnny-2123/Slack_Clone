@@ -4,7 +4,7 @@ import os
 import eventlet
 
 if os.environ.get("FLASK_ENV") == "production":
-    origins = ["http://renderUrl", "https://renderUrl"]
+    origins = "*"
 else:
     origins = "*"
 
