@@ -3,7 +3,8 @@ from flask_socketio import SocketIO, join_room, leave_room
 import os
 
 if os.environ.get("FLASK_ENV") == "production":
-    origins = ["http://renderUrl", "https://renderUrl"]
+    url = os.environ.get("RENDER_URL")
+    origins = [f"http://{url}", f"https://{url}"]
 else:
     origins = "*"
 
